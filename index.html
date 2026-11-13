@@ -1,104 +1,76 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الطاهي | El Tahey - أصل المذاق المصري</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الطاهي | EL TAHEY -  أصل المذاق المصري</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0e0e10;--card:#1c1c1f;--yellow:#FFD500;--gray:#9a9aa0}
+:root{--bg:#0e0e10;--card:#1c1c1f;--yellow:#FFD500;--gray:#9a9aa0;--border:#2a2a2e}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
 body{background:var(--bg);color:white}
-.header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);z-index:50}
+.header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(14,14,16,.97);z-index:50;border-bottom:1px solid var(--border)}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,#FFD500,#FF8C00);border-radius:12px;display:grid;place-items:center;color:black;font-weight:900;font-size:24px}
-.logo-text .main{font-weight:900;font-size:22px;color:white}
-.logo-text .main span{color:var(--yellow)}
-.logo-text small{color:var(--gray);font-size:10px}
-.hIcons{display:flex;gap:10px}
-.hIcons div{width:38px;height:38px;background:#1c1c1f;border-radius:50%;display:grid;place-items:center}
-.search{margin:6px 16px;background:var(--card);border-radius:30px;display:flex;align-items:center;padding:12px 16px;gap:10px;border:1px solid #2a2a2e}
+.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,#FFD500,#FF8C00);border-radius:12px;display:grid;place-items:center;color:black;font-weight:900;font-size:22px}
+.main{font-weight:900;font-size:20px}.main span{color:var(--yellow)}small{color:var(--gray);font-size:10px}
+.cartTop{background:var(--yellow);color:black;padding:8px 16px;border-radius:24px;font-weight:800;display:flex;gap:6px;text-decoration:none}
+.search{margin:10px 16px;background:var(--card);border-radius:30px;display:flex;align-items:center;padding:12px 16px;gap:10px;border:1px solid var(--border)}
 .search input{flex:1;background:transparent;border:none;color:white;outline:none}
-.hero{margin:16px;border-radius:22px;overflow:hidden;position:relative;display:flex;min-height:180px}
-.heroText{padding:22px;flex:1;z-index:3}
-.heroText h3{color:var(--yellow)}
-.heroText h1{font-size:32px;font-weight:900}
-.heroText h1 b{color:var(--yellow)}
-.heroText p{color:var(--gray);font-size:12px;margin:8px 0 12px}
-.btnY{background:var(--yellow);color:black;border:none;padding:8px 18px;border-radius:20px;font-weight:800;cursor:pointer}
-.heroImg{position:absolute;left:0;top:0;bottom:0;width:55%;background:url('https://images.unsplash.com/photo-1544025162-d76694265947?w=600') center/cover}
-.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(14,14,16,.2),rgba(14,14,16,.95) 70%)}
-.cats{padding:10px 16px;display:flex;gap:12px;overflow-x:auto}
-.catItem{min-width:70px;background:var(--card);border-radius:18px;padding:12px 8px;text-align:center;cursor:pointer;border:2px solid transparent}
+.cats{padding:10px 16px;display:flex;gap:10px;overflow-x:auto}.cats::-webkit-scrollbar{display:none}
+.catItem{min-width:72px;background:var(--card);border-radius:18px;padding:12px 8px;text-align:center;cursor:pointer;border:2px solid transparent;flex-shrink:0}
 .catItem.active{border-color:var(--yellow);background:#2a2a20}
-.catItem .ico{font-size:26px}
-.catItem .lbl{font-size:11px;margin-top:4px;font-weight:600}
-.sectionHead{padding:18px 16px 10px;display:flex;justify-content:space-between}
-.grid2{display:flex;gap:12px;overflow-x:auto;padding:0 16px 10px}
-.foodCard{min-width:155px;background:var(--card);border-radius:18px;overflow:hidden;position:relative}
-.foodCard img{width:100%;height:110px;object-fit:cover}
-.foodCard .heart{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.5);width:28px;height:28px;border-radius:50%;display:grid;place-items:center}
-.foodCard .info{padding:10px}
-.price{color:var(--yellow);font-weight:800}
-.addBtn{width:26px;height:26px;background:var(--yellow);border:none;border-radius:50%;font-weight:900;color:black;cursor:pointer}
-.special{margin:16px;border-radius:20px;background:var(--card);display:flex;overflow:hidden;min-height:130px;border:1px solid #2a2a2e}
-.badge{background:var(--yellow);color:black;font-weight:900;padding:4px 14px;border-radius:4px;display:inline-block;transform:rotate(-3deg);font-size:18px}
-.gridFull{padding:0 16px 100px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fullCard{background:var(--card);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
-.fullCard img{width:100%;height:120px;object-fit:cover}
-.fullCard .info{padding:10px;flex:1;display:flex;flex-direction:column}
-.fullCard .desc{font-size:10px;color:var(--gray)}
-.priceRow{margin-top:auto;padding-top:8px;display:flex;justify-content:space-between;align-items:center}
-#cartFloat{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--yellow);color:black;padding:12px 22px;border-radius:30px;font-weight:800;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.5);cursor:pointer;z-index:90}
-#cartPanel{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none}
-#cartPanel.open{display:block}
-.cartBox{position:absolute;bottom:0;left:0;right:0;background:#18181b;border-radius:24px 24px 0 0;padding:20px;max-height:85vh;display:flex;flex-direction:column}
+.sectionHeader{padding:16px 16px 8px;display:flex;gap:10px;align-items:center}
+.sectionHeader .count{background:var(--card);padding:2px 10px;border-radius:20px;font-size:11px;color:var(--gray)}
+.list{padding:0 16px 20px;display:flex;flex-direction:column;gap:10px}
+.itemRow{background:var(--card);border-radius:16px;display:flex;overflow:hidden;border:1px solid var(--border);min-height:90px}
+.itemRow img{width:90px;height:90px;object-fit:cover}
+.itemInfo{flex:1;padding:10px;display:flex;flex-direction:column;justify-content:center}
+.itemInfo h4{font-size:13px;font-weight:800;line-height:1.3}
+.itemInfo p{font-size:10px;color:var(--gray)}
+.itemAction{padding:10px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end}
+.price{color:var(--yellow);font-weight:900;font-size:14px}
+.addBtn{width:32px;height:32px;background:var(--yellow);border:none;border-radius:50%;font-weight:900;color:black;cursor:pointer;font-size:18px;display:grid;place-items:center}
+.hero{margin:12px 16px;border-radius:20px;background:linear-gradient(90deg,#1c1c1f,#2a2a20);padding:16px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border)}
+.btnY{background:var(--yellow);color:black;border:none;padding:8px 16px;border-radius:20px;font-weight:800;cursor:pointer;font-size:12px}
 </style>
 </head>
 <body>
-<div class="header">
-<div class="logo"><div class="logo-icon">ط</div><div class="logo-text"><div class="main">الطاهي <span>EL TAHEY</span></div><small>أصل المذاق المصري - مشويات & بروست</small></div></div>
-<div class="hIcons"><div>🔔</div><div>👤</div></div>
-</div>
-<div class="search"><span>🔍</span><input id="searchInput" placeholder="ابحث عن الأكل - كفتة، كباب، بروست..." oninput="filterSearch()"><span>⚙️</span></div>
-<div class="hero"><div class="heroText"><h3>Delicious Food</h3><h1>Delivered<br><b>Fresh</b></h1><p>Hot • Fresh • On Time - مطعم الطاهي</p><button class="btnY" onclick="document.getElementById('menuStart').scrollIntoView({behavior:'smooth'})">اطلب الآن →</button></div><div class="heroImg"></div></div>
+<div class="header"><div class="logo"><div class="logo-icon">ط</div><div><div class="main">الطاهي <span>EL TAHEY</span></div><small>90 صنف - أصل المذاق</small></div></div><a href="cart.html" class="cartTop">🛒 <span id="cartCount">0</span></a></div>
+<div class="search"><span>🔍</span><input id="searchInput" placeholder="ابحث في 90 صنف..." oninput="filterSearch()"></div>
+<div class="hero"><div><h3 style="color:var(--yellow)">عرض خاص 🔥</h3><h2 style="font-size:15px">خصم 20% على أول طلب</h2><p style="color:var(--gray);font-size:11px">للشركات والمناسبات</p></div><button class="btnY" onclick="document.getElementById('menuSection').scrollIntoView({behavior:'smooth'})">اطلب الآن →</button></div>
 <div class="cats" id="cats"></div>
-<div class="sectionHead"><h2>🔥 الأكثر طلباً</h2></div>
-<div class="grid2" id="popular"></div>
-<div class="special"><div class="specialText"><span class="badge">Special Offer</span><h3>Get 20% OFF<br><span style="font-size:11px;color:var(--gray)">على أول طلب - للشركات والمناسبات</span></h3><button class="btnY" style="margin-top:10px">اطلب الآن →</button></div><div style="width:50%;background:url('https://images.unsplash.com/photo-1562967914-608f82629710?w=500') center/cover"></div></div>
-<div id="menuStart" class="sectionHead"><h2>📍 كل منيو الطاهي - 87 صنف</h2><a id="activeCatName" style="color:var(--yellow)">المشويات</a></div>
-<div class="gridFull" id="gridFull"></div>
-<div id="cartFloat" onclick="openCart()" style="display:none"><span>🛒</span><span id="cartCountFloat">0</span><span>•</span><span id="cartTotalFloat">0 ج</span></div>
-<div id="cartPanel" onclick="if(event.target==this)closeCart()"><div class="cartBox"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3>سلة الطاهي 🛒</h3><button onclick="closeCart()" style="background:none;border:none;color:white;font-size:28px">×</button></div><div id="cartItems" style="flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px"></div><div style="border-top:1px solid #2a2a2e;padding-top:12px;margin-top:12px"><div style="display:flex;justify-content:space-between;font-weight:800;margin-bottom:10px"><span>الإجمالي:</span><span id="total" style="color:var(--yellow)"></span></div><input id="custName" placeholder="اسمك" style="width:100%;padding:12px;border-radius:12px;background:#232326;border:1px solid #333;color:white;margin-bottom:8px"><input id="custPhone" placeholder="رقم الموبايل" style="width:100%;padding:12px;border-radius:12px;background:#232326;border:1px solid #333;color:white;margin-bottom:8px"><input id="custAddr" placeholder="العنوان" style="width:100%;padding:12px;border-radius:12px;background:#232326;border:1px solid #333;color:white;margin-bottom:12px"><button onclick="orderWhats()" style="width:100%;background:var(--yellow);color:black;border:none;padding:14px;border-radius:14px;font-weight:900;font-size:16px">اطلب واتساب 🍖</button></div></div></div>
+<div id="menuSection"></div>
 <script>
-const menu=[
-{c:"المشويات",ico:"🍖",img:"https://images.unsplash.com/photo-1544025162-d76694265947?w=400",items:[["كيلو كباب ضاني",1100],["كيلو ريش ضاني",1000],["كيلو كفته كندوز",550],["كيلو كفته ضاني",600],["كيلو مشكل",800],["كيلو طرب ضاني",600],["كيلو كفته و طرب",575],["كيلو شيش طاوك",450],["كيلو استربس",470],["فرخة شيش",360],["فرخة تكا",360],["فرخة شوايه",360],["فرخة 1/2",180],["فرخة 1/4",95],["1/2 كفته كندوز",275],["1/2 كفته ضاني",300],["1/4 كفته ضاني",160],["1/4 كفته كندوز",140],["1/2 طرب ضاني",300],["1/4 طرب ضاني",160],["موزه ضاني",400],["كيلو سجق ضاني",400],["1/2 سجق ضاني",200],["1/4 سجق ضاني",110]]},
-{c:"الوجبات",ico:"🍱",img:"https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400",items:[["وجبة 1/2 فرخة - نص فرخة + أرز + خضار + سلطة",200],["وجبة 1/4 فرخة",130],["وجبة 1/2 كفته",310],["وجبة 1/4 كفته",180],["وجبة كبده اسكندراني",170],["وجبة ميكس جريل",250],["وجبة الكومبو",200],["وجبة شيش طاووق",170],["وجبة التوفير",220],["وجبة الطاهي",260],["وجبة فراخ وكفته",235]]},
-{c:"السندوتشات",ico:"🥪",img:"https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?w=400",items:[["سندوتش كبده اسكندراني",45],["سندوتش طرب",130],["سندوتش شيش طاووق",75],["سندوتش كفته",70],["سندوتش كباب",140],["سندوتش سجق ضاني",40],["رغيف حواوشي",40],["حواوشي الطاهي",120]]},
-{c:"كبده",ico:"🍛",img:"https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400",items:[["كيلو كبده اسكندراني",400],["نص كيلو كبده",200],["ربع كيلو كبده",100],["طلب كبده",90]]},
-{c:"قسم المطبخ",ico:"🍲",img:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400",items:[["طاجن بطاطس (لحمه بلدي)",200],["طاجن باميه (لحمه بلدي)",200],["طاجن تورلي (لحمه بلدي)",200],["حمام محشي",180],["طبق محشي",100],["كيلو ممبار",250],["نص ممبار",200],["ربع ممبار",170]]},
-{c:"طلب كفته",ico:"🥙",img:"https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400",items:[["طلب كفته - 3 قطع + أرز + خضار + سلطة",100]]},
-{c:"صواني الطاهي",ico:"🥘",img:"https://images.unsplash.com/photo-1511690656952-a0c5a7722f1c?w=400",items:[["صنية السيزون - كيلو كفته + نص فرخة + ربع سجق + أرز بسمتي",900],["صنية السويسي - فرخة + نص كفته + ربع سجق + أرز بسمتي",850]]},
-{c:"ميكس الطاهي",ico:"🔥",img:"https://images.unsplash.com/photo-1525183995014-b329225b9407?w=400",items:[["ميكس كفته وطرب",170],["ميكس شيش واستربس",170],["ميكس كفته وشيش",170],["ميكس شيش وطرب",170],["ميكس استربس وكفته",170],["المكساوي",180]]},
-{c:"وجبات البروست",ico:"🍗",img:"https://images.unsplash.com/photo-1562967914-608f82629710?w=400",items:[["وجبة بروست الطاهي - 2 قطعة",160],["تربيل هيت - 3 قطع",200],["الذهبية - 4 قطع",250],["باور - 5 قطع",280],["لمه الحبايب - 10 قطع",420],["العمالقة - 12 قطعة",500],["الديك - 15 قطعة",600]]},
-{c:"السلطات",ico:"🥗",img:"https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400",items:[["سلطة خضراء",25],["طحينة",25],["بابا غنوج",30],["تومية",30],["كول سلو",30],["باذنجان مخلل",20]]},
-{c:"أطباق جانبية",ico:"🍚",img:"https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400",items:[["أرز ساده بالشعرية",25],["أرز بالكبده صغير",50],["أرز بالكبده كبير",60],["أرز بسمتي وسط",35],["أرز بسمتي كبير",55],["مكرونة فرن",35],["ملوخية",40],["شوربة لسان عصفور",25],["خضار حسب اليوم",25]]},
-{c:"المشروبات",ico:"🥤",img:"https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400",items:[["V Cola",23],["مياه صغيرة",12],["اسبايرو سباتس",18],["لتر مشروب مصري",35]]}
-];
-let active=menu[0].c;let cart=[];let searchQuery="";
-function renderCats(){document.getElementById('cats').innerHTML=menu.map(m=>`<div class="catItem ${m.c==active?'active':''}" onclick="setCat('${m.c}')"><div class="ico">${m.ico}</div><div class="lbl">${m.c}</div></div>`).join('');}
-function setCat(c){active=c;document.getElementById('activeCatName').innerText=c;renderCats();renderFull();}
-function getAll(){let a=[];menu.forEach(cat=>cat.items.forEach(it=>a.push({cat:cat.c,name:it[0],price:it[1],img:cat.img})));return a;}
-function renderPopular(){const pops=getAll().slice(0,8);document.getElementById('popular').innerHTML=pops.map(p=>`<div class="foodCard"><div class="heart">♡</div><img src="${p.img}"><div class="info"><div class="title">${p.name.split(' - ')[0]}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><span class="price">${p.price} ج</span><button class="addBtn" onclick="addToCart('${p.name.replace(/'/g,'')}',${p.price})">+</button></div></div></div>`).join('');}
-function renderFull(){let items=searchQuery?getAll().filter(i=>i.name.includes(searchQuery)):menu.find(m=>m.c==active).items.map(it=>({name:it[0],price:it[1],img:menu.find(m=>m.c==active).img}));document.getElementById('gridFull').innerHTML=items.map(it=>`<div class="fullCard"><div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,.5);width:26px;height:26px;border-radius:50%;display:grid;place-items:center">♡</div><img src="${it.img}"><div class="info"><div style="font-size:13px;font-weight:700">${it.name.split(' - ')[0]}</div>${it.name.includes(' - ')?`<div class="desc">${it.name.split(' - ')[1]}</div>`:''}<div class="priceRow"><span class="price">${it.price} ج</span><button class="addBtn" onclick="addToCart('${it.name.replace(/'/g,'')}',${it.price})">+</button></div></div></div>`).join('');}
-function filterSearch(){searchQuery=document.getElementById('searchInput').value;renderFull();}
-function addToCart(name,price){price=parseInt(price);let f=cart.find(x=>x.name==name);if(f)f.q++;else cart.push({name,price,q:1});updateCart();}
-function updateCart(){let count=cart.reduce((a,b)=>a+b.q,0);let total=cart.reduce((a,b)=>a+b.price*b.q,0);if(count>0){document.getElementById('cartFloat').style.display='flex';document.getElementById('cartCountFloat').innerText=count;document.getElementById('cartTotalFloat').innerText=total+' ج';document.getElementById('total').innerText=total+' ج';}else{document.getElementById('cartFloat').style.display='none';}document.getElementById('cartItems').innerHTML=cart.length?cart.map((c,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;background:#232326;padding:10px;border-radius:12px"><div><div style="font-weight:700;font-size:13px">${c.name.split(' - ')[0]}</div><div style="font-size:11px;color:#9a9aa0">${c.price} ج</div></div><div style="display:flex;gap:8px;align-items:center"><button onclick="changeQ(${i},-1)" style="width:26px;height:26px;border-radius:50%;border:none;background:#333;color:white">-</button><span>${c.q}</span><button onclick="changeQ(${i},1)" style="width:26px;height:26px;border-radius:50%;border:none;background:#FFD500;color:black">+</button></div></div>`).join(''):'<p style="text-align:center;color:#777;margin-top:20px">السلة فاضية</p>';}
-function changeQ(i,d){cart[i].q+=d;if(cart[i].q<=0)cart.splice(i,1);updateCart();}
-function openCart(){document.getElementById('cartPanel').classList.add('open')}
-function closeCart(){document.getElementById('cartPanel').classList.remove('open')}
-function orderWhats(){if(!cart.length){alert('السلة فاضية');return}let name=document.getElementById('custName').value||'عميل';let phone=document.getElementById('custPhone').value||'';let addr=document.getElementById('custAddr').value||'';let total=cart.reduce((a,b)=>a+b.price*b.q,0);let msg=`طلب جديد - مطعم الطاهي 🍖%0Aالاسم: ${name}%0Aالهاتف: ${phone}%0Aالعنوان: ${addr}%0A%0A${cart.map(c=>`- ${c.name} x${c.q} = ${c.price*c.q}ج`).join('%0A')}%0A%0Aالاجمالي: ${total}ج`;window.open(`https://wa.me/201015861991?text=${msg}`,'_blank');}
-renderCats();renderPopular();renderFull();
+const menuData = [{"c": "المشويات", "ico": "🍖", "items": [{"n": "كيلو كباب ضاني", "p": 1100, "img": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400"}, {"n": "كيلو ريش ضاني", "p": 1000, "img": "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400"}, {"n": "كيلو كفته كندوز", "p": 550, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "كيلو كفته ضاني", "p": 600, "img": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400"}, {"n": "كيلو مشكل", "p": 800, "img": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400"}, {"n": "كيلو طرب ضاني", "p": 600, "img": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400"}, {"n": "كيلو كفته و طرب", "p": 575, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "كيلو شيش طاوك", "p": 450, "img": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400"}, {"n": "كيلو استربس", "p": 470, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "فرخة شيش", "p": 360, "img": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400"}, {"n": "فرخة تكا", "p": 360, "img": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400"}, {"n": "فرخة شوايه", "p": 360, "img": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400"}, {"n": "فرخة 1/2", "p": 180, "img": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400"}, {"n": "فرخة 1/4", "p": 95, "img": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400"}, {"n": "1/2 كفته كندوز", "p": 275, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "1/2 كفته ضاني", "p": 300, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "1/4 كفته ضاني", "p": 160, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "1/4 كفته كندوز", "p": 140, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "1/2 طرب ضاني", "p": 300, "img": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400"}, {"n": "1/4 طرب ضاني", "p": 160, "img": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400"}, {"n": "موزه ضاني", "p": 400, "img": "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400"}, {"n": "كيلو سجق ضاني", "p": 400, "img": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400"}, {"n": "1/2 سجق ضاني", "p": 200, "img": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400"}, {"n": "1/4 سجق ضاني", "p": 110, "img": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400"}]}, {"c": "الوجبات", "ico": "🍱", "items": [{"n": "وجبة 1/2 فرخة", "p": 200, "img": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400"}, {"n": "وجبة 1/4 فرخة", "p": 130, "img": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400"}, {"n": "وجبة 1/2 كفته", "p": 310, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "وجبة 1/4 كفته", "p": 180, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "وجبة كبده اسكندراني", "p": 170, "img": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400"}, {"n": "وجبة ميكس جريل", "p": 250, "img": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400"}, {"n": "وجبة الكومبو", "p": 200, "img": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400"}, {"n": "وجبة شيش طاووق", "p": 170, "img": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400"}, {"n": "وجبة التوفير", "p": 220, "img": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400"}, {"n": "وجبة الطاهي", "p": 260, "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"}, {"n": "وجبة فراخ وكفته", "p": 235, "img": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400"}]}, {"c": "السندوتشات", "ico": "🥪", "items": [{"n": "سندوتش كبده اسكندراني", "p": 45, "img": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400"}, {"n": "سندوتش طرب", "p": 130, "img": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400"}, {"n": "سندوتش شيش طاووق", "p": 75, "img": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400"}, {"n": "سندوتش كفته", "p": 70, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}, {"n": "سندوتش كباب", "p": 140, "img": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400"}, {"n": "سندوتش سجق ضاني", "p": 40, "img": "https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?w=400"}, {"n": "رغيف حواوشي", "p": 40, "img": "https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?w=400"}, {"n": "حواوشي الطاهي", "p": 120, "img": "https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?w=400"}]}, {"c": "كبده", "ico": "🍛", "items": [{"n": "كيلو كبده اسكندراني", "p": 400, "img": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400"}, {"n": "نص كيلو كبده", "p": 200, "img": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400"}, {"n": "ربع كيلو كبده", "p": 100, "img": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400"}, {"n": "طلب كبده", "p": 90, "img": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400"}]}, {"c": "قسم المطبخ", "ico": "🍲", "items": [{"n": "طاجن بطاطس (لحمه بلدي)", "p": 200, "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"}, {"n": "طاجن باميه (لحمه بلدي)", "p": 200, "img": "https://images.unsplash.com/photo-1511690656952-a0c5a7722f1c?w=400"}, {"n": "طاجن تورلي (لحمه بلدي)", "p": 200, "img": "https://images.unsplash.com/photo-1511690656952-a0c5a7722f1c?w=400"}, {"n": "حمام محشي", "p": 180, "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"}, {"n": "طبق محشي", "p": 100, "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"}, {"n": "كيلو ممبار", "p": 250, "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"}, {"n": "نص ممبار", "p": 200, "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"}, {"n": "ربع ممبار", "p": 170, "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"}]}, {"c": "طلب كفته", "ico": "🥙", "items": [{"n": "طلب كفته - 3 قطع + أرز + خضار + سلطة", "p": 100, "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"}]}, {"c": "صواني الطاهي", "ico": "🥘", "items": [{"n": "صنية السيزون - كيلو كفته + نص فرخة + ربع سجق + أرز بسمتي", "p": 900, "img": "https://images.unsplash.com/photo-1511690656952-a0c5a7722f1c?w=400"}, {"n": "صنية السويسي - فرخة + نص كفته + ربع سجق + أرز بسمتي", "p": 850, "img": "https://images.unsplash.com/photo-1511690656952-a0c5a7722f1c?w=400"}]}, {"c": "ميكس الطاهي", "ico": "🔥", "items": [{"n": "ميكس كفته وطرب", "p": 170, "img": "https://images.unsplash.com/photo-1525183995014-b329225b9407?w=400"}, {"n": "ميكس شيش واستربس", "p": 170, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "ميكس كفته وشيش", "p": 170, "img": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400"}, {"n": "ميكس شيش وطرب", "p": 170, "img": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400"}, {"n": "ميكس استربس وكفته", "p": 170, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "المكساوي", "p": 180, "img": "https://images.unsplash.com/photo-1525183995014-b329225b9407?w=400"}]}, {"c": "وجبات البروست", "ico": "🍗", "items": [{"n": "وجبة بروست الطاهي - 2 قطعة", "p": 160, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "تربيل هيت - 3 قطع", "p": 200, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "الذهبية - 4 قطع", "p": 250, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "باور - 5 قطع", "p": 280, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "لمه الحبايب - 10 قطع", "p": 420, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "العمالقة - 12 قطعة", "p": 500, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}, {"n": "الديك - 15 قطعة", "p": 600, "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400"}]}, {"c": "السلطات", "ico": "🥗", "items": [{"n": "سلطة خضراء", "p": 25, "img": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"}, {"n": "طحينة", "p": 25, "img": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"}, {"n": "بابا غنوج", "p": 30, "img": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"}, {"n": "تومية", "p": 30, "img": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"}, {"n": "كول سلو", "p": 30, "img": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"}, {"n": "باذنجان مخلل", "p": 20, "img": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"}]}, {"c": "أطباق جانبية", "ico": "🍚", "items": [{"n": "أرز ساده بالشعرية", "p": 25, "img": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400"}, {"n": "أرز بالكبده صغير", "p": 50, "img": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400"}, {"n": "أرز بالكبده كبير", "p": 60, "img": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400"}, {"n": "أرز بسمتي وسط", "p": 35, "img": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400"}, {"n": "أرز بسمتي كبير", "p": 55, "img": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400"}, {"n": "مكرونة فرن", "p": 35, "img": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400"}, {"n": "ملوخية", "p": 40, "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"}, {"n": "شوربة لسان عصفور", "p": 25, "img": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400"}, {"n": "خضار حسب اليوم", "p": 25, "img": "https://images.unsplash.com/photo-1511690656952-a0c5a7722f1c?w=400"}]}, {"c": "المشروبات", "ico": "🥤", "items": [{"n": "V Cola", "p": 23, "img": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400"}, {"n": "مياه صغيرة", "p": 12, "img": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400"}, {"n": "اسبايرو سباتس", "p": 18, "img": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400"}, {"n": "لتر مشروب مصري", "p": 35, "img": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400"}]}];
+let active = menuData[0].c;
+let searchQ = "";
+function getCart(){return JSON.parse(localStorage.getItem('tahey_cart')||'[]')}
+function saveCart(c){localStorage.setItem('tahey_cart',JSON.stringify(c));updateCount()}
+function updateCount(){let el=document.getElementById('cartCount');if(el) el.innerText=getCart().reduce((a,b)=>a+b.q,0)}
+function renderCats(){
+  document.getElementById('cats').innerHTML = menuData.map(m=>`<div class="catItem ${m.c==active?'active':''}" onclick="setCat('${m.c}')"><div style="font-size:22px">${m.ico}</div><div style="font-size:10px;font-weight:700;margin-top:4px">${m.c}</div></div>`).join('');
+}
+function setCat(c){active=c;searchQ='';document.getElementById('searchInput').value='';renderCats();renderMenu()}
+function renderMenu(){
+  let container = document.getElementById('menuSection');
+  let html = '';
+  let catsToShow = searchQ ? menuData : menuData.filter(m=>m.c==active);
+  catsToShow.forEach(cat=>{
+    let items = cat.items;
+    if(searchQ){items = cat.items.filter(it=>it.n.includes(searchQ)); if(items.length==0) return;}
+    html += `<div class="sectionHeader"><h2>${cat.ico} ${cat.c}</h2><span class="count">${items.length} صنف</span></div><div class="list">`;
+    html += items.map(it=>{
+      let shortName = it.n.split(' - ')[0];
+      let desc = it.n.includes(' - ') ? it.n.split(' - ').slice(1).join(' - ') : '';
+      return `<div class="itemRow"><img src="${it.img}" loading="lazy"><div class="itemInfo"><h4>${shortName}</h4>${desc?`<p>${desc}</p>`:''}</div><div class="itemAction"><span class="price">${it.p} ج</span><button class="addBtn" onclick="addToCart('${it.n.replace("'", "")}','${it.img}',${it.p})">+</button></div></div>`;
+    }).join('');
+    html += `</div>`;
+  });
+  if(html=='') html = `<div style="text-align:center;padding:40px;color:#777">مفيش نتائج لـ "${searchQ}"</div>`;
+  container.innerHTML = html;
+}
+function filterSearch(){searchQ=document.getElementById('searchInput').value.trim(); if(searchQ){active='';renderCats()} else {active=menuData[0].c;renderCats()} renderMenu()}
+function addToCart(name,img,price){let c=getCart();let f=c.find(x=>x.name==name);if(f) f.q++; else c.push({name,price,q:1,img});saveCart(c);}
+renderCats();renderMenu();updateCount();
 </script>
 </body>
 </html>
