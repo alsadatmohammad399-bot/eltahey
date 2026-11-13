@@ -97,7 +97,7 @@ function updateCart(){let count=cart.reduce((a,b)=>a+b.q,0);let total=cart.reduc
 function changeQ(i,d){cart[i].q+=d;if(cart[i].q<=0)cart.splice(i,1);updateCart();}
 function openCart(){document.getElementById('cartPanel').classList.add('open')}
 function closeCart(){document.getElementById('cartPanel').classList.remove('open')}
-function orderWhats(){if(!cart.length){alert('السلة فاضية');return}let name=document.getElementById('custName').value||'عميل';let phone=document.getElementById('custPhone').value||'';let addr=document.getElementById('custAddr').value||'';let total=cart.reduce((a,b)=>a+b.price*b.q,0);let msg=`طلب جديد - مطعم الطاهي 🍖%0Aالاسم: ${name}%0Aالهاتف: ${phone}%0Aالعنوان: ${addr}%0A%0A${cart.map(c=>`- ${c.name} x${c.q} = ${c.price*c.q}ج`).join('%0A')}%0A%0Aالاجمالي: ${total}ج`;window.open(`https://wa.me/201001565299?text=${msg}`,'_blank');}
+function orderWhats(){if(!cart.length){alert('السلة فاضية');return}let name=document.getElementById('custName').value||'عميل';let phone=document.getElementById('custPhone').value||'';let addr=document.getElementById('custAddr').value||'';let total=cart.reduce((a,b)=>a+b.price*b.q,0);let msg=`طلب جديد - مطعم الطاهي 🍖%0Aالاسم: ${name}%0Aالهاتف: ${phone}%0Aالعنوان: ${addr}%0A%0A${cart.map(c=>`- ${c.name} x${c.q} = ${c.price*c.q}ج`).join('%0A')}%0A%0Aالاجمالي: ${total}ج`;window.open(`https://wa.me/201015861991?text=${msg}`,'_blank');}
 renderCats();renderPopular();renderFull();
 </script>
 </body>
