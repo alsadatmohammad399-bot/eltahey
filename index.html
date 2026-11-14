@@ -2,84 +2,114 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الطاهي | EL TAHEY</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0A0A0A">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<title>الطاهي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
 <style>
-:root{--bg:#0A0A0A;--bg2:#141414;--card:#1A1A1A;--gold:#C9A86A;--gold2:#D4AF37;--border:rgba(201,168,106,.15);--text:#EAE6DF;--muted:#8A8A8A}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Cairo';background:var(--bg);color:var(--text);padding-bottom:90px}
-.header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
-.logoMark{width:44px;height:44px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:12px;display:grid;place-items:center;color:black;font-family:'Playfair Display';font-weight:700;font-size:20px}
-.logoText .ar{font-weight:800;font-size:18px}.logoText .en{font-family:'Playfair Display';font-size:10px;letter-spacing:3px;color:var(--gold)}
-.cartBtn{background:var(--text);color:var(--bg);padding:10px 20px;border-radius:100px;font-weight:800;font-size:13px;text-decoration:none}
-.family{margin:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:14px 16px;display:flex;gap:12px;align-items:center}
-.family button{margin-top:6px;background:transparent;border:1px solid var(--gold);color:var(--gold);padding:6px 14px;border-radius:100px;font-size:11px;font-weight:700;cursor:pointer}
-.cats{display:flex;gap:8px;overflow-x:auto;padding:16px}.cat{flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:100px;padding:10px 18px;font-size:12px;color:var(--muted);cursor:pointer;white-space:nowrap}
-.cat.active{background:var(--gold);border-color:var(--gold);color:black}
-.sectionHead{padding:8px 20px 12px;display:flex;justify-content:space-between}
-.grid{display:grid;grid-template-columns:1fr;gap:20px;padding:0 16px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:28px;overflow:hidden}
-.cardImg{position:relative;height:240px;background:#000}.cardImg img{width:100%;height:100%;object-fit:cover;opacity:.9}
-.cardTop{position:absolute;top:14px;right:14px;left:14px;display:flex;justify-content:space-between}
-.tag{background:rgba(10,10,10,.7);backdrop-filter:blur(12px);border:1px solid var(--border);color:var(--gold);font-size:9px;padding:6px 12px;border-radius:100px}
-.priceTag{background:var(--text);color:var(--bg);font-family:'Playfair Display';font-size:16px;font-weight:700;padding:6px 14px;border-radius:100px}
-.cardBody{padding:18px 20px}.cardBody h4{font-size:16px;font-weight:800}.cardBody p{font-size:11px;color:var(--muted);margin-top:6px}
-.cardFoot{display:flex;gap:10px;margin-top:16px}.addBtn{flex:1;background:var(--text);color:var(--bg);border:none;padding:14px;border-radius:100px;font-weight:800;font-size:13px;cursor:pointer}
-.qtyBox{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:100px;padding:6px 12px}
-.qtyBox button{width:32px;height:32px;border-radius:50%;border:none;font-weight:700;cursor:pointer}.qtyBox .minus{background:transparent;border:1px solid var(--border);color:var(--text)}.qtyBox .plus{background:var(--gold);color:black}
-.bottomNav{position:fixed;bottom:16px;left:16px;right:16px;background:rgba(20,20,20,.9);backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:100px;display:flex;justify-content:space-around;padding:8px;z-index:200}
-.bottomNav a{color:var(--muted);font-size:9px;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 20px;border-radius:100px}
-.bottomNav a.active{background:var(--gold);color:black}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);z-index:300;display:none;place-items:center;padding:20px}.modal.active{display:grid}
-.modalBox{background:var(--bg2);border:1px solid var(--border);border-radius:28px;padding:28px;max-width:400px;width:100%;text-align:center}
-.codeBox{background:var(--bg);border:1px dashed var(--gold);border-radius:16px;padding:18px;font-family:'Playfair Display';font-size:28px;letter-spacing:4px;color:var(--gold);margin:16px 0}
-.btnRow{display:flex;gap:10px;margin-top:18px}.btnRow button{flex:1;padding:14px;border-radius:100px;border:none;font-weight:800;cursor:pointer}
-.btnGold{background:var(--gold);color:black}.btnDark{background:var(--card);color:var(--text);border:1px solid var(--border)}
-.hero{margin:16px;border-radius:28px;overflow:hidden;position:relative;height:260px;background:#000}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7}
-.heroGrad{position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.4) 50%, rgba(0,0,0,.1) 100%)}
-.heroContent{position:relative;z-index:2;padding:28px;display:flex;flex-direction:column;justify-content:center;height:100%;max-width:65%}
-.heroContent h1{font-family:'Playfair Display';font-size:32px;line-height:.9}.heroContent h1 span{color:var(--gold);font-style:italic}
-.heroContent p{font-size:12px;color:var(--muted);margin-top:10px}
-.heroBtn{margin-top:14px;background:var(--gold);color:black;border:none;padding:12px 22px;border-radius:100px;font-weight:800;font-size:12px;cursor:pointer;width:fit-content}
+:root{--black:#080808;--card:#141414;--gold:#C9A86A;--gold2:#E6C78A;--beige:#EAE6DF}
+body{font-family:'Cairo';background:var(--black);color:var(--beige)}
+.playfair{font-family:'Playfair Display'}
+.pill-card{width:148px;position:relative;padding-top:60px;cursor:pointer;transition:all .5s cubic-bezier(0.23,1,0.32,1)}
+.pill-card:hover{transform:translateY(-8px)}
+.pill-img{position:absolute;top:0;left:50%;transform:translateX(-50%);width:96px;height:96px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;z-index:2;box-shadow:0 0 0 4px rgba(201,168,106,.15), 0 12px 30px rgba(0,0,0,.6);transition:all .5s}
+.pill-card:hover .pill-img{box-shadow:0 0 0 6px rgba(201,168,106,.25), 0 0 40px rgba(201,168,106,.4);border-color:var(--gold2)}
+.pill-line{position:absolute;top:60px;left:50%;transform:translateX(-50%);width:1px;height:28px;background:linear-gradient(to bottom, var(--gold), transparent);z-index:1}
+.pill-body{background:linear-gradient(180deg, #1C1C1C 0%, #111111 100%);border:1px solid rgba(201,168,106,.18);border-radius:80px;padding:50px 10px 22px 10px;text-align:center;position:relative}
+.pill-title{color:var(--gold);font-weight:800;font-size:13px;letter-spacing:.3px}
+.pill-sub{color:#7A7A7A;font-size:10px;margin-top:2px}
+.pill-badge{margin-top:10px;background:#080808;border:1px solid rgba(201,168,106,.35);color:var(--gold);font-size:9px;padding:4px 10px;border-radius:20px;display:inline-block;letter-spacing:.5px}
+.pill-icon{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);width:32px;height:32px;background:var(--gold);color:black;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:13px;transition:all .4s}
+.pill-card:hover .pill-icon{transform:translateX(-50%) rotate(45deg);background:var(--gold2)}
+.marquee{border-top:1px solid rgba(201,168,106,.12);border-bottom:1px solid rgba(201,168,106,.12);padding:14px 0;white-space:nowrap;overflow:hidden;background:rgba(201,168,106,.02)}
+.marquee-track{display:inline-flex;animation:marq 30s linear infinite}
+@keyframes marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.glass{backdrop-filter:blur(20px);background:rgba(8,8,8,.7)}
 </style>
 </head>
-<body>
-<div class="header"><div style="display:flex;gap:12px;align-items:center"><div class="logoMark">T</div><div class="logoText"><div class="ar">الطاهي</div><div class="en">EL TAHEY</div></div></div><a href="cart.html" class="cartBtn">السلة <span id="cartCount">0</span></a></div>
-<div class="hero"><img src="https://images.unsplash.com/photo-1546964052-d9334ceb32ee?w=800"><div class="heroGrad"></div><div class="heroContent"><h1>Fire.<br><span>Meat.</span><br>Art.</h1><p>90 قطعة فاخرة مشوية على الفحم - لحم بلدي 100%</p><button class="heroBtn" onclick="document.getElementById('cats').scrollIntoView({behavior:'smooth'})">استكشف المنيو —</button></div></div>
-<div class="family" id="familyBanner"><div>◐</div><div style="flex:1"><h4 id="familyTitle">Family Table</h4><p id="familyDesc">اطلبوا مع بعض - كود واحد للعيلة كلها</p><button onclick="createFamilyCart()" id="familyBtn">إنشاء طاولة +</button></div></div>
-<div class="cats" id="cats"></div>
-<div class="sectionHead"><h3 id="currentCat">المشويات</h3><span id="count">24 ITEMS</span></div>
-<div class="grid" id="grid"></div>
-<div class="bottomNav"><a href="#" class="active">الرئيسية</a><a href="#cats">المنيو</a><a href="cart.html">السلة</a><a href="tel:01001565299">اتصل</a></div>
-<div class="modal" id="familyModal"><div class="modalBox"><h3>Family Table Created</h3><p style="font-size:12px;color:var(--muted);margin-top:8px">شارك الكود مع العيلة</p><div class="codeBox" id="familyCode">TAHEY-000</div><div id="familyLink" style="font-size:10px;color:var(--muted);word-break:break-all"></div><div class="btnRow"><button class="btnGold" onclick="shareFamily()">واتساب</button><button class="btnDark" onclick="closeModal('familyModal')">إغلاق</button></div></div></div>
-<script>
-const menuData=[{c:"المشويات",items:[["كيلو كباب ضاني",1100],["كيلو ريش ضاني",1000],["كيلو كفته كندوز",550],["كيلو كفته ضاني",600],["كيلو مشكل",800],["كيلو طرب ضاني",600],["كيلو كفته و طرب",575],["كيلو شيش طاوك",450],["كيلو استربس",470],["فرخة شيش",360],["فرخة تكا",360],["فرخة شوايه",360],["فرخة 1/2",180],["فرخة 1/4",95],["1/2 كفته كندوز",275],["1/2 كفته ضاني",300],["1/4 كفته ضاني",160],["1/4 كفته كندوز",140],["1/2 طرب ضاني",300],["1/4 طرب ضاني",160],["موزه ضاني",400],["كيلو سجق ضاني",400],["1/2 سجق ضاني",200],["1/4 سجق ضاني",110]]},{c:"الوجبات",items:[["وجبة 1/2 فرخة",200],["وجبة 1/4 فرخة",130],["وجبة 1/2 كفته",310],["وجبة 1/4 كفته",180],["وجبة كبده اسكندراني",170],["وجبة ميكس جريل",250],["وجبة الكومبو",200],["وجبة شيش طاووق",170],["وجبة التوفير",220],["وجبة الطاهي",260],["وجبة فراخ وكفته",235]]},{c:"السندوتشات",items:[["سندوتش كبده اسكندراني",45],["سندوتش طرب",130],["سندوتش شيش طاووق",75],["سندوتش كفته",70],["سندوتش كباب",140],["سندوتش سجق ضاني",40],["رغيف حواوشي",40],["حواوشي الطاهي",120]]},{c:"كبده",items:[["كيلو كبده اسكندراني",400],["نص كيلو كبده",200],["ربع كيلو كبده",100],["طلب كبده",90]]},{c:"قسم المطبخ",items:[["طاجن بطاطس (لحمه بلدي)",200],["طاجن باميه (لحمه بلدي)",200],["طاجن تورلي (لحمه بلدي)",200],["حمام محشي",180],["طبق محشي",100],["كيلو ممبار",250],["نص ممبار",200],["ربع ممبار",170]]},{c:"طلب كفته",items:[["طلب كفته - 3 قطع + أرز + خضار + سلطة",100]]},{c:"صواني الطاهي",items:[["صنية السيزون",900],["صنية السويسي",850]]},{c:"ميكس الطاهي",items:[["ميكس كفته وطرب",170],["ميكس شيش واستربس",170],["ميكس كفته وشيش",170],["ميكس شيش وطرب",170],["ميكس استربس وكفته",170],["المكساوي",180]]},{c:"وجبات البروست",items:[["وجبة بروست الطاهي - 2 قطعة",160],["تربيل هيت - 3 قطع",200],["الذهبية - 4 قطع",250],["باور - 5 قطع",280],["لمه الحبايب - 10 قطع",420],["العمالقة - 12 قطعة",500],["الديك - 15 قطعة",600]]},{c:"السلطات",items:[["سلطة خضراء",25],["طحينة",25],["بابا غنوج",30],["تومية",30],["كول سلو",30],["باذنجان مخلل",20]]},{c:"أطباق جانبية",items:[["أرز ساده",25],["أرز بالكبده صغير",50],["أرز بالكبده كبير",60],["أرز بسمتي وسط",35],["أرز بسمتي كبير",55],["مكرونة فرن",35],["ملوخية",40],["شوربة",25],["خضار",25]]},{c:"المشروبات",items:[["V Cola",23],["مياه صغيرة",12],["اسبايرو سباتس",18],["لتر مشروب",35]]},];
-const imgMap={"المشويات":"https://images.unsplash.com/photo-1546964052-d9334ceb32ee?w=600","الوجبات":"https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600","السندوتشات":"https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?w=600","كبده":"https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600","قسم المطبخ":"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600","طلب كفته":"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600","صواني الطاهي":"https://images.unsplash.com/photo-1511690656952-a0c5a7722f1c?w=600","ميكس الطاهي":"https://images.unsplash.com/photo-1525183995014-b329225b9407?w=600","وجبات البروست":"https://images.unsplash.com/photo-1562967914-608f82629710?w=600","السلطات":"https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600","أطباق جانبية":"https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=600","المشروبات":"https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600"};
-let active="المشويات";
-function getCart(){return JSON.parse(localStorage.getItem('tahey_cart')||'[]')}
-function saveCart(c){localStorage.setItem('tahey_cart',JSON.stringify(c));update()}
-function update(){document.getElementById('cartCount').innerText=getCart().reduce((a,b)=>a+b.q,0)}
-function renderCats(){document.getElementById('cats').innerHTML=menuData.map(m=>`<div class="cat ${m.c==active?'active':''}" onclick="setCat('${m.c}')">${m.c}</div>`).join('')}
-function setCat(c){active=c;renderCats();renderGrid()}
-function renderGrid(){
- let cat=menuData.find(m=>m.c==active);
- let items=cat.items.map(it=>({name:it[0],price:it[1],cat:cat.c,img:imgMap[cat.c]}));
- document.getElementById('currentCat').innerText=active;
- document.getElementById('count').innerText=items.length+" ITEMS";
- document.getElementById('grid').innerHTML=items.map(it=>{
-   let inCart=getCart().find(x=>x.name==it.name);
-   return `<div class="card"><div class="cardImg"><img src="${it.img}"><div class="cardTop"><div class="tag">${it.cat}</div><div class="priceTag">${it.price} EGP</div></div></div><div class="cardBody"><h4>${it.name}</h4><p>لحم بلدي • مشوي على الفحم • طازج يومياً</p><div class="cardFoot">${inCart?`<div class="qtyBox"><button class="minus" onclick="changeQty('${it.name.replace(/'/g,'')}',-1)">-</button><span>${inCart.q}</span><button class="plus" onclick="changeQty('${it.name.replace(/'/g,'')}',1)">+</button></div><button class="addBtn" style="background:#222;color:#fff;border:1px solid var(--border)" onclick="location.href='cart.html'">عرض السلة</button>`:`<button class="addBtn" onclick="addToCart('${it.name.replace(/'/g,'')}','${it.img}',${it.price})">إضافة للسلة —</button>`}</div></div></div>`;
- }).join('');
-}
-function addToCart(name,img,price){let c=getCart();let f=c.find(x=>x.name==name);if(f)f.q++;else c.push({name,price,q:1,img});saveCart(c);renderGrid()}
-function changeQty(name,d){let c=getCart();let f=c.find(x=>x.name==name);if(!f)return;f.q+=d;if(f.q<=0)c=c.filter(x=>x.name!=name);saveCart(c);renderGrid()}
-function createFamilyCart(){let code='TAHEY-'+Math.floor(100+Math.random()*900);localStorage.setItem('tahey_family_code',code);document.getElementById('familyCode').innerText=code;let link=location.origin+location.pathname+'?family='+code;document.getElementById('familyLink').innerText=link;document.getElementById('familyModal').classList.add('active')}
-function shareFamily(){let code=document.getElementById('familyCode').innerText;let link=document.getElementById('familyLink').innerText;window.open('https://wa.me/?text='+encodeURIComponent(`🍖 سلة العيلة - الطاهي\nكود: ${code}\n${link}`),'_blank')}
-function closeModal(id){document.getElementById(id).classList.remove('active')}
-renderCats();renderGrid();update();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
-</script>
+<body class="antialiased">
+
+<header class="sticky top-0 z-50 glass border-b border-white/[0.06] px-6 md:px-12 py-5 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="w-9 h-9 rounded-full bg-[var(--gold)] text-black grid place-items-center font-bold text-[14px]">T</div>
+<div class="playfair text-[22px] tracking-tight">EL <span class="text-[var(--gold)] italic">TAHEY</span></div>
+<div class="hidden md:block h-4 w-[1px] bg-white/10 mx-2"></div>
+<div class="hidden md:block text-[10px] tracking-[3px] text-white/30">LUXURY KEBAB HOUSE</div>
+</div>
+<nav class="hidden md:flex gap-10 text-[11px] tracking-[3px] text-white/40">
+<a class="hover:text-[var(--gold)] cursor-pointer transition">OUR MENU</a>
+<a class="hover:text-[var(--gold)] cursor-pointer transition">RESERVATION</a>
+<a class="hover:text-[var(--gold)] cursor-pointer transition">ABOUT</a>
+</nav>
+<button class="bg-[var(--gold)] hover:bg-[var(--gold2)] text-black px-6 py-2.5 rounded-full text-[11px] font-bold tracking-wider transition">BOOK A TABLE →</button>
+</header>
+
+<!-- HERO -->
+<section class="relative px-6 md:px-12 pt-16 md:pt-20 pb-12 overflow-hidden">
+<div class="absolute top-10 right-0 text-[100px] md:text-[160px] font-bold text-white/[0.02] playfair leading-[0.75] pointer-events-none select-none">ARABIAN<br>NIGHTS</div>
+
+<div class="grid md:grid-cols-[1.15fr_1fr] gap-12 items-start relative z-10">
+<div>
+<div class="inline-flex items-center gap-2 border border-[var(--gold)]/25 rounded-full px-4 py-1.5 text-[10px] tracking-[2px] text-[var(--gold)] bg-[var(--gold)]/5">✦ EST. 2019 • CHARCOAL GRILLED • PREMIUM</div>
+<h1 class="playfair text-[40px] md:text-[68px] font-bold leading-[0.88] mt-7">Feast On<br>The Richness Of<br><span class="text-[var(--gold)] italic">Arabian Nights</span></h1>
+<p class="text-white/35 text-[13.5px] mt-6 max-w-[420px] leading-[1.8]">لحم بلدي يوم بيوم من مزارعنا، فحم برتقال طبيعي، وتتبيلة الطاهي السرية اللي بقالها 22 سنة. كل سيخ معمول على مزاجك.</p>
+<div class="flex gap-4 mt-9">
+<button class="bg-[var(--gold)] text-black px-8 py-3.5 rounded-full text-[13px] font-bold hover:bg-[var(--gold2)] hover:scale-[1.02] transition-all">اطلب دلوقتي ←</button>
+<button class="border border-white/15 px-8 py-3.5 rounded-full text-[13px] hover:border-[var(--gold)]/40 hover:text-[var(--gold)] transition">شوف المنيو</button>
+</div>
+<div class="flex items-center gap-6 mt-10 text-[11px] text-white/30"><span class="flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> فاتح الآن • توصيل 30 دقيقة</span><span>★ 4.9 (2,847 تقييم)</span></div>
+</div>
+
+<!-- TOP 3 PILLS -->
+<div class="flex gap-4 md:gap-5 justify-center md:justify-end flex-wrap">
+<div class="pill-card"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400"><div class="pill-body"><div class="pill-title">كباب ضاني</div><div class="pill-sub">بلدي فاخر</div><div class="pill-badge">12 طبق</div><div class="pill-icon">↗</div></div></div>
+<div class="pill-card"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1546964124-0c84906bbb8b?w=400"><div class="pill-body"><div class="pill-title">ريش ضاني</div><div class="pill-sub">على الفحم</div><div class="pill-badge">8 أطباق</div><div class="pill-icon">↗</div></div></div>
+<div class="pill-card"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1558030006-450066393d65?w=400"><div class="pill-body"><div class="pill-title">طرب</div><div class="pill-sub">خلطة الطاهي</div><div class="pill-badge">15 طبق</div><div class="pill-icon">↗</div></div></div>
+</div>
+</div>
+</section>
+
+<div class="marquee playfair text-[11px] tracking-[6px] text-[var(--gold)]/35">
+<div class="marquee-track"><span>• EL TAHEY • LUXURY KEBAB HOUSE • CHARCOAL GRILLED • EL TAHEY • LUXURY KEBAB HOUSE • CHARCOAL GRILLED • EL TAHEY • LUXURY KEBAB HOUSE •&nbsp;</span><span>• EL TAHEY • LUXURY KEBAB HOUSE • CHARCOAL GRILLED • EL TAHEY • LUXURY KEBAB HOUSE • CHARCOAL GRILLED • EL TAHEY • LUXURY KEBAB HOUSE •&nbsp;</span></div>
+</div>
+
+<!-- WHY US -->
+<section class="px-6 md:px-12 py-16">
+<h2 class="text-center playfair text-[32px] md:text-[38px]">Why People <span class="text-[var(--gold)] italic">Choose Us</span> ?</h2>
+<div class="mt-10 grid md:grid-cols-4 gap-4">
+<div class="bg-[var(--card)] border border-white/[0.06] rounded-[22px] p-7 hover:border-[var(--gold)]/20 transition"><div class="w-11 h-11 rounded-full bg-[var(--gold)] text-black grid place-items-center font-bold">⚡</div><div class="font-bold text-[14px] mt-6">Fast Delivery</div><div class="text-[11px] text-white/35 mt-1.5 leading-relaxed">توصيل سخن مولع في 30 دقيقة لحد باب بيتك</div></div>
+<div class="bg-[var(--card)] border border-white/[0.06] rounded-[22px] p-7 hover:border-[var(--gold)]/20 transition"><div class="w-11 h-11 rounded-full bg-[var(--gold)] text-black grid place-items-center font-bold">♨</div><div class="font-bold text-[14px] mt-6">Charcoal Grill</div><div class="text-[11px] text-white/35 mt-1.5">شوي مباشر على فحم برتقال طبيعي مستورد</div></div>
+<div class="bg-[var(--card)] border border-white/[0.06] rounded-[22px] p-7 hover:border-[var(--gold)]/20 transition"><div class="w-11 h-11 rounded-full bg-[var(--gold)] text-black grid place-items-center font-bold">♥</div><div class="font-bold text-[14px] mt-6">Premium Meat</div><div class="text-[11px] text-white/35 mt-1.5">لحم بلدي 100% بدون هرمونات - من مزارعنا</div></div>
+<div class="bg-[var(--card)] border border-white/[0.06] rounded-[22px] p-7 hover:border-[var(--gold)]/20 transition"><div class="w-11 h-11 rounded-full bg-[var(--gold)] text-black grid place-items-center font-bold">★</div><div class="font-bold text-[14px] mt-6">Chef's Secret</div><div class="text-[11px] text-white/35 mt-1.5">تتبيلة سرية من 22 سنة خبرة قدام النار</div></div>
+</div>
+</section>
+
+<!-- ALL CATEGORIES - 8 PILLS -->
+<section class="px-6 md:px-12 pb-24">
+<div class="flex justify-between items-end mb-12">
+<div><h3 class="playfair text-[26px] md:text-[32px]">Most <span class="text-[var(--gold)] italic">Ordered</span> Category</h3><p class="text-white/30 text-[12px] mt-2">كل الأصناف على الفحم - اختار اللي على مزاجك</p></div>
+<button class="hidden md:block bg-[#EAE6DF] text-black px-5 py-2 rounded-full text-[11px] font-bold">View All Menu →</button>
+</div>
+
+<div class="flex gap-5 md:gap-6 overflow-x-auto pb-10 scrollbar-hide snap-x">
+<!-- 1 كباب -->
+<div class="pill-card flex-shrink-0 snap-start"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400"><div class="pill-body"><div class="pill-title">كباب ضاني</div><div class="pill-sub">بلدي فاخر</div><div class="pill-badge">12 طبق</div><div class="pill-icon">↗</div></div></div>
+<!-- 2 ريش -->
+<div class="pill-card flex-shrink-0 snap-start"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1546964124-0c84906bbb8b?w=400"><div class="pill-body"><div class="pill-title">ريش ضاني</div><div class="pill-sub">مشوية فحم</div><div class="pill-badge">8 أطباق</div><div class="pill-icon">↗</div></div></div>
+<!-- 3 طرب -->
+<div class="pill-card flex-shrink-0 snap-start"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1558030006-450066393d65?w=400"><div class="pill-body"><div class="pill-title">طرب بلدي</div><div class="pill-sub">خلطة دهب</div><div class="pill-badge">6 أطباق</div><div class="pill-icon">↗</div></div></div>
+<!-- 4 كفتة -->
+<div class="pill-card flex-shrink-0 snap-start"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400"><div class="pill-body"><div class="pill-title">كفتة مخصوص</div><div class="pill-sub">على الفحم</div><div class="pill-badge">10 أطباق</div><div class="pill-icon">↗</div></div></div>
+<!-- 5 موزة -->
+<div class="pill-card flex-shrink-0 snap-start"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1546964052-d9334ceb32ee?w=400"><div class="pill-body"><div class="pill-title">موزة ضاني</div><div class="pill-sub">محمرة</div><div class="pill-badge">4 أطباق</div><div class="pill-icon">↗</div></div></div>
+<!-- 6 حواوشي -->
+<div class="pill-card flex-shrink-0 snap-start"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400"><div class="pill-body"><div class="pill-title">حواوشي</div><div class="pill-sub">سجق بلدي</div><div class="pill-badge">5 أطباق</div><div class="pill-icon">↗</div></div></div>
+<!-- 7 فراخ -->
+<div class="pill-card flex-shrink-0 snap-start"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400"><div class="pill-body"><div class="pill-title">فراخ مشوية</div><div class="pill-sub">تندوري</div><div class="pill-badge">7 أطباق</div><div class="pill-icon">↗</div></div></div>
+<!-- 8 ميكس جريل -->
+<div class="pill-card flex-shrink-0 snap-start"><div class="pill-line"></div><img class="pill-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400"><div class="pill-body"><div class="pill-title">ميكس جريل</div><div class="pill-sub">للعيلة</div><div class="pill-badge">9 أطباق</div><div class="pill-icon">↗</div></div></div>
+</div>
+<div class="text-center opacity-10 tracking-[10px] text-[11px] playfair">EL TAHEY • SINCE 2019 • LUXURY KEBAB HOUSE</div>
+</section>
+
 </body>
 </html>
