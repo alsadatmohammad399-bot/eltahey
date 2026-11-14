@@ -28,7 +28,27 @@
 <div class="px-3"><div id="grid" class="grid grid-cols-2 gap-3"></div></div>
 
 <div id="modal" class="fixed inset-0 z-[70] hidden"><div class="absolute inset-0 bg-black/70" onclick="closeModal()"></div><div class="relative max-w-[480px] mx-auto mt-[8vh] bg-[#1A1A1C] border border-white/10 rounded-[24px] overflow-hidden m-4"><button onclick="closeModal()" class="absolute top-3 left-3 w-8 h-8 bg-black/50 rounded-full">✕</button><img id="mImg" class="w-full h-[220px] object-cover"><div class="p-4"><div class="flex justify-between"><div><h3 id="mTitle" class="font-black"></h3><p id="mDesc" class="text-white/40 text-[11px]"></p></div><div id="mPrice" class="text-[#FF6A00] font-black"></div></div><div class="flex gap-3 mt-4"><div class="flex items-center gap-2 bg-black border border-white/10 rounded-full px-1"><button onclick="chg(-1)" class="w-8 h-8">-</button><span id="mQty" class="w-6 text-center">1</span><button onclick="chg(1)" class="w-8 h-8 bg-white/10 rounded-full">+</button></div><button onclick="addCart()" class="flex-1 bg-[#FF6A00] text-black py-3 rounded-full font-black text-[12px]">أضف <span id="mTotal"></span></button></div></div></div></div>
-<div id="cartDrawer" class="fixed inset-0 z-[80] hidden"><div class="absolute inset-0 bg-black/60" onclick="closeCart()"></div><div class="absolute left-0 top-0 h-full w-[94%] max-w-[380px] bg-[#121212] p-5 flex flex-col"><div class="flex justify-between"><h3 class="font-black">السلة</h3><button onclick="closeCart()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="cartItems" class="flex-1 overflow-y-auto mt-4 space-y-2"></div><div class="border-t border-white/10 pt-3"><div class="flex justify-between"><span class="text-white/40 text-[12px]">المجموع</span><span id="cartTotal" class="text-[#FF6A00] font-black">0 ج</span></div><button onclick="checkout()" class="w-full mt-3 bg-[#25D366] py-3 rounded-full font-bold">واتساب 💬</button></div></div></div>
+
+<!-- CART WITH CUSTOMER DATA FORM -->
+<div id="cartDrawer" class="fixed inset-0 z-[80] hidden"><div class="absolute inset-0 bg-black/60" onclick="closeCart()"></div>
+<div class="absolute left-0 top-0 h-full w-[94%] max-w-[400px] bg-[#121212] border-r border-white/10 p-5 flex flex-col overflow-y-auto">
+<div class="flex justify-between items-center"><h3 class="font-black text-[15px]">بيانات الطلب 🛒</h3><button onclick="closeCart()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div>
+<div id="cartItems" class="mt-4 space-y-2"></div>
+<div class="mt-5 border-t border-white/10 pt-4 space-y-3">
+<h4 class="font-bold text-[12px] text-[#FF6A00]">بيانات التوصيل *</h4>
+<input id="custName" placeholder="الاسم بالكامل *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[12px] outline-none focus:border-[#FF6A00]/50">
+<input id="custPhone" type="tel" placeholder="رقم الموبايل * 011..." class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[12px] outline-none text-left" dir="ltr">
+<input id="custAddress" placeholder="العنوان بالتفصيل *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[12px] outline-none">
+<div class="flex gap-2">
+<select id="custArea" class="flex-1 bg-[#1E1E20] border border-white/10 rounded-full px-3 py-3 text-[11px]"><option value="">اختر المنطقة</option><option>مدينة نصر</option><option>التجمع الخامس</option><option>التجمع الأول</option><option>مصر الجديدة</option><option>المعادي</option><option>زهراء المعادي</option><option>المقطم</option><option>مدينتي</option><option>الرحاب</option></select>
+<select id="custType" class="flex-1 bg-[#1E1E20] border border-white/10 rounded-full px-3 py-3 text-[11px]"><option>توصيل للمنزل</option><option>استلام من المطعم</option></select>
+</div>
+<textarea id="custNotes" placeholder="ملاحظات (اختياري) - بدون بصل، سبايسي..." class="w-full bg-[#1E1E20] border border-white/10 rounded-[14px] px-4 py-3 text-[11px] h-[60px] resize-none"></textarea>
+<div class="bg-[#1E1E20] rounded-[12px] p-3 space-y-1"><div class="flex justify-between text-[11px]"><span class="text-white/40">الأصناف</span><span id="cartCount2">0</span></div><div class="flex justify-between text-[13px] border-t border-white/10 pt-2"><span class="font-bold">المجموع</span><span id="cartTotal" class="text-[#FF6A00] font-black text-[16px]">0 ج</span></div></div>
+<button onclick="checkout()" class="w-full bg-[#25D366] text-white py-4 rounded-full font-black text-[13px]">تأكيد الطلب واتساب 💬</button>
+<div class="text-[9px] text-white/30 text-center">* مطلوب - سيتم الإرسال لواتساب المطعم</div>
+</div>
+</div></div>
 
 <script>
 const P=[
@@ -128,12 +148,29 @@ function closeModal(){document.getElementById('modal').classList.add('hidden')}
 function chg(d){q=Math.max(1,q+d);upd()}
 function upd(){document.getElementById('mQty').innerText=q;document.getElementById('mTotal').innerText=(cur.p*q)+' ج'}
 function addCart(){let e=cart.find(x=>x.id===cur.id);if(e)e.qty+=q;else cart.push({...cur,qty:q});updateCart();closeModal()}
-function updateCart(){document.getElementById('cartBadge').innerText=cart.reduce((s,c)=>s+c.qty,0);document.getElementById('cartItems').innerHTML=cart.map((c,i)=>`<div class="flex gap-3 bg-[#1E1E20] p-3 rounded-xl"><img src="${c.i}" class="w-11 h-11 rounded-full object-cover"><div class="flex-1"><div class="text-[11px] font-bold">${c.t}</div><div class="text-[9px] text-white/40">${c.p} ج × ${c.qty}</div></div><button onclick="cart.splice(${i},1);updateCart()" class="text-white/30">✕</button></div>`).join('')||'<div class="text-center text-white/30 text-[12px] mt-20">السلة فاضية</div>';document.getElementById('cartTotal').innerText=cart.reduce((s,c)=>s+c.p*c.qty,0)+' ج'}
+function updateCart(){document.getElementById('cartBadge').innerText=cart.reduce((s,c)=>s+c.qty,0);let c2=document.getElementById('cartCount2');if(c2)c2.innerText=cart.reduce((s,c)=>s+c.qty,0)+' صنف';document.getElementById('cartItems').innerHTML=cart.map((c,i)=>`<div class="flex gap-3 bg-[#1E1E20] p-2.5 rounded-xl"><img src="${c.i}" class="w-10 h-10 rounded-full object-cover"><div class="flex-1"><div class="text-[11px] font-bold">${c.t}</div><div class="text-[9px] text-white/40">${c.p} ج × ${c.qty}</div></div><button onclick="cart.splice(${i},1);updateCart()" class="text-white/30">✕</button></div>`).join('')||'<div class="text-center text-white/30 text-[11px] py-6">السلة فاضية</div>';document.getElementById('cartTotal').innerText=cart.reduce((s,c)=>s+c.p*c.qty,0)+' ج'}
 function openCart(){document.getElementById('cartDrawer').classList.remove('hidden')}
 function closeCart(){document.getElementById('cartDrawer').classList.add('hidden')}
 function filterCat(c){fil=c;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('filter-active',b.dataset.cat===c));render()}
 function searchProducts(){sea=document.getElementById('searchInput').value;render()}
-function checkout(){if(!cart.length)return alert('السلة فاضية');let m='طلب جديد - الطاهي 88 صنف:%0A';cart.forEach(c=>m+=`- ${c.t} × ${c.qty} = ${c.p*c.qty}ج%0A`);m+=`%0Aالمجموع: ${cart.reduce((s,c)=>s+c.p*c.qty,0)}ج`;window.open(`https://wa.me/201140243713?text=${m}`,'_blank')}
+function checkout(){
+if(!cart.length)return alert('السلة فاضية');
+let n=document.getElementById('custName').value.trim();
+let ph=document.getElementById('custPhone').value.trim();
+let ad=document.getElementById('custAddress').value.trim();
+let ar=document.getElementById('custArea').value;
+let ty=document.getElementById('custType').value;
+let no=document.getElementById('custNotes').value.trim();
+if(!n)return alert('اكتب اسمك');
+if(!ph||ph.length<11)return alert('اكتب رقم موبايل صحيح 11 رقم');
+if(!ad)return alert('اكتب العنوان');
+let m=`طلب جديد - مطعم الطاهي 🔥%0A%0A👤 الاسم: ${n}%0A📱 الموبايل: ${ph}%0A📍 المنطقة: ${ar||'غير محددة'}%0A🏠 العنوان: ${ad}%0A🚚 النوع: ${ty}%0A`;
+if(no)m+=`📝 ملاحظات: ${no}%0A`;
+m+=`%0A--- الطلب ---%0A`;
+cart.forEach(c=>m+=`- ${c.t} × ${c.qty} = ${c.p*c.qty}ج%0A`);
+m+=`%0A💰 المجموع: ${cart.reduce((s,c)=>s+c.p*c.qty,0)}ج%0A⏰ ${new Date().toLocaleString('ar-EG')}`;
+window.open(`https://wa.me/201140243713?text=${m}`,'_blank');
+}
 render();updateCart();
 </script>
 </body>
