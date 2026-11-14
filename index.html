@@ -6,27 +6,24 @@
 <title>مطعم الطاهي - اطلب الآن</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#fff8f0] font-sans">
+<body class="bg-[#fff8f0]">
 
 <header class="bg-black text-white p-4 flex justify-between items-center sticky top-0 z-10">
   <h1 class="text-2xl font-bold">🔥 الطاهي</h1>
   <button onclick="toggleCart()" class="bg-orange-500 px-4 py-2 rounded-full">السلة (<span id="cart-count">0</span>)</button>
 </header>
 
-<!-- المنيو -->
-<main class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto" id="menu">
-</main>
+<main class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto" id="menu"></main>
 
-<!-- السلة -->
-<div id="cart-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-20">
+<div id="cart-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-20">
   <div class="bg-white rounded-2xl p-6 w-full max-w-md">
     <h2 class="text-xl font-bold mb-4">سلة الطلبات</h2>
     <div id="cart-items" class="space-y-2 mb-4"></div>
-    <p class="font-bold">الإجمالي: <span id="cart-total">0</span> جنيه</p>
-    <input id="cust-name" placeholder="اسمك" class="w-full border p-2 rounded mt-3">
-    <input id="cust-phone" placeholder="رقم الموبايل" class="w-full border p-2 rounded mt-2">
-    <input id="cust-address" placeholder="العنوان" class="w-full border p-2 rounded mt-2">
-    <button onclick="confirmOrder()" class="w-full bg-green-600 text-white py-3 rounded-xl mt-4 font-bold">تأكيد الطلب 🔥</button>
+    <p class="font-bold text-lg">الإجمالي: <span id="cart-total">0</span> جنيه</p>
+    <input id="cust-name" placeholder="اسمك" class="w-full border p-3 rounded-xl mt-3">
+    <input id="cust-phone" placeholder="رقم الموبايل" class="w-full border p-3 rounded-xl mt-2">
+    <input id="cust-address" placeholder="العنوان بالتفصيل" class="w-full border p-3 rounded-xl mt-2">
+    <button onclick="confirmOrder()" class="w-full bg-green-600 text-white py-3 rounded-xl mt-4 font-bold text-lg">تأكيد الطلب 🔥</button>
     <button onclick="toggleCart()" class="w-full mt-2 text-gray-500">إغلاق</button>
   </div>
 </div>
@@ -35,41 +32,35 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 👇 غير دول بالكونفيج بتاعك من Firebase Console
 const firebaseConfig = {
-  apiKey: "ضع_الـ_apiKey_هنا",
-  authDomain: "ضع_الـ_authDomain_هنا",
-  projectId: "ضع_الـ_projectId_هنا",
-  storageBucket: "ضع_الـ_storageBucket_هنا",
-  messagingSenderId: "ضع_الـ_messagingSenderId_هنا",
-  appId: "ضع_الـ_appId_هنا"
+  apiKey: "AIzaSyArvJ3bcXrqnRXBW8Pr_hH1Ok-Me3hwdcQ",
+  authDomain: "eltahey-1dadd.firebaseapp.com",
+  projectId: "eltahey-1dadd",
+  storageBucket: "eltahey-1dadd.firebasestorage.app",
+  messagingSenderId: "998375782695",
+  appId: "1:998375782695:web:87c49667b00c6459b39102",
+  measurementId: "G-D0L1WRPQPC"
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-window.db = db;
 
 const menuItems = [
-  { id: 1, name: "كيلو كباب ضاني", price: 1100, img: "🥩" },
-  { id: 2, name: "كيلو كفتة كندوز", price: 550, img: "🍖" },
-  { id: 3, name: "فرخة مشوية", price: 350, img: "🍗" },
-  { id: 4, name: "طاجن لحمة", price: 280, img: "🍲" },
+  { id: 1, name: "كيلو كباب ضاني", price: 1100, emoji: "🥩" },
+  { id: 2, name: "كيلو كفتة", price: 550, emoji: "🍖" },
+  { id: 3, name: "فرخة مشوية", price: 350, emoji: "🍗" },
+  { id: 4, name: "طاجن لحمة", price: 280, emoji: "🍲" },
 ];
 
 let cart = [];
 const menuDiv = document.getElementById("menu");
 menuItems.forEach(item => {
-  menuDiv.innerHTML += `
-    <div class="bg-white p-4 rounded-2xl shadow flex justify-between items-center">
-      <div><div class="text-3xl">${item.img}</div><h3 class="font-bold">${item.name}</h3><p class="text-orange-600 font-bold">${item.price} ج</p></div>
-      <button onclick="addToCart(${item.id})" class="bg-black text-white px-4 py-2 rounded-full">اضافة</button>
-    </div>
-  `;
+  menuDiv.innerHTML += `<div class="bg-white p-4 rounded-2xl shadow flex justify-between items-center"><div><div class="text-3xl">${item.emoji}</div><h3 class="font-bold">${item.name}</h3><p class="text-orange-600 font-bold">${item.price} ج</p></div><button onclick="addToCart(${item.id})" class="bg-black text-white px-5 py-2 rounded-full">اضافة</button></div>`;
 });
 
 window.addToCart = (id) => {
   const item = menuItems.find(i => i.id === id);
-  const existing = cart.find(c => c.id === id);
-  if(existing) existing.qty++; else cart.push({...item, qty: 1});
+  const ex = cart.find(c => c.id === id);
+  if(ex) ex.qty++; else cart.push({...item, qty: 1});
   updateCart();
 }
 window.updateCart = () => {
@@ -78,15 +69,14 @@ window.updateCart = () => {
   document.getElementById("cart-total").innerText = cart.reduce((s,i)=>s+i.price*i.qty,0);
 }
 window.toggleCart = () => document.getElementById("cart-modal").classList.toggle("hidden");
-
 window.confirmOrder = async () => {
   const name = document.getElementById("cust-name").value;
   const phone = document.getElementById("cust-phone").value;
   const address = document.getElementById("cust-address").value;
-  if(!name || !phone || cart.length==0) return alert("كمل بياناتك وضيف أكل للسلة");
+  if(!name || !phone || cart.length==0) return alert("كمل بياناتك وضيف أكل");
   const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
   await addDoc(collection(db, "orders"), { customerName: name, phone, address, items: cart, total, status: "جديد", createdAt: serverTimestamp() });
-  alert("تم استلام طلبك يا " + name + " 🔥 جاري التحضير");
+  alert("تم استلام طلبك يا " + name + " 🔥");
   cart = []; updateCart(); toggleCart();
 }
 </script>
