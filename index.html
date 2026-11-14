@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الطاهي - أصل الكباب | ELTAHEY</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الطاهي | ELTAHEY</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-<style>body{font-family:'Cairo',sans-serif}.no-scroll::-webkit-scrollbar{display:none}</style>
+<style>body{font-family:Cairo} .no-scroll::-webkit-scrollbar{display:none}</style>
 </head>
-<body class="bg-[#0f0f0f] text-white">
+<body class="bg-[#121212] text-white">
 
-<header class="bg-gradient-to-r from-orange-600 to-red-600 p-4 sticky top-0 z-20">
-<div class="max-w-7xl mx-auto">
-<div class="flex justify-between items-center">
-<h1 class="text-2xl font-black">🔥 الطاهي ELTAHEY</h1>
-<button onclick="toggleCart()" class="bg-black px-6 py-2.5 rounded-full font-black">🛒 السلة <span id="cart-count" class="bg-orange-500 px-2 rounded-full mr-1">0</span></button>
+<!-- HEADER زي بازوكا -->
+<header class="bg-black border-b-4 border-[#FFD700] sticky top-0 z-20">
+<div class="max-w-7xl mx-auto p-3 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="bg-[#FFD700] text-black w-12 h-12 rounded-full flex items-center justify-center font-black text-xl">ط</div>
+<div><h1 class="font-black text-xl leading-none">الطاهي</h1><p class="text-[#FFD700] text-xs font-bold">ELTAHEY CHICKEN</p></div>
 </div>
-<div id="cats" class="flex gap-2 overflow-x-auto no-scroll mt-4 pb-1"></div>
+<div class="flex gap-2">
+<a href="admin.html" class="bg-[#222] px-4 py-2 rounded-full text-sm font-bold">الإدارة</a>
+<button onclick="toggleCart()" class="bg-[#FFD700] text-black px-6 py-2.5 rounded-full font-black flex gap-2">🛒 <span id="cart-count">0</span></button>
+</div>
 </div>
 </header>
 
-<div class="max-w-7xl mx-auto p-4">
-<div id="menu" class="space-y-8"></div>
+<!-- BANNER زي بازوكا -->
+<div class="bg-gradient-to-r from-black via-[#1a1a1a] to-black p-6 text-center border-b border-white/10">
+<h2 class="text-3xl md:text-5xl font-black">أصل <span class="text-[#FFD700]">الطعم</span> المصري</h2>
+<p class="text-white/60 mt-2">88 صنف - مشويات - فراخ - طواجن - وجبات عائلية</p>
 </div>
 
-<div id="cart-modal" class="hidden fixed inset-0 bg-black/80 z-30 flex items-end md:items-center justify-center p-0 md:p-4">
-<div class="bg-white text-black rounded-t-[28px] md:rounded-[28px] w-full max-w-md max-h-[90vh] overflow-auto p-6">
-<div class="flex justify-between items-center"><h2 class="text-2xl font-black">🛒 طلبك</h2><button onclick="toggleCart()" class="text-2xl">✕</button></div>
+<!-- اقسام زي بازوكا -->
+<div class="max-w-7xl mx-auto p-3">
+<div id="cats" class="flex gap-2 overflow-x-auto no-scroll pb-2"></div>
+<div id="menu" class="mt-4 space-y-10"></div>
+</div>
+
+<!-- سلة بازوكا -->
+<div id="cart-modal" class="hidden fixed inset-0 bg-black/80 z-30 flex items-end md:items-center justify-center">
+<div class="bg-white text-black rounded-t-[32px] md:rounded-[24px] w-full max-w-md p-6 max-h-[92vh] overflow-auto">
+<div class="flex justify-between"><h2 class="text-2xl font-black">سلة الطلبات</h2><button onclick="toggleCart()" class="text-2xl">✕</button></div>
 <div id="cart-items" class="my-4 space-y-2"></div>
-<div class="flex justify-between font-black text-xl border-t pt-3"><span>الإجمالي</span><span id="cart-total">0 جنيه</span></div>
-<input id="cust-name" placeholder="الاسم" class="w-full border-2 border-gray-200 p-3 rounded-xl mt-4 outline-none focus:border-orange-500">
-<input id="cust-phone" placeholder="رقم الموبايل" class="w-full border-2 border-gray-200 p-3 rounded-xl mt-2 outline-none focus:border-orange-500">
-<input id="cust-address" placeholder="العنوان - المنطقة - علامة مميزة" class="w-full border-2 border-gray-200 p-3 rounded-xl mt-2 outline-none focus:border-orange-500">
-<button onclick="confirmOrder()" class="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-4 rounded-xl mt-4 font-black text-lg">تأكيد الطلب الآن 🔥</button>
+<div class="flex justify-between font-black text-xl border-t-2 border-black pt-3"><span>الإجمالي</span><span id="cart-total" class="text-[#c00]">0 جنيه</span></div>
+<input id="cust-name" placeholder="الاسم" class="w-full border-2 p-3 rounded-xl mt-4">
+<input id="cust-phone" placeholder="رقم الموبايل" class="w-full border-2 p-3 rounded-xl mt-2">
+<input id="cust-address" placeholder="العنوان" class="w-full border-2 p-3 rounded-xl mt-2">
+<button onclick="confirmOrder()" class="w-full bg-[#FFD700] text-black py-4 rounded-xl mt-4 font-black text-lg">تأكيد الطلب 🔥</button>
 </div>
 </div>
 
@@ -43,49 +55,58 @@ const firebaseConfig={apiKey:"AIzaSyArvJ3bcXrqnRXBW8Pr_hH1Ok-Me3hwdcQ",authDomai
 const app=initializeApp(firebaseConfig); const db=getFirestore(app);
 
 const baseProducts=[
-["المشويات","كيلو كباب ضاني بلدي",1100,"🥩"],["المشويات","كيلو كباب كندوز",950,"🍖"],["المشويات","كيلو كفتة ضاني",650,"🔥"],["المشويات","كيلو كفتة كندوز",550,"🍢"],["المشويات","كيلو ريش ضاني",1200,"🥩"],["المشويات","كيلو طرب ضاني",700,"🔥"],["المشويات","كيلو كباب و كفتة ميكس",850,"🍖"],["المشويات","كيلو سجق بلدي مشوي",400,"🌭"],["المشويات","كيلو شيش كباب",600,"🍢"],["المشويات","وجبة مشويات فرد",350,"🔥"],["المشويات","وجبة مشويات عائلي 4 افراد",1250,"🍱"],["المشويات","وجبة مشويات سوبر 6 افراد",1850,"🍱"],
-["الفراخ","فرخة مشوية فحم كاملة",350,"🍗"],["الفراخ","نص فرخة مشوية",185,"🍗"],["الفراخ","فرخة شيش طاووق",380,"🍢"],["الفراخ","كيلو شيش طاووق مخلي",400,"🍢"],["الفراخ","فرخة محمرة",340,"🍗"],["الفراخ","فراخ مسحب",360,"🍗"],["الفراخ","وجبة فرخة + أرز + سلطة",420,"🍱"],["الفراخ","كوردن بلو فراخ",280,"🍗"],
-["الطواجن","طاجن لحمة بالبصل",280,"🍲"],["الطواجن","طاجن كوارع",320,"🍲"],["الطواجن","طاجن ورق عنب بالكوارع",350,"🍲"],["الطواجن","طاجن عكاوي",380,"🍲"],["الطواجن","طاجن لحمة ضاني",350,"🍲"],["الطواجن","طاجن بامية باللحمة",220,"🍲"],["الطواجن","طاجن ملوخية باللحمة",200,"🍲"],["الطواجن","طاجن لسان عصفور بالكبدة",180,"🍲"],["الطواجن","طاجن فريك باللحمة",200,"🍲"],["الطواجن","طاجن مكرونة بشاميل لحمة",180,"🍲"],["الطواجن","طاجن مكرونة بشاميل فراخ",160,"🍲"],
-["السندوتشات","سندوتش كباب",95,"🥙"],["السندوتشات","سندوتش كفتة",65,"🥙"],["السندوتشات","سندوتش طرب",85,"🥙"],["السندوتشات","سندوتش سجق",45,"🥙"],["السندوتشات","سندوتش شيش طاووق",55,"🥙"],["السندوتشات","سندوتش شاورما لحمة",70,"🥙"],["السندوتشات","سندوتش شاورما فراخ",60,"🥙"],["السندوتشات","سندوتش كبدة",35,"🥙"],["السندوتشات","سندوتش مخ",50,"🥙"],["السندوتشات","سندوتش كفتة داوود باشا",55,"🥙"],
-["الأرز والمكرونة","أرز بسمتي سادة",60,"🍚"],["الأرز والمكرونة","أرز بسمتي بالمكسرات",90,"🍚"],["الأرز والمكرونة","أرز عادي",40,"🍚"],["الأرز والمكرونة","مكرونة محمرة",45,"🍝"],["الأرز والمكرونة","أرز بالخلطة",80,"🍚"],["الأرز والمكرونة","طاجن أرز معمر",120,"🍚"],
-["السلطات","سلطة خضراء",30,"🥗"],["السلطات","سلطة طحينة",25,"🥗"],["السلطات","تومية",25,"🥣"],["السلطات","سلطة كول سلو",35,"🥗"],["السلطات","مخلل مشكل",25,"🥒"],["السلطات","بتنجان مخلل",25,"🍆"],["السلطات","بابا غنوج",40,"🥗"],["السلطات","متبل",40,"🥗"],["السلطات","سلطة زبادي",30,"🥣"],["السلطات","خضار مشوي",60,"🥗"],
-["المشروبات","مياه صغيرة",10,"💧"],["المشروبات","مياه كبيرة",15,"💧"],["المشروبات","بيبسي / كولا",25,"🥤"],["المشروبات","عصير برتقال فريش",60,"🍊"],["المشروبات","عصير مانجو فريش",70,"🥭"],["المشروبات","شاي",20,"☕"],
-["الحلو","رز بلبن",40,"🍮"],["الحلو","أم علي",65,"🍮"],["الحلو","كنافة",50,"🥧"],["الحلو","بسبوسة",45,"🍰"],["الحلو","سلطة فواكه",80,"🍉"],
-["وجبات الطاهي","عرض الصحاب 2 كفتة + 2 كباب + رز + سلطات",550,"🔥"],["وجبات الطاهي","عرض العيلة 4 مشويات + 2 فرخة + رز",1450,"🍱"],["وجبات الطاهي","عرض اللمة 6 كيلو مشكل",2850,"🎉"],["وجبات الطاهي","وجبة فرد الطاهي المميز",220,"⭐"],["وجبات الطاهي","وجبة دبل طاهي",380,"⭐⭐"]
-].map((x,i)=>({id:'base_'+i,cat:x[0],name:x[1],price:x[2],emoji:x[3]}));
+["المشويات","كيلو كباب ضاني",1100,"🥩","كباب ضاني بلدي فاخر"],["المشويات","كيلو كباب كندوز",950,"🍖","كباب كندوز طازة"],["المشويات","كيلو كفتة ضاني",650,"🔥","كفتة ضاني مشوية"],["المشويات","كيلو كفتة كندوز",550,"🍢","كفتة كندوز"],["المشويات","كيلو ريش ضاني",1200,"🥩","ريش ضاني"],["المشويات","كيلو طرب ضاني",700,"🔥","طرب ضاني مميز"],["المشويات","ميكس كباب وكفتة",850,"🍖","ميكس"],["المشويات","كيلو سجق مشوي",400,"🌭","سجق بلدي"],["المشويات","شيش كباب",600,"🍢","شيش"],["المشويات","وجبة فرد مشويات",350,"🔥","فرد"],["المشويات","وجبة عائلي 4 أفراد",1250,"🍱","عائلي"],["المشويات","وجبة سوبر 6 أفراد",1850,"🍱","سوبر"],
+["الفراخ","فرخة فحم كاملة",350,"🍗","فرخة كاملة"],["الفراخ","نص فرخة",185,"🍗","نص فرخة"],["الفراخ","فرخة شيش طاووق",380,"🍢","شيش طاووق"],["الفراخ","كيلو شيش مخلي",400,"🍢","شيش مخلي"],["الفراخ","فرخة محمرة",340,"🍗","محمرة"],["الفراخ","مسحب",360,"🍗","مسحب"],["الفراخ","وجبة فرخة + أرز",420,"🍱","وجبة"],["الفراخ","كوردن بلو",280,"🍗","كوردن بلو"],
+["الطواجن","طاجن لحمة بالبصل",280,"🍲",""],["الطواجن","طاجن كوارع",320,"🍲",""],["الطواجن","طاجن ورق عنب بالكوارع",350,"🍲",""],["الطواجن","طاجن عكاوي",380,"🍲",""],["الطواجن","طاجن لحمة ضاني",350,"🍲",""],["الطواجن","بامية باللحمة",220,"🍲",""],["الطواجن","ملوخية باللحمة",200,"🍲",""],["الطواجن","لسان عصفور بالكبدة",180,"🍲",""],["الطواجن","فريك باللحمة",200,"🍲",""],["الطواجن","بشاميل لحمة",180,"🍲",""],["الطواجن","بشاميل فراخ",160,"🍲",""],
+["السندوتشات","ساندوتش كباب طلقة",95,"🥙",""],["السندوتشات","ساندوتش كفتة طلقة",65,"🥙",""],["السندوتشات","ساندوتش طرب",85,"🥙",""],["السندوتشات","ساندوتش سجق",45,"🥙",""],["السندوتشات","شيش طاووق طلقة",55,"🥙",""],["السندوتشات","شاورما لحمة",70,"🥙",""],["السندوتشات","شاورما فراخ",60,"🥙",""],["السندوتشات","كبدة",35,"🥙",""],["السندوتشات","مخ",50,"🥙",""],["السندوتشات","داوود باشا",55,"🥙",""],
+["الأرز","أرز بسمتي",60,"🍚",""],["الأرز","أرز بالمكسرات",90,"🍚",""],["الأرز","أرز عادي",40,"🍚",""],["الأرز","مكرونة محمرة",45,"🍝",""],["الأرز","أرز بالخلطة",80,"🍚",""],["الأرز","أرز معمر",120,"🍚",""],
+["السلطات","سلطة خضراء",30,"🥗",""],["السلطات","طحينة",25,"🥗",""],["السلطات","تومية",25,"🥣",""],["السلطات","كول سلو",35,"🥗",""],["السلطات","مخلل",25,"🥒",""],["السلطات","بتنجان مخلل",25,"🍆",""],["السلطات","بابا غنوج",40,"🥗",""],["السلطات","متبل",40,"🥗",""],["السلطات","زبادي",30,"🥣",""],["السلطات","خضار مشوي",60,"🥗",""],
+["المشروبات","مياه صغيرة",10,"💧",""],["المشروبات","مياه كبيرة",15,"💧",""],["المشروبات","بيبسي",25,"🥤",""],["المشروبات","برتقال فريش",60,"🍊",""],["المشروبات","مانجو فريش",70,"🥭",""],["المشروبات","شاي",20,"☕",""],
+["الحلو","رز بلبن",40,"🍮",""],["الحلو","أم علي",65,"🍮",""],["الحلو","كنافة",50,"🥧",""],["الحلو","بسبوسة",45,"🍰",""],["الحلو","فواكه",80,"🍉",""],
+["وجبات الطاهي","عرض الصحاب",550,"🔥","2 كفتة + 2 كباب + رز"],["وجبات الطاهي","عرض العيلة",1450,"🍱","4 مشويات + 2 فرخة"],["وجبات الطاهي","عرض اللمة",2850,"🎉","6 كيلو مشكل"],["وجبات الطاهي","فرد الطاهي",220,"⭐",""],["وجبات الطاهي","دبل الطاهي",380,"⭐⭐",""]
+].map((x,i)=>({id:'b_'+i,cat:x[0],name:x[1],price:x[2],emoji:x[3],desc:x[4]}));
 
-let extraProducts=[]; let allProducts=[]; let cart=[]; let activeCat='الكل';
-async function init(){
-try{const snap=await getDocs(collection(db,'products')); snap.forEach(d=>extraProducts.push({id:d.id,...d.data()}));}catch(e){}
-allProducts=[...baseProducts,...extraProducts];
-renderCats(); renderMenu();
-}
-function renderCats(){
-const cats=['الكل',...new Set(allProducts.map(p=>p.cat))];
-document.getElementById('cats').innerHTML=cats.map(c=>`<button onclick="filterCat('${c}')" class="px-5 py-2 rounded-full whitespace-nowrap font-bold transition ${activeCat==c?'bg-white text-black':'bg-black/30 text-white'}">${c}</button>`).join('');
-}
-window.filterCat=(c)=>{activeCat=c; renderCats(); renderMenu();}
+let extra=[]; let all=[]; let cart=[]; let active='الكل';
+async function init(){try{const s=await getDocs(collection(db,'products')); s.forEach(d=>extra.push({id:d.id,...d.data()}));}catch(e){} all=[...baseProducts,...extra]; renderCats(); renderMenu();}
+function renderCats(){const cats=['الكل',...new Set(all.map(p=>p.cat))]; document.getElementById('cats').innerHTML=cats.map(c=>`<button onclick="filterCat('${c}')" class="px-6 py-2.5 rounded-full whitespace-nowrap font-black text-sm ${active==c?'bg-[#FFD700] text-black':'bg-[#222] text-white border border-white/10'}">${c}</button>`).join('');}
+window.filterCat=(c)=>{active=c; renderCats(); renderMenu();}
 function renderMenu(){
-const catsToShow = activeCat=='الكل' ? [...new Set(allProducts.map(p=>p.cat))] : [activeCat];
-const container=document.getElementById('menu'); container.innerHTML='';
+const catsToShow = active=='الكل'? [...new Set(all.map(p=>p.cat))] : [active];
+const cont=document.getElementById('menu'); cont.innerHTML='';
 catsToShow.forEach(cat=>{
-const items = allProducts.filter(p=>p.cat==cat);
-container.innerHTML+=`<div><h2 class="text-2xl font-black text-orange-500 border-r-4 border-orange-500 pr-3 mb-4">${cat} <span class="text-white/30 text-sm font-normal">(${items.length})</span></h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">${items.map(p=>`
-<div class="bg-[#1e1e1e] rounded-2xl p-4 flex justify-between items-center border border-white/5 hover:border-orange-500/30 transition">
-<div class="flex gap-3 items-center"><div class="w-12 h-12 bg-[#2a2a2a] rounded-full flex items-center justify-center text-2xl">${p.emoji}</div><div><h3 class="font-bold text-[15px]">${p.name}</h3><p class="text-orange-400 font-black text-sm mt-1">${p.price} جنيه</p></div></div>
-<button onclick="addToCart('${p.id}')" class="bg-white text-black w-9 h-9 rounded-full font-black text-xl hover:bg-orange-500 hover:text-white">+</button>
-</div>`).join('')}</div></div>`;
+const items=all.filter(p=>p.cat==cat);
+cont.innerHTML+=`
+<div>
+<div class="flex items-center gap-3 mb-4">
+<h2 class="text-2xl font-black">${cat}</h2>
+<div class="h-[3px] flex-1 bg-gradient-to-r from-[#FFD700] to-transparent"></div>
+<span class="bg-[#FFD700] text-black px-3 py-1 rounded-full text-xs font-black">${items.length} صنف</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+${items.map(p=>`
+<div class="bg-white rounded-[20px] overflow-hidden text-black group hover:scale-[1.02] transition">
+<div class="bg-[#f5f5f5] h-32 flex items-center justify-center text-5xl relative">
+${p.emoji}
+<div class="absolute top-3 left-3 bg-black text-white text-xs px-3 py-1 rounded-full font-bold">${p.cat}</div>
+<div class="absolute top-3 right-3 bg-[#FFD700] text-black text-xs px-3 py-1 rounded-full font-black">جديد</div>
+</div>
+<div class="p-4">
+<h3 class="font-black text-[16px] leading-tight">${p.name}</h3>
+<p class="text-black/50 text-xs mt-1 h-4">${p.desc||''}</p>
+<div class="flex justify-between items-center mt-3">
+<span class="font-black text-xl">${p.price} <span class="text-sm">جنيه</span></span>
+<button onclick="addToCart('${p.id}')" class="bg-black text-[#FFD700] px-5 py-2.5 rounded-full font-black text-sm group-hover:bg-[#FFD700] group-hover:text-black transition">+ أضف</button>
+</div>
+</div>
+</div>`).join('')}
+</div>
+</div>`;
 });
 }
-window.addToCart=(id)=>{const item=allProducts.find(i=>i.id==id); const ex=cart.find(c=>c.id==id); if(ex) ex.qty++; else cart.push({...item,qty:1}); updateCart(); if(cart.length==1) toggleCart();}
-window.updateCart=()=>{document.getElementById('cart-count').innerText=cart.reduce((s,i)=>s+i.qty,0); document.getElementById('cart-items').innerHTML=cart.map(i=>`<div class="flex justify-between bg-gray-50 p-3 rounded-xl text-sm"><span>${i.name} x${i.qty}</span><span class="font-bold">${i.price*i.qty}ج</span></div>`).join('')||'<p class="text-center text-gray-400 py-4">السلة فاضية</p>'; document.getElementById('cart-total').innerText=cart.reduce((s,i)=>s+i.price*i.qty,0)+' جنيه';}
+window.addToCart=(id)=>{const it=all.find(i=>i.id==id); const ex=cart.find(c=>c.id==id); if(ex) ex.qty++; else cart.push({...it,qty:1}); updateCart(); if(cart.length==1) toggleCart();}
+window.updateCart=()=>{document.getElementById('cart-count').innerText=cart.reduce((s,i)=>s+i.qty,0); document.getElementById('cart-items').innerHTML=cart.map(i=>`<div class="flex justify-between bg-gray-100 p-3 rounded-xl"><span class="font-bold text-sm">${i.name} x${i.qty}</span><span class="font-black">${i.price*i.qty}ج</span></div>`).join('')||'<p class="text-center text-gray-400 py-4">السلة فاضية</p>'; document.getElementById('cart-total').innerText=cart.reduce((s,i)=>s+i.price*i.qty,0)+' جنيه';}
 window.toggleCart=()=>document.getElementById('cart-modal').classList.toggle('hidden');
-window.confirmOrder=async()=>{
-const name=document.getElementById('cust-name').value.trim(); const phone=document.getElementById('cust-phone').value.trim(); const address=document.getElementById('cust-address').value.trim();
-if(!name||!phone||cart.length==0) return alert('اكمل بياناتك وضيف أكل');
-const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-try{await addDoc(collection(db,'orders'),{customerName:name,phone,address,items:cart,total,status:'جديد',createdAt:serverTimestamp()}); alert('تم استلام طلبك يا '+name+' 🔥'); cart=[]; updateCart(); toggleCart();}catch(e){alert(e.message);}
-}
+window.confirmOrder=async()=>{const n=document.getElementById('cust-name').value.trim(); const ph=document.getElementById('cust-phone').value.trim(); const ad=document.getElementById('cust-address').value.trim(); if(!n||!ph||cart.length==0) return alert('كمل بياناتك'); const total=cart.reduce((s,i)=>s+i.price*i.qty,0); await addDoc(collection(db,'orders'),{customerName:n,phone:ph,address:ad,items:cart,total,status:'جديد',createdAt:serverTimestamp()}); alert('تم طلبك يا '+n+' 🔥'); cart=[]; updateCart(); toggleCart();}
 init();
 </script>
 </body>
