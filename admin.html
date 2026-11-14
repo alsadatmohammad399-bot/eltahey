@@ -3,52 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة طلبات المطعم - الطاهي</title>
+<title>لوحة تحكم الطاهي</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 p-4">
-<h1 class="text-3xl font-bold text-center mb-6">🔥 طلبات المطعم - لايف</h1>
-<div id="orders" class="grid gap-4 max-w-3xl mx-auto"></div>
+<h1 class="text-2xl font-bold mb-4">🔥 طلبات مطعم الطاهي - لايف</h1>
+<div id="orders" class="space-y-4 max-w-3xl"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot, doc, updateDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, query, orderBy, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// حط الكونفيج بتاعك هنا نفس اللي في موقعك
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
+  apiKey: "AIzaSyArvJ3bcXrqnRXBW8Pr_hH1Ok-Me3hwdcQ",
+  authDomain: "eltahey-1dadd.firebaseapp.com",
+  projectId: "eltahey-1dadd",
+  storageBucket: "eltahey-1dadd.firebasestorage.app",
+  messagingSenderId: "998375782695",
+  appId: "1:998375782695:web:87c49667b00c6459b39102",
+  measurementId: "G-D0L1WRPQPC"
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
-onSnapshot(q, (snapshot) => {
-  const container = document.getElementById("orders");
-  container.innerHTML = "";
-  snapshot.forEach((docSnap) => {
-    const order = docSnap.data();
-    const id = docSnap.id;
-    container.innerHTML += `
-      <div class="bg-white p-4 rounded-xl shadow">
-        <div class="flex justify-between">
-          <h2 class="font-bold text-lg">${order.customerName} - ${order.phone}</h2>
-          <span class="bg-yellow-200 px-3 py-1 rounded-full text-sm">${order.status}</span>
-        </div>
-        <p class="mt-2 text-gray-600">${order.items.map(i => i.name + ' x' + i.qty).join(' - ')}</p>
-        <p class="font-bold mt-2">الاجمالي: ${order.total} جنيه</p>
-        <div class="flex gap-2 mt-3">
-          <button onclick="updateStatus('${id}','جاري التحضير')" class="bg-blue-500 text-white px-3 py-1 rounded">تحضير</button>
-          <button onclick="updateStatus('${id}','تم التوصيل')" class="bg-green-500 text-white px-3 py-1 rounded">تم التوصيل</button>
-        </div>
-      </div>
-    `;
+onSnapshot(q, (snap) => {
+  const div = document.getElementById("orders");
+  div.innerHTML = "";
+  snap.forEach(d => {
+    const o = d.data();
+    div.innerHTML += `<div class="bg-white p-4 rounded-xl shadow"><div class="flex justify-between"><b>${o.customerName} - ${o.phone}</b><span class="bg-orange-100 px-2 rounded">${o.status}</span></div><p>${o.address||''}</p><p>${(o.items||[]).map(i=>i.name+' x'+i.qty).join(', ')}</p><p class="font-bold">الاجمالي: ${o.total} ج</p><div class="mt-2 flex gap-2"><button onclick="changeStatus('${d.id}','قيد التحضير')" class="bg-yellow-500 text-white px-3 py-1 rounded">تحضير</button><button onclick="changeStatus('${d.id}','تم التوصيل')" class="bg-green-600 text-white px-3 py-1 rounded">تم</button></div></div>`;
   });
 });
 
-window.updateStatus = async (id, status) => {
-  await updateDoc(doc(db, "orders", id), { status });
+window.changeStatus = async (id, s) => {
+  await updateDoc(doc(db, "orders", id), { status: s });
 }
 </script>
 </body>
