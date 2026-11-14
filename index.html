@@ -1,100 +1,94 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>الطاهي</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Baloo+2:wght@800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مطعم الطاهي - اطلب الآن</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<style>*{font-family:'Cairo'} .baloo{font-family:'Baloo 2'} body{background:#0A0A0A;color:#fff} .card-dark{background:linear-gradient(180deg,#1E1E20 0%,#121212 100%);border:1px solid rgba(255,255,255,.06)} .scroll-hide::-webkit-scrollbar{display:none} .cat-active{background:#FF6A00!important;color:#000!important}</style>
 </head>
-<body class="max-w-[480px] mx-auto bg-[#0A0A0A] pb-[90px]">
+<body class="bg-[#fff8f0] font-sans">
 
-<div class="sticky top-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-xl px-4 py-3 flex justify-between items-center">
-<div class="flex items-center gap-3"><button>☰</button><div><div class="text-[11px] text-white/50">التوصيل إلى</div><div class="text-[13px] font-bold text-[#FF6A00]">المنزل ⌄</div></div></div>
-<div class="flex items-center gap-3"><div class="relative w-8 h-8 bg-white/5 rounded-full grid place-items-center">🛒<span id="cartBadge" class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF6A00] text-black text-[8px] font-bold rounded-full grid place-items-center">0</span></div><button onclick="openRewards()" class="bg-[#1E1E20] border border-white/10 px-3 py-1 rounded-full text-[10px]">⭐ <span id="headerPoints">0</span></button></div>
+<header class="bg-black text-white p-4 flex justify-between items-center sticky top-0 z-10">
+  <h1 class="text-2xl font-bold">🔥 الطاهي</h1>
+  <button onclick="toggleCart()" class="bg-orange-500 px-4 py-2 rounded-full">السلة (<span id="cart-count">0</span>)</button>
+</header>
+
+<!-- المنيو -->
+<main class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto" id="menu">
+</main>
+
+<!-- السلة -->
+<div id="cart-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-20">
+  <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+    <h2 class="text-xl font-bold mb-4">سلة الطلبات</h2>
+    <div id="cart-items" class="space-y-2 mb-4"></div>
+    <p class="font-bold">الإجمالي: <span id="cart-total">0</span> جنيه</p>
+    <input id="cust-name" placeholder="اسمك" class="w-full border p-2 rounded mt-3">
+    <input id="cust-phone" placeholder="رقم الموبايل" class="w-full border p-2 rounded mt-2">
+    <input id="cust-address" placeholder="العنوان" class="w-full border p-2 rounded mt-2">
+    <button onclick="confirmOrder()" class="w-full bg-green-600 text-white py-3 rounded-xl mt-4 font-bold">تأكيد الطلب 🔥</button>
+    <button onclick="toggleCart()" class="w-full mt-2 text-gray-500">إغلاق</button>
+  </div>
 </div>
 
-<div class="relative h-[250px] overflow-hidden"><img src="all_products.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50"><div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent"></div><div class="absolute top-5 right-4"><h1 class="baloo text-[36px] font-black leading-[.85]">الطاهي<br>الأصلي،<br><span class="text-[#FF8C00]">يوصل<br>سخن</span></h1></div></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-<div class="px-4 -mt-4 relative z-10"><div class="bg-[#1C1C1E] border border-white/10 rounded-full flex items-center px-4 py-3 gap-3"><span class="text-[#C6FF00]">⌕</span><input id="searchInp" oninput="doSearch(this.value)" placeholder="دور على كباب، كفته..." class="bg-transparent flex-1 text-[12px] outline-none placeholder:text-white/30"></div></div>
+// 👇 غير دول بالكونفيج بتاعك من Firebase Console
+const firebaseConfig = {
+  apiKey: "ضع_الـ_apiKey_هنا",
+  authDomain: "ضع_الـ_authDomain_هنا",
+  projectId: "ضع_الـ_projectId_هنا",
+  storageBucket: "ضع_الـ_storageBucket_هنا",
+  messagingSenderId: "ضع_الـ_messagingSenderId_هنا",
+  appId: "ضع_الـ_appId_هنا"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+window.db = db;
 
-<div class="px-3 py-4"><div class="flex gap-2 overflow-x-auto scroll-hide">
-<button onclick="filterCat('المشويات')" data-cat="المشويات" class="cat-btn cat-active flex-shrink-0 w-[68px] rounded-[12px] py-2.5 flex flex-col items-center gap-1 border">🔥<span class="text-[9px] font-bold">المشويات</span></button>
-<button onclick="filterCat('الوجبات')" data-cat="الوجبات" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">🍱<span class="text-[9px]">الوجبات</span></button>
-<button onclick="filterCat('السندوتشات')" data-cat="السندوتشات" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">🌯<span class="text-[9px]">سندوتشات</span></button>
-<button onclick="filterCat('البروست')" data-cat="البروست" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">🍗<span class="text-[9px]">البروست</span></button>
-<button onclick="filterCat('ميكس الطاهي')" data-cat="ميكس الطاهي" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">✨<span class="text-[9px]">الميكس</span></button>
-<button onclick="filterCat('جانبي')" data-cat="جانبي" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">🥗<span class="text-[9px]">جانبي</span></button>
-</div></div>
+const menuItems = [
+  { id: 1, name: "كيلو كباب ضاني", price: 1100, img: "🥩" },
+  { id: 2, name: "كيلو كفتة كندوز", price: 550, img: "🍖" },
+  { id: 3, name: "فرخة مشوية", price: 350, img: "🍗" },
+  { id: 4, name: "طاجن لحمة", price: 280, img: "🍲" },
+];
 
-<div class="px-4"><div class="flex justify-between mb-2"><h3 class="font-bold text-[14px]">الأكثر مبيعاً ☆</h3></div><div id="signatureGrid" class="flex gap-2 overflow-x-auto scroll-hide pb-2"></div></div>
+let cart = [];
+const menuDiv = document.getElementById("menu");
+menuItems.forEach(item => {
+  menuDiv.innerHTML += `
+    <div class="bg-white p-4 rounded-2xl shadow flex justify-between items-center">
+      <div><div class="text-3xl">${item.img}</div><h3 class="font-bold">${item.name}</h3><p class="text-orange-600 font-bold">${item.price} ج</p></div>
+      <button onclick="addToCart(${item.id})" class="bg-black text-white px-4 py-2 rounded-full">اضافة</button>
+    </div>
+  `;
+});
 
-<div class="px-4 mt-5 grid grid-cols-2 gap-3">
-<div id="trackerCard" onclick="openTracker()" class="card-dark rounded-[16px] p-3 cursor-pointer"><div id="noOrderTracker"><div class="flex justify-between"><div><div class="text-[11px] font-bold">تتبع الطلب</div><div class="text-[8px] text-white/50">اضغط للعرض</div></div>🛵</div><div class="mt-3 text-center py-3 text-[10px] text-white/30">لا يوجد طلب نشط</div></div><div id="activeTracker" class="hidden"><div class="flex justify-between"><div><div class="text-[11px] font-bold">طلب #<span id="trackId">0</span> نشط</div><div class="text-[8px] text-[#FF6A00]" id="trackStatus"></div></div><span class="animate-bounce">🛵</span></div><div class="flex items-center gap-1 mt-3" id="trackSteps"></div><div class="mt-2 text-[9px] text-[#FF6A00]" id="trackETA"></div></div></div>
-<div onclick="openRewards()" class="card-dark rounded-[16px] p-3 cursor-pointer"><div class="flex justify-between"><div><div class="text-[11px] font-bold">نقاط الطاهي</div><div class="text-[8px] text-white/50">كل جنيه = نقطة</div></div>⭐</div><div class="mt-3"><div class="text-[#FF6A00] font-black text-[16px]" id="pointsDisplay">0 🟡</div><div class="w-full h-2 bg-white/10 rounded-full mt-2 overflow-hidden"><div id="pointsBar" class="h-full bg-gradient-to-r from-[#FF6A00] to-[#C6FF00]" style="width:0%"></div></div><div class="text-[8px] text-white/30 mt-1" id="pointsMsg"></div></div></div>
-</div>
-
-<div class="px-4 mt-6"><div class="flex justify-between mb-2"><h3 class="font-bold text-[13px]">كل الأصناف</h3><span id="countLabel" class="text-[10px] text-white/40"></span></div><div id="grid" class="grid grid-cols-2 gap-2.5"></div></div>
-
-<div id="modal" class="fixed inset-0 z-[70] hidden"><div class="absolute inset-0 bg-black/70" onclick="closeModal()"></div><div class="relative max-w-[480px] mx-auto mt-[8vh] bg-[#1E1E20] rounded-[20px] overflow-hidden m-4"><button onclick="closeModal()" class="absolute top-3 left-3 w-8 h-8 bg-black/60 rounded-full z-10">✕</button><div class="h-[220px] overflow-hidden relative bg-[#111]"><img id="mImg" class="absolute w-[1100%] h-[800%] max-w-none"></div><div class="p-4"><div class="flex justify-between"><h3 id="mTitle" class="font-black text-[13px]"></h3><div id="mPrice" class="text-[#FF6A00] font-black"></div></div><div class="text-[10px] text-white/40 mt-1">+ <span id="mPoints"></span> نقطة</div><div class="flex gap-3 mt-4"><div class="flex items-center gap-2 bg-black border border-white/10 rounded-full px-1"><button onclick="chg(-1)" class="w-8 h-8">-</button><span id="mQty" class="w-6 text-center font-bold">1</span><button onclick="chg(1)" class="w-8 h-8 bg-white/10 rounded-full">+</button></div><button onclick="addCart()" class="flex-1 bg-[#FF6A00] text-black py-3 rounded-full font-black text-[11px]">أضف <span id="mTotal"></span></button></div></div></div></div>
-
-<div id="cartDrawer" class="fixed inset-0 z-[80] hidden"><div class="absolute inset-0 bg-black/60" onclick="closeCart()"></div><div class="absolute left-0 top-0 h-full w-[94%] max-w-[400px] bg-[#121212] p-5 flex flex-col"><div class="flex justify-between"><h3 class="font-black">السلة</h3><button onclick="closeCart()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="cartItems" class="mt-4 space-y-2 flex-1 overflow-y-auto"></div><div class="border-t border-white/10 pt-3 space-y-2"><input id="custName" placeholder="الاسم *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><input id="custPhone" placeholder="الموبايل *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><input id="custAddress" placeholder="العنوان *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><div class="flex justify-between text-[11px]"><span>المجموع</span><span id="cartTotal" class="text-[#FF6A00] font-black">0 ج</span></div><div class="flex justify-between text-[10px] text-[#C6FF00]"><span>ستكسب</span><span id="earnPoints">0 نقطة</span></div><button onclick="checkout()" class="w-full bg-[#25D366] py-3 rounded-full font-bold">تأكيد الطلب واتساب 💬</button></div></div></div>
-
-<div id="trackerModal" class="fixed inset-0 z-[90] hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTracker()"></div><div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1A1A1C] rounded-t-[24px] p-5 max-h-[85vh] overflow-y-auto"><div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4"></div><div class="flex justify-between"><h3 class="font-black">تتبع الطلب 🚚</h3><button onclick="closeTracker()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="trackerContent" class="mt-5"></div></div></div>
-
-<div id="rewardsModal" class="fixed inset-0 z-[90] hidden"><div class="absolute inset-0 bg-black/80" onclick="closeRewards()"></div><div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1A1A1C] rounded-t-[24px] p-5 max-h-[85vh] overflow-y-auto"><div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4"></div><div class="flex justify-between"><h3 class="font-black">نقاط الطاهي ⭐</h3><button onclick="closeRewards()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div class="mt-4 bg-gradient-to-br from-[#FF6A00] to-[#FF8C00] rounded-[16px] p-4 text-black"><div class="text-[12px]">رصيدك</div><div class="text-[32px] font-black" id="rewardPointsBig">0 نقطة</div></div><div class="mt-4 space-y-2" id="rewardsList"></div><div class="mt-4 text-[10px] text-white/40" id="pointsHistory"></div></div></div>
-
-<div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1C1C1E]/95 backdrop-blur-xl border-t border-white/5 px-2 py-2 flex justify-between items-center z-50 rounded-t-[20px]">
-<button class="flex flex-col items-center gap-1 px-4 py-1 text-[#FF6A00]">⌂<span class="text-[8px]">الرئيسية</span></button>
-<button class="flex flex-col items-center gap-1 px-4 py-1 text-white/40">🍽<span class="text-[8px]">المنيو</span></button>
-<button onclick="openCart()" class="flex flex-col items-center bg-[#FF6A00] w-14 h-14 rounded-full -mt-5 justify-center text-black">🧺<span class="text-[7px] font-bold" id="bottomBadge">الطلب</span></button>
-<button onclick="openTracker()" class="flex flex-col items-center gap-1 px-4 py-1 text-white/40">🚚<span class="text-[8px]">التتبع</span></button>
-<button onclick="openRewards()" class="flex flex-col items-center gap-1 px-4 py-1 text-white/40">⭐<span class="text-[8px]">نقاطي</span></button>
-</div>
-
-<script>
-const GRID='all_products.jpg';
-const P=[{id:1,c:'المشويات',t:'كيلو كباب ضاني',p:1100,r:0,co:0,bs:1},{id:2,c:'المشويات',t:'كيلو ريش ضاني',p:1000,r:0,co:1},{id:3,c:'المشويات',t:'كيلو كفته كندوز',p:550,r:0,co:2,bs:1},{id:4,c:'المشويات',t:'كيلو كفته ضاني',p:600,r:0,co:3},{id:5,c:'المشويات',t:'كيلو مشكل',p:800,r:0,co:4,bs:1},{id:6,c:'المشويات',t:'كيلو طرب',p:600,r:0,co:5},{id:7,c:'المشويات',t:'كفته و طرب',p:575,r:0,co:6},{id:8,c:'المشويات',t:'شيش طاووق',p:450,r:0,co:7},{id:9,c:'المشويات',t:'استربس',p:470,r:0,co:8},{id:10,c:'المشويات',t:'فرخه شيش',p:360,r:0,co:9},{id:11,c:'المشويات',t:'فرخه تكا',p:360,r:0,co:10},{id:12,c:'المشويات',t:'فرخه شوايه',p:360,r:1,co:0},{id:13,c:'المشويات',t:'فرخه نص',p:180,r:1,co:1},{id:14,c:'المشويات',t:'فرخه ربع',p:95,r:1,co:2},{id:15,c:'المشويات',t:'نص كفته كندوز',p:275,r:1,co:3},{id:16,c:'المشويات',t:'نص كفته ضاني',p:300,r:1,co:4},{id:17,c:'المشويات',t:'ربع كفته ضاني',p:160,r:1,co:5},{id:18,c:'المشويات',t:'ربع كفته كندوز',p:140,r:1,co:6},{id:19,c:'المشويات',t:'نص طرب',p:300,r:1,co:7},{id:20,c:'المشويات',t:'ربع طرب',p:160,r:1,co:8},{id:21,c:'المشويات',t:'موزه ضاني',p:400,r:1,co:9,bs:1},{id:22,c:'المشويات',t:'كيلو سجق',p:400,r:1,co:10},{id:23,c:'المشويات',t:'نص سجق',p:200,r:2,co:0},{id:24,c:'المشويات',t:'ربع سجق',p:110,r:2,co:1},{id:25,c:'الوجبات',t:'وجبة نص فرخه',p:200,r:2,co:2},{id:26,c:'الوجبات',t:'وجبة ربع فرخه',p:130,r:2,co:3},{id:27,c:'الوجبات',t:'وجبة نص كفته',p:310,r:2,co:4},{id:28,c:'الوجبات',t:'وجبة ربع كفته',p:180,r:2,co:5},{id:29,c:'الوجبات',t:'وجبة كبده',p:250,r:2,co:6},{id:30,c:'الوجبات',t:'ميكس جريل',p:250,r:2,co:7,bs:1},{id:31,c:'الوجبات',t:'الكومبو',p:200,r:2,co:8},{id:32,c:'الوجبات',t:'وجبة شيش',p:220,r:2,co:9},{id:33,c:'الوجبات',t:'التوفير',p:260,r:2,co:10},{id:34,c:'الوجبات',t:'وجبة الطاهي',p:235,r:3,co:0,bs:1},{id:35,c:'الوجبات',t:'فراخ و كفته',p:235,r:3,co:1},{id:36,c:'السندوتشات',t:'سندوتش كبده',p:45,r:3,co:2},{id:37,c:'السندوتشات',t:'سندوتش طرب',p:130,r:3,co:3},{id:38,c:'السندوتشات',t:'سندوتش شيش',p:75,r:3,co:4},{id:39,c:'السندوتشات',t:'سندوتش كفته',p:70,r:3,co:5},{id:40,c:'السندوتشات',t:'سندوتش كباب',p:140,r:3,co:6},{id:41,c:'السندوتشات',t:'سندوتش سجق',p:40,r:3,co:7},{id:42,c:'السندوتشات',t:'حواوشي',p:40,r:3,co:8},{id:43,c:'السندوتشات',t:'حواوشي الطاهي',p:70,r:3,co:9,bs:1},{id:44,c:'كبده',t:'كيلو كبده',p:400,r:3,co:10},{id:45,c:'كبده',t:'نص كبده',p:200,r:4,co:0},{id:46,c:'كبده',t:'ربع كبده',p:100,r:4,co:1},{id:47,c:'كبده',t:'طلب كبده',p:90,r:4,co:2},{id:48,c:'المطبخ',t:'طاجن بطاطس',p:200,r:4,co:3},{id:49,c:'المطبخ',t:'طاجن باميه',p:200,r:4,co:4},{id:50,c:'المطبخ',t:'طاجن تورلي',p:200,r:4,co:5},{id:51,c:'المطبخ',t:'حمام محشي',p:180,r:4,co:6,bs:1},{id:52,c:'المطبخ',t:'محشي',p:100,r:4,co:7},{id:53,c:'المطبخ',t:'كيلو ممبار',p:250,r:4,co:8},{id:54,c:'المطبخ',t:'نص ممبار',p:130,r:4,co:9},{id:55,c:'المطبخ',t:'ربع ممبار',p:70,r:4,co:10},{id:56,c:'المطبخ',t:'كفته 3 قطع',p:100,r:5,co:0,bs:1},{id:57,c:'ميكس الطاهي',t:'ميكس كفته وطرب',p:170,r:5,co:1},{id:58,c:'ميكس الطاهي',t:'ميكس شيش واستربس',p:170,r:5,co:2},{id:59,c:'ميكس الطاهي',t:'ميكس كفته وشيش',p:170,r:5,co:3},{id:60,c:'ميكس الطاهي',t:'ميكس شيش وطرب',p:170,r:5,co:4},{id:61,c:'ميكس الطاهي',t:'ميكس استربس وكفته',p:170,r:5,co:5},{id:62,c:'ميكس الطاهي',t:'المكساوي',p:180,r:5,co:6,bs:1},{id:63,c:'البروست',t:'بروست الطاهي',p:160,r:5,co:7},{id:64,c:'البروست',t:'تريبل هيت',p:200,r:5,co:8},{id:65,c:'البروست',t:'الذهبية',p:250,r:5,co:9,bs:1},{id:66,c:'البروست',t:'باور',p:280,r:5,co:10},{id:67,c:'البروست',t:'لمه الحبايب',p:420,r:6,co:0},{id:68,c:'البروست',t:'العمالقه',p:500,r:6,co:1},{id:69,c:'البروست',t:'الديكله',p:600,r:6,co:2},{id:70,c:'صواني',t:'صنية السيزون',p:900,r:6,co:3,bs:1},{id:71,c:'صواني',t:'صنية السويسي',p:850,r:6,co:4,bs:1},{id:72,c:'جانبي',t:'أرز ساده',p:25,r:6,co:5},{id:73,c:'جانبي',t:'أرز بالكبده',p:50,r:6,co:6},{id:74,c:'جانبي',t:'أرز بسمتي',p:35,r:6,co:7},{id:75,c:'جانبي',t:'مكرونه فرن',p:35,r:6,co:8},{id:76,c:'جانبي',t:'ملوخيه',p:40,r:6,co:9},{id:77,c:'جانبي',t:'شوربة',p:25,r:6,co:10},{id:78,c:'جانبي',t:'خضار اليوم',p:25,r:7,co:0},{id:79,c:'جانبي',t:'سلطه خضراء',p:25,r:7,co:1},{id:80,c:'جانبي',t:'طحينه',p:25,r:7,co:2},{id:81,c:'جانبي',t:'بابا غنوج',p:30,r:7,co:3},{id:82,c:'جانبي',t:'توميه',p:30,r:7,co:4},{id:83,c:'جانبي',t:'كول سلو',p:30,r:7,co:5},{id:84,c:'جانبي',t:'باذنجان',p:20,r:7,co:6},{id:85,c:'جانبي',t:'V Cola',p:23,r:7,co:7},{id:86,c:'جانبي',t:'مياه',p:12,r:7,co:8},{id:87,c:'جانبي',t:'اسبيرو',p:18,r:7,co:9},{id:88,c:'جانبي',t:'لتر مشروب',p:35,r:7,co:10}];
-function pos(p){return `left:${-p.co*100}%;top:${-p.r*100}%`}
-let cart=[],cur=null,q=1,fil='المشويات',search='';
-function cardHTML(p,small=false){let bs=p.bs?`<span class="absolute top-1 right-1 bg-[#C6FF00] text-black text-[6px] font-black px-1.5 py-0.5 rounded-full">BESTSELLER</span>`:'',w=small?'w-[140px] flex-shrink-0':'',h=small?'h-[90px]':'h-[110px]';return `<div class="${w} card-dark rounded-[12px] overflow-hidden cursor-pointer" onclick="openP(${p.id})"><div class="relative ${h} bg-[#111] overflow-hidden"><div class="absolute inset-0 overflow-hidden"><img src="${GRID}" style="position:absolute;width:1100%;height:800%;max-width:none;${pos(p)}"></div>${bs}</div><div class="p-2"><div class="text-[10px] font-bold h-[28px]">${p.t}</div><div class="flex justify-between mt-1"><span class="text-[#FF6A00] text-[10px] font-bold">${p.p}ج</span><div class="w-5 h-5 bg-[#FF6A00] rounded-full grid place-items-center text-black text-[9px]">+</div></div></div></div>`}
-function render(){let L=P.filter(x=>(fil==='الكل'||x.c===fil)&&(search==''||x.t.includes(search)));document.getElementById('grid').innerHTML=L.map(p=>cardHTML(p,false)).join('');document.getElementById('countLabel').innerText=L.length+' صنف';let sig=P.filter(x=>x.bs).slice(0,6);document.getElementById('signatureGrid').innerHTML=sig.map(p=>cardHTML(p,true)).join('');updateTrackerCard();updatePointsUI();}
-function filterCat(c){fil=c;document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('cat-active',b.dataset.cat===c));render()}
-function doSearch(v){search=v;fil='الكل';render()}
-function openP(id){cur=P.find(x=>x.id===id);q=1;let img=document.getElementById('mImg');img.src=GRID;img.style.cssText=`width:1100%;height:800%;max-width:none;${pos(cur)};position:absolute`;document.getElementById('mTitle').innerText=cur.t;document.getElementById('mPrice').innerText=cur.p+' ج';document.getElementById('mPoints').innerText=cur.p;upd();document.getElementById('modal').classList.remove('hidden')}
-function closeModal(){document.getElementById('modal').classList.add('hidden')}
-function chg(d){q=Math.max(1,q+d);upd()}
-function upd(){document.getElementById('mQty').innerText=q;document.getElementById('mTotal').innerText=(cur.p*q)+'ج'}
-function addCart(){let e=cart.find(x=>x.id===cur.id);if(e)e.qty+=q;else cart.push({...cur,qty:q});updateCart();closeModal()}
-function updateCart(){let tot=cart.reduce((s,c)=>s+c.qty,0);document.getElementById('cartBadge').innerText=tot;document.getElementById('bottomBadge').innerText=tot||'الطلب';document.getElementById('cartItems').innerHTML=cart.map((c,i)=>`<div class="flex gap-2 bg-[#1E1E20] p-2 rounded-xl"><div class="w-10 h-10 rounded-full overflow-hidden relative bg-[#111]"><img src="${GRID}" style="position:absolute;width:1100%;height:800%;max-width:none;${pos(c)}"></div><div class="flex-1"><div class="text-[10px] font-bold">${c.t}</div><div class="text-[9px] text-white/40">${c.p}×${c.qty}</div></div><button onclick="cart.splice(${i},1);updateCart()">✕</button></div>`).join('')||'<div class="text-center text-white/20 py-10 text-[11px]">فاضية</div>';let total=cart.reduce((s,c)=>s+c.p*c.qty,0);document.getElementById('cartTotal').innerText=total+' ج';document.getElementById('earnPoints').innerText=total+' نقطة';}
-function openCart(){document.getElementById('cartDrawer').classList.remove('hidden')}
-function closeCart(){document.getElementById('cartDrawer').classList.add('hidden')}
-function updateTrackerCard(){let orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');if(!orders.length||orders[orders.length-1].status==='delivered'){document.getElementById('noOrderTracker').classList.remove('hidden');document.getElementById('activeTracker').classList.add('hidden');return}let o=orders[orders.length-1];document.getElementById('noOrderTracker').classList.add('hidden');document.getElementById('activeTracker').classList.remove('hidden');document.getElementById('trackId').innerText=o.id;document.getElementById('trackStatus').innerText=o.statusText;document.getElementById('trackETA').innerText='ETA: '+o.eta+' د';let steps=['تم','تحضير','طريق','تم'];let idx=['confirmed','preparing','onway','delivered'].indexOf(o.status);let html='';steps.forEach((s,i)=>{let done=i<idx,active=i===idx;html+=`<div class="w-6 h-6 rounded-full grid place-items-center text-[10px] ${done?'bg-[#C6FF00] text-black':active?'bg-[#FF6A00] text-black':'bg-white/10'}">${done?'✓':i+1}</div>`;if(i<3)html+=`<div class="flex-1 h-[2px] ${i<idx?'bg-[#C6FF00]':'bg-white/10'}"></div>`});document.getElementById('trackSteps').innerHTML=html}
-function updatePointsUI(){let points=parseInt(localStorage.getItem('tahey_points')||'0');document.getElementById('pointsDisplay').innerText=points+' 🟡';document.getElementById('headerPoints').innerText=points;document.getElementById('rewardPointsBig').innerText=points+' نقطة';let pct=Math.min((points%500)/500*100,100);document.getElementById('pointsBar').style.width=pct+'%';document.getElementById('pointsMsg').innerText=points>=500?'جاهز لوجبة مجانية!':`باقي ${500-(points%500)} نقطة لوجبة`;let list=document.getElementById('rewardsList');list.innerHTML=`<div class="bg-[#1E1E20] border ${points>=500?'border-[#C6FF00]':'border-white/10'} rounded-[12px] p-3 flex justify-between"><div><div class="font-bold text-[11px]">وجبة الطاهي مجاناً 🎁</div><div class="text-[9px] text-white/40">500 نقطة</div></div><button onclick="redeem(500)" class="px-4 py-2 rounded-full text-[10px] font-bold ${points>=500?'bg-[#C6FF00] text-black':'bg-white/10'}">${points>=500?'استبدال':'مقفول'}</button></div>`;let hist=JSON.parse(localStorage.getItem('tahey_history')||'[]');document.getElementById('pointsHistory').innerHTML=hist.slice(-5).reverse().map(h=>`<div class="flex justify-between border-b border-white/5 py-1"><span>${h.txt}</span><span class="text-[#C6FF00]">+${h.pts}</span></div>`).join('')||'لا يوجد سجل';}
-function redeem(c){let p=parseInt(localStorage.getItem('tahey_points')||'0');if(p<c)return alert('نقاطك غير كافية');if(!confirm(`استبدال ${c} نقطة؟`))return;let np=p-c;localStorage.setItem('tahey_points',np);let h=JSON.parse(localStorage.getItem('tahey_history')||'[]');h.push({txt:`استبدال ${c} نقطة`,pts:-c});localStorage.setItem('tahey_history',JSON.stringify(h));updatePointsUI();alert('تم الاستبدال ✅')}
-function openTracker(){let orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');if(!orders.length)return alert('لا يوجد طلبات');let o=orders[orders.length-1];let steps=[{k:'confirmed',t:'تم التأكيد',d:'المطبخ استلم طلبك'},{k:'preparing',t:'جاري التحضير',d:'الشيف يجهز طلبك'},{k:'onway',t:'في الطريق',d:o.address},{k:'delivered',t:'تم التوصيل',d:'بالهنا والشفا'}];let idx=['confirmed','preparing','onway','delivered'].indexOf(o.status);let html=`<div class="bg-[#1E1E20] rounded-[14px] p-3 mb-4"><div class="flex justify-between"><div><div class="font-bold">طلب #${o.id}</div><div class="text-[10px] text-white/50">${new Date(o.time).toLocaleTimeString('ar-EG')}</div></div><div class="text-[#FF6A00] font-black">${o.total}ج</div></div><div class="text-[10px] mt-2">${o.items.map(i=>`- ${i.t} ×${i.qty}`).join('<br>')}</div></div>`;steps.forEach((s,i)=>{let done=i<idx,active=i===idx;html+=`<div class="flex gap-3"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full grid place-items-center ${done?'bg-[#C6FF00] text-black':active?'bg-[#FF6A00] text-black':'bg-white/10'}">${done?'✓':i+1}</div>${i<3?`<div class="w-[2px] h-10 ${done?'bg-[#C6FF00]':'bg-white/10'} mt-1"></div>`:''}</div><div class="pb-8"><div class="font-bold text-[12px] ${active?'text-[#FF6A00]':''}">${s.t}</div><div class="text-[10px] text-white/50">${active?o.statusText:s.d}</div></div></div>`});document.getElementById('trackerContent').innerHTML=html;document.getElementById('trackerModal').classList.remove('hidden')}
-function closeTracker(){document.getElementById('trackerModal').classList.add('hidden')}
-function openRewards(){updatePointsUI();document.getElementById('rewardsModal').classList.remove('hidden')}
-function closeRewards(){document.getElementById('rewardsModal').classList.add('hidden')}
-
-function checkout(){
-if(!cart.length)return alert('السلة فاضية');
-let n=document.getElementById('custName').value.trim(),ph=document.getElementById('custPhone').value.trim(),ad=document.getElementById('custAddress').value.trim();
-if(!n||!ph||!ad)return alert('اكمل البيانات');
-let total=cart.reduce((s,c)=>s+c.p*c.qty,0);
-let orderId=Math.floor(1000+Math.random()*9000);
-let newOrder={id:orderId,items:cart.map(c=>({id:c.id,t:c.t,p:c.p,qty:c.qty,r:c.r,co:c.co})),total,earn:total,name:n,phone:ph,address:ad,status:'confirmed',statusText:'تم التأكيد - المطبخ استلم طلبك ✅',eta:'20-25',time:Date.now()};
-let orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');orders.push(newOrder);localStorage.setItem('tahey_orders',JSON.stringify(orders));
-let points=parseInt(localStorage.getItem('tahey_points')||'0');points+=total;localStorage.setItem('tahey_points',points.toString());
-let hist=JSON.parse(localStorage.getItem('tahey_history')||'[]');hist.push({txt:`طلب #${orderId} - ${total}ج`,pts:total,time:Date.now()});localStorage.setItem('tahey_history',JSON.stringify(hist));
-try{let bc=new BroadcastChannel('tahey');bc.postMessage({type:'new',order:newOrder});bc.close();}catch(e){}
-let msg=`🔥 طلب جديد #${orderId} 🔥%0A👤 ${n}%0A📞 ${ph}%0A📍 ${ad}%0A━━━━━━━━%0A`;cart.forEach(c=>msg+=`• ${c.t} ×${c.qty}=${c.p*c.qty}ج%0A`);msg+=`━━━━━━━━%0A💰 ${total}ج - ⭐ ${total} نقطة`;
-window.open(`https://wa.me/201140243713?text=${msg}`,'_blank');
-cart=[];updateCart();closeCart();updatePointsUI();updateTrackerCard();setTimeout(()=>openTracker(),1000);
-let statuses=[{s:'preparing',text:'جاري التحضير 👨‍🍳',eta:'12-15',d:10000},{s:'onway',text:'في الطريق 🚚',eta:'5-8',d:20000},{s:'delivered',text:'تم التوصيل ✅',eta:'تم',d:35000}];
-statuses.forEach(st=>setTimeout(()=>{let os=JSON.parse(localStorage.getItem('tahey_orders')||'[]');let o=os.find(x=>x.id===orderId);if(o&&o.status!=='delivered'){o.status=st.s;o.statusText=st.text;o.eta=st.eta;localStorage.setItem('tahey_orders',JSON.stringify(os));updateTrackerCard();if(!document.getElementById('trackerModal').classList.contains('hidden'))openTracker();}},st.d));
+window.addToCart = (id) => {
+  const item = menuItems.find(i => i.id === id);
+  const existing = cart.find(c => c.id === id);
+  if(existing) existing.qty++; else cart.push({...item, qty: 1});
+  updateCart();
 }
-render();
+window.updateCart = () => {
+  document.getElementById("cart-count").innerText = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById("cart-items").innerHTML = cart.map(i=>`<div class="flex justify-between"><span>${i.name} x${i.qty}</span><span>${i.price*i.qty}ج</span></div>`).join('');
+  document.getElementById("cart-total").innerText = cart.reduce((s,i)=>s+i.price*i.qty,0);
+}
+window.toggleCart = () => document.getElementById("cart-modal").classList.toggle("hidden");
+
+window.confirmOrder = async () => {
+  const name = document.getElementById("cust-name").value;
+  const phone = document.getElementById("cust-phone").value;
+  const address = document.getElementById("cust-address").value;
+  if(!name || !phone || cart.length==0) return alert("كمل بياناتك وضيف أكل للسلة");
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  await addDoc(collection(db, "orders"), { customerName: name, phone, address, items: cart, total, status: "جديد", createdAt: serverTimestamp() });
+  alert("تم استلام طلبك يا " + name + " 🔥 جاري التحضير");
+  cart = []; updateCart(); toggleCart();
+}
 </script>
 </body>
 </html>
