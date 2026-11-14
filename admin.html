@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>الطاهي - المطبخ</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة طلبات المطعم - الطاهي</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<style>*{font-family:'Cairo'}body{background:#0A0A0A;color:#fff}.card{background:#1E1E20;border:1px solid rgba(255,255,255,.06)}.order-new{border-right:4px solid #C6FF00}.order-prep{border-right:4px solid #FF6A00}.order-way{border-right:4px solid #00C6FF}.order-done{border-right:4px solid #666;opacity:.6}</style>
 </head>
-<body>
-<div id="loginScreen" class="fixed inset-0 z-[100] bg-[#0A0A0A] grid place-items-center p-6"><div class="w-full max-w-[360px] card rounded-[20px] p-6 text-center"><div class="text-[40px]">👨‍🍳</div><h1 class="text-[20px] font-black mt-2">مطبخ الطاهي</h1><input id="pass" type="password" placeholder="كلمة السر" class="w-full mt-6 bg-black border border-white/10 rounded-full px-4 py-3 text-[13px] text-center"><button onclick="login()" class="w-full mt-3 bg-[#FF6A00] text-black py-3 rounded-full font-black">دخول</button><p class="text-[10px] text-white/20 mt-3">الباسورد: 1234</p></div></div>
-<div class="sticky top-0 z-40 bg-[#0A0A0A]/95 border-b border-white/5 px-4 py-3 flex justify-between"><div><div class="font-black">مطبخ الطاهي 🔥</div><div class="text-[10px] text-white/40"><span id="liveCount">0</span> نشط • <span id="todayTotal">0</span> اليوم</div></div><div class="flex gap-2"><button onclick="toggleSound()" id="soundBtn" class="w-9 h-9 bg-[#1E1E20] rounded-full">🔔</button><button onclick="clearDone()" class="px-3 py-2 bg-white/5 rounded-full text-[10px]">مسح المنتهي</button></div></div>
-<div class="px-4 py-3 grid grid-cols-4 gap-2"><div class="card rounded-[12px] p-2 text-center"><div class="text-[16px] font-black text-[#C6FF00]" id="statNew">0</div><div class="text-[8px]">جديد</div></div><div class="card rounded-[12px] p-2 text-center"><div class="text-[16px] font-black text-[#FF6A00]" id="statPrep">0</div><div class="text-[8px]">تحضير</div></div><div class="card rounded-[12px] p-2 text-center"><div class="text-[16px] font-black text-[#00C6FF]" id="statWay">0</div><div class="text-[8px]">في الطريق</div></div><div class="card rounded-[12px] p-2 text-center"><div class="text-[16px] font-black" id="statToday">0 ج</div><div class="text-[8px]">مبيعات</div></div></div>
-<div class="px-4 flex gap-2"><button onclick="filterOrders('all')" data-f="all" class="f-btn bg-[#FF6A00] text-black px-4 py-2 rounded-full text-[11px]">الكل</button><button onclick="filterOrders('confirmed')" data-f="confirmed" class="f-btn bg-[#1E1E20] px-4 py-2 rounded-full text-[11px]">جديد</button><button onclick="filterOrders('preparing')" data-f="preparing" class="f-btn bg-[#1E1E20] px-4 py-2 rounded-full text-[11px]">تحضير</button><button onclick="filterOrders('onway')" data-f="onway" class="f-btn bg-[#1E1E20] px-4 py-2 rounded-full text-[11px]">في الطريق</button></div>
-<div id="ordersList" class="px-3 py-3 space-y-3"></div>
-<audio id="notifSound" src="https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3"></audio>
-<script>
-let PASS='1234',orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]'),filter='all',soundOn=true;
-function login(){if(document.getElementById('pass').value===PASS){document.getElementById('loginScreen').classList.add('hidden');render();setInterval(checkNew,1000)}else alert('غلط')}
-function checkNew(){let cur=JSON.parse(localStorage.getItem('tahey_orders')||'[]');if(cur.length>orders.length){if(soundOn)document.getElementById('notifSound').play().catch(()=>{});orders=cur;render()}}
-function render(){let list=document.getElementById('ordersList');let filtered=filter==='all'?orders:orders.filter(o=>o.status===filter);filtered=filtered.slice().reverse();if(!filtered.length)list.innerHTML='<div class="text-center py-20 text-white/20">لا يوجد طلبات</div>';else list.innerHTML=filtered.map(o=>{let cls=o.status==='confirmed'?'order-new':o.status==='preparing'?'order-prep':o.status==='onway'?'order-way':'order-done';let mins=Math.floor((Date.now()-o.time)/60000);return `<div class="card rounded-[16px] p-3 ${cls}"><div class="flex justify-between"><div><div class="font-black text-[13px]">#${o.id} - ${mins}د</div><div class="text-[11px]">👤 ${o.name} - 📞 ${o.phone}</div><div class="text-[10px] text-white/50">📍 ${o.address}</div></div><div class="text-[#FF6A00] font-black">${o.total}ج</div></div><div class="mt-3 bg-black/50 rounded-[10px] p-2 text-[11px]">${o.items.map(i=>`• ${i.t} ×${i.qty}`).join('<br>')}</div><div class="mt-3 flex gap-2">${o.status==='confirmed'?`<button onclick="updateStatus(${o.id},'preparing')" class="flex-1 bg-[#FF6A00] text-black py-2.5 rounded-full font-bold text-[11px]">بدء التحضير 👨‍🍳</button>`:''}${o.status==='preparing'?`<button onclick="updateStatus(${o.id},'onway')" class="flex-1 bg-[#00C6FF] text-black py-2.5 rounded-full font-bold text-[11px]">خرج للتوصيل 🚚</button>`:''}${o.status==='onway'?`<button onclick="updateStatus(${o.id},'delivered')" class="flex-1 bg-[#C6FF00] text-black py-2.5 rounded-full font-bold">تم التوصيل ✅</button>`:''}${o.status!=='delivered'?`<button onclick="window.open('tel:${o.phone}')" class="w-12 bg-[#25D366] rounded-full">📞</button>`:''}</div></div>`}).join('');updateStats()}
-function updateStats(){let today=orders.filter(o=>new Date(o.time).toDateString()===new Date().toDateString());document.getElementById('statNew').innerText=orders.filter(o=>o.status==='confirmed').length;document.getElementById('statPrep').innerText=orders.filter(o=>o.status==='preparing').length;document.getElementById('statWay').innerText=orders.filter(o=>o.status==='onway').length;document.getElementById('statToday').innerText=today.reduce((s,o)=>s+o.total,0)+'ج';document.getElementById('liveCount').innerText=orders.filter(o=>o.status!=='delivered').length;document.getElementById('todayTotal').innerText=today.length}
-function updateStatus(id,s){let o=orders.find(x=>x.id===id);if(!o)return;let m={preparing:{t:'جاري التحضير 👨‍🍳',e:'12-15'},onway:{t:'في الطريق 🚚',e:'5-8'},delivered:{t:'تم التوصيل ✅',e:'تم'}};o.status=s;o.statusText=m[s].t;o.eta=m[s].e;localStorage.setItem('tahey_orders',JSON.stringify(orders));render();try{let bc=new BroadcastChannel('tahey');bc.postMessage({type:'status',id,s});bc.close()}catch(e){}}
-function filterOrders(f){filter=f;document.querySelectorAll('.f-btn').forEach(b=>b.classList.toggle('bg-[#FF6A00]',b.dataset.f===f));render()}
-function toggleSound(){soundOn=!soundOn;document.getElementById('soundBtn').innerText=soundOn?'🔔':'🔕'}
-function clearDone(){if(!confirm('مسح المنتهي؟'))return;orders=orders.filter(o=>o.status!=='delivered');localStorage.setItem('tahey_orders',JSON.stringify(orders));render()}
-let bc=new BroadcastChannel('tahey');bc.onmessage=e=>{if(e.data.type==='new'){orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');render();if(soundOn)document.getElementById('notifSound').play().catch(()=>{})}};
-render();
+<body class="bg-gray-100 p-4">
+<h1 class="text-3xl font-bold text-center mb-6">🔥 طلبات المطعم - لايف</h1>
+<div id="orders" class="grid gap-4 max-w-3xl mx-auto"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// حط الكونفيج بتاعك هنا نفس اللي في موقعك
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
+onSnapshot(q, (snapshot) => {
+  const container = document.getElementById("orders");
+  container.innerHTML = "";
+  snapshot.forEach((docSnap) => {
+    const order = docSnap.data();
+    const id = docSnap.id;
+    container.innerHTML += `
+      <div class="bg-white p-4 rounded-xl shadow">
+        <div class="flex justify-between">
+          <h2 class="font-bold text-lg">${order.customerName} - ${order.phone}</h2>
+          <span class="bg-yellow-200 px-3 py-1 rounded-full text-sm">${order.status}</span>
+        </div>
+        <p class="mt-2 text-gray-600">${order.items.map(i => i.name + ' x' + i.qty).join(' - ')}</p>
+        <p class="font-bold mt-2">الاجمالي: ${order.total} جنيه</p>
+        <div class="flex gap-2 mt-3">
+          <button onclick="updateStatus('${id}','جاري التحضير')" class="bg-blue-500 text-white px-3 py-1 rounded">تحضير</button>
+          <button onclick="updateStatus('${id}','تم التوصيل')" class="bg-green-500 text-white px-3 py-1 rounded">تم التوصيل</button>
+        </div>
+      </div>
+    `;
+  });
+});
+
+window.updateStatus = async (id, status) => {
+  await updateDoc(doc(db, "orders", id), { status });
+}
 </script>
 </body>
 </html>
