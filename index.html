@@ -3,123 +3,97 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>الطاهي</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Baloo+2:wght@800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
-<style>*{font-family:'Cairo'}body{background:#0F0F0F;color:#fff}.card{background:#1E1E20;border:1px solid rgba(255,255,255,.06)}.order-new{border-right:4px solid #C6FF00}.order-prep{border-right:4px solid #FF6A00}.order-way{border-right:4px solid #00C6FF}.order-done{border-right:4px solid #666;opacity:.6}</style>
+<style>*{font-family:'Cairo'} .baloo{font-family:'Baloo 2'} body{background:#0A0A0A;color:#fff} .card-dark{background:linear-gradient(180deg,#1E1E20 0%,#121212 100%);border:1px solid rgba(255,255,255,.06)} .scroll-hide::-webkit-scrollbar{display:none} .cat-active{background:#FF6A00!important;color:#000!important}</style>
 </head>
-<body class="bg-[#0A0A0A]">
+<body class="max-w-[480px] mx-auto bg-[#0A0A0A] pb-[90px]">
 
-<!-- LOGIN SIMPLE -->
-<div id="loginScreen" class="fixed inset-0 z-[100] bg-[#0A0A0A] grid place-items-center p-6">
-<div class="w-full max-w-[360px] card rounded-[20px] p-6 text-center">
-<div class="text-[40px]">👨‍🍳</div><h1 class="text-[20px] font-black mt-2">لوحة تحكم الطاهي</h1><p class="text-[11px] text-white/40 mt-1">دخول المطبخ فقط</p>
-<input id="pass" type="password" placeholder="كلمة السر" class="w-full mt-6 bg-black border border-white/10 rounded-full px-4 py-3 text-[13px] text-center">
-<button onclick="login()" class="w-full mt-3 bg-[#FF6A00] text-black py-3 rounded-full font-black">دخول</button>
-<p class="text-[10px] text-white/20 mt-3">الباسورد الافتراضي: 1234</p>
-</div>
+<div class="sticky top-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-xl px-4 py-3 flex justify-between items-center">
+<div class="flex items-center gap-3"><button>☰</button><div><div class="text-[11px] text-white/50">التوصيل إلى</div><div class="text-[13px] font-bold text-[#FF6A00]">المنزل ⌄</div></div></div>
+<div class="flex items-center gap-3"><div class="relative w-8 h-8 bg-white/5 rounded-full grid place-items-center">🛒<span id="cartBadge" class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF6A00] text-black text-[8px] font-bold rounded-full grid place-items-center">0</span></div><button onclick="openRewards()" class="bg-[#1E1E20] border border-white/10 px-3 py-1 rounded-full text-[10px]">⭐ <span id="headerPoints">0</span></button></div>
 </div>
 
-<!-- HEADER -->
-<div class="sticky top-0 z-40 bg-[#0A0A0A]/95 backdrop-blur-xl border-b border-white/5 px-4 py-3 flex justify-between items-center">
-<div><div class="font-black">مطبخ الطاهي 🔥</div><div class="text-[10px] text-white/40"><span id="liveCount">0</span> طلب نشط • <span id="todayTotal">0</span> طلب اليوم</div></div>
-<div class="flex gap-2"><button onclick="toggleSound()" id="soundBtn" class="w-9 h-9 bg-[#1E1E20] rounded-full grid place-items-center">🔔</button><button onclick="clearDone()" class="px-3 py-2 bg-white/5 rounded-full text-[10px]">مسح المنتهي</button></div>
+<div class="relative h-[250px] overflow-hidden"><img src="all_products.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50"><div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent"></div><div class="absolute top-5 right-4"><h1 class="baloo text-[36px] font-black leading-[.85]">الطاهي<br>الأصلي،<br><span class="text-[#FF8C00]">يوصل<br>سخن</span></h1></div></div>
+
+<div class="px-4 -mt-4 relative z-10"><div class="bg-[#1C1C1E] border border-white/10 rounded-full flex items-center px-4 py-3 gap-3"><span class="text-[#C6FF00]">⌕</span><input id="searchInp" oninput="doSearch(this.value)" placeholder="دور على كباب، كفته..." class="bg-transparent flex-1 text-[12px] outline-none placeholder:text-white/30"></div></div>
+
+<div class="px-3 py-4"><div class="flex gap-2 overflow-x-auto scroll-hide">
+<button onclick="filterCat('المشويات')" data-cat="المشويات" class="cat-btn cat-active flex-shrink-0 w-[68px] rounded-[12px] py-2.5 flex flex-col items-center gap-1 border">🔥<span class="text-[9px] font-bold">المشويات</span></button>
+<button onclick="filterCat('الوجبات')" data-cat="الوجبات" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">🍱<span class="text-[9px]">الوجبات</span></button>
+<button onclick="filterCat('السندوتشات')" data-cat="السندوتشات" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">🌯<span class="text-[9px]">سندوتشات</span></button>
+<button onclick="filterCat('البروست')" data-cat="البروست" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">🍗<span class="text-[9px]">البروست</span></button>
+<button onclick="filterCat('ميكس الطاهي')" data-cat="ميكس الطاهي" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">✨<span class="text-[9px]">الميكس</span></button>
+<button onclick="filterCat('جانبي')" data-cat="جانبي" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1">🥗<span class="text-[9px]">جانبي</span></button>
+</div></div>
+
+<div class="px-4"><div class="flex justify-between mb-2"><h3 class="font-bold text-[14px]">الأكثر مبيعاً ☆</h3></div><div id="signatureGrid" class="flex gap-2 overflow-x-auto scroll-hide pb-2"></div></div>
+
+<div class="px-4 mt-5 grid grid-cols-2 gap-3">
+<div id="trackerCard" onclick="openTracker()" class="card-dark rounded-[16px] p-3 cursor-pointer"><div id="noOrderTracker"><div class="flex justify-between"><div><div class="text-[11px] font-bold">تتبع الطلب</div><div class="text-[8px] text-white/50">اضغط للعرض</div></div>🛵</div><div class="mt-3 text-center py-3 text-[10px] text-white/30">لا يوجد طلب نشط</div></div><div id="activeTracker" class="hidden"><div class="flex justify-between"><div><div class="text-[11px] font-bold">طلب #<span id="trackId">0</span> نشط</div><div class="text-[8px] text-[#FF6A00]" id="trackStatus"></div></div><span class="animate-bounce">🛵</span></div><div class="flex items-center gap-1 mt-3" id="trackSteps"></div><div class="mt-2 text-[9px] text-[#FF6A00]" id="trackETA"></div></div></div>
+<div onclick="openRewards()" class="card-dark rounded-[16px] p-3 cursor-pointer"><div class="flex justify-between"><div><div class="text-[11px] font-bold">نقاط الطاهي</div><div class="text-[8px] text-white/50">كل جنيه = نقطة</div></div>⭐</div><div class="mt-3"><div class="text-[#FF6A00] font-black text-[16px]" id="pointsDisplay">0 🟡</div><div class="w-full h-2 bg-white/10 rounded-full mt-2 overflow-hidden"><div id="pointsBar" class="h-full bg-gradient-to-r from-[#FF6A00] to-[#C6FF00]" style="width:0%"></div></div><div class="text-[8px] text-white/30 mt-1" id="pointsMsg"></div></div></div>
 </div>
 
-<!-- STATS -->
-<div class="px-4 py-3 grid grid-cols-4 gap-2">
-<div class="card rounded-[12px] p-2 text-center"><div class="text-[16px] font-black text-[#C6FF00]" id="statNew">0</div><div class="text-[8px] text-white/40">جديد</div></div>
-<div class="card rounded-[12px] p-2 text-center"><div class="text-[16px] font-black text-[#FF6A00]" id="statPrep">0</div><div class="text-[8px] text-white/40">تحضير</div></div>
-<div class="card rounded-[12px] p-2 text-center"><div class="text-[16px] font-black text-[#00C6FF]" id="statWay">0</div><div class="text-[8px] text-white/40">في الطريق</div></div>
-<div class="card rounded-[12px] p-2 text-center"><div class="text-[16px] font-black" id="statToday">0 ج</div><div class="text-[8px] text-white/40">مبيعات اليوم</div></div>
+<div class="px-4 mt-6"><div class="flex justify-between mb-2"><h3 class="font-bold text-[13px]">كل الأصناف</h3><span id="countLabel" class="text-[10px] text-white/40"></span></div><div id="grid" class="grid grid-cols-2 gap-2.5"></div></div>
+
+<div id="modal" class="fixed inset-0 z-[70] hidden"><div class="absolute inset-0 bg-black/70" onclick="closeModal()"></div><div class="relative max-w-[480px] mx-auto mt-[8vh] bg-[#1E1E20] rounded-[20px] overflow-hidden m-4"><button onclick="closeModal()" class="absolute top-3 left-3 w-8 h-8 bg-black/60 rounded-full z-10">✕</button><div class="h-[220px] overflow-hidden relative bg-[#111]"><img id="mImg" class="absolute w-[1100%] h-[800%] max-w-none"></div><div class="p-4"><div class="flex justify-between"><h3 id="mTitle" class="font-black text-[13px]"></h3><div id="mPrice" class="text-[#FF6A00] font-black"></div></div><div class="text-[10px] text-white/40 mt-1">+ <span id="mPoints"></span> نقطة</div><div class="flex gap-3 mt-4"><div class="flex items-center gap-2 bg-black border border-white/10 rounded-full px-1"><button onclick="chg(-1)" class="w-8 h-8">-</button><span id="mQty" class="w-6 text-center font-bold">1</span><button onclick="chg(1)" class="w-8 h-8 bg-white/10 rounded-full">+</button></div><button onclick="addCart()" class="flex-1 bg-[#FF6A00] text-black py-3 rounded-full font-black text-[11px]">أضف <span id="mTotal"></span></button></div></div></div></div>
+
+<div id="cartDrawer" class="fixed inset-0 z-[80] hidden"><div class="absolute inset-0 bg-black/60" onclick="closeCart()"></div><div class="absolute left-0 top-0 h-full w-[94%] max-w-[400px] bg-[#121212] p-5 flex flex-col"><div class="flex justify-between"><h3 class="font-black">السلة</h3><button onclick="closeCart()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="cartItems" class="mt-4 space-y-2 flex-1 overflow-y-auto"></div><div class="border-t border-white/10 pt-3 space-y-2"><input id="custName" placeholder="الاسم *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><input id="custPhone" placeholder="الموبايل *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><input id="custAddress" placeholder="العنوان *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><div class="flex justify-between text-[11px]"><span>المجموع</span><span id="cartTotal" class="text-[#FF6A00] font-black">0 ج</span></div><div class="flex justify-between text-[10px] text-[#C6FF00]"><span>ستكسب</span><span id="earnPoints">0 نقطة</span></div><button onclick="checkout()" class="w-full bg-[#25D366] py-3 rounded-full font-bold">تأكيد الطلب واتساب 💬</button></div></div></div>
+
+<div id="trackerModal" class="fixed inset-0 z-[90] hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTracker()"></div><div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1A1A1C] rounded-t-[24px] p-5 max-h-[85vh] overflow-y-auto"><div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4"></div><div class="flex justify-between"><h3 class="font-black">تتبع الطلب 🚚</h3><button onclick="closeTracker()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="trackerContent" class="mt-5"></div></div></div>
+
+<div id="rewardsModal" class="fixed inset-0 z-[90] hidden"><div class="absolute inset-0 bg-black/80" onclick="closeRewards()"></div><div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1A1A1C] rounded-t-[24px] p-5 max-h-[85vh] overflow-y-auto"><div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4"></div><div class="flex justify-between"><h3 class="font-black">نقاط الطاهي ⭐</h3><button onclick="closeRewards()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div class="mt-4 bg-gradient-to-br from-[#FF6A00] to-[#FF8C00] rounded-[16px] p-4 text-black"><div class="text-[12px]">رصيدك</div><div class="text-[32px] font-black" id="rewardPointsBig">0 نقطة</div></div><div class="mt-4 space-y-2" id="rewardsList"></div><div class="mt-4 text-[10px] text-white/40" id="pointsHistory"></div></div></div>
+
+<div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1C1C1E]/95 backdrop-blur-xl border-t border-white/5 px-2 py-2 flex justify-between items-center z-50 rounded-t-[20px]">
+<button class="flex flex-col items-center gap-1 px-4 py-1 text-[#FF6A00]">⌂<span class="text-[8px]">الرئيسية</span></button>
+<button class="flex flex-col items-center gap-1 px-4 py-1 text-white/40">🍽<span class="text-[8px]">المنيو</span></button>
+<button onclick="openCart()" class="flex flex-col items-center bg-[#FF6A00] w-14 h-14 rounded-full -mt-5 justify-center text-black">🧺<span class="text-[7px] font-bold" id="bottomBadge">الطلب</span></button>
+<button onclick="openTracker()" class="flex flex-col items-center gap-1 px-4 py-1 text-white/40">🚚<span class="text-[8px]">التتبع</span></button>
+<button onclick="openRewards()" class="flex flex-col items-center gap-1 px-4 py-1 text-white/40">⭐<span class="text-[8px]">نقاطي</span></button>
 </div>
-
-<!-- FILTERS -->
-<div class="px-4 flex gap-2 overflow-x-auto pb-2">
-<button onclick="filterOrders('all')" data-f="all" class="f-btn bg-[#FF6A00] text-black px-4 py-2 rounded-full text-[11px] font-bold flex-shrink-0">الكل</button>
-<button onclick="filterOrders('confirmed')" data-f="confirmed" class="f-btn bg-[#1E1E20] px-4 py-2 rounded-full text-[11px] flex-shrink-0">🟡 جديد</button>
-<button onclick="filterOrders('preparing')" data-f="preparing" class="f-btn bg-[#1E1E20] px-4 py-2 rounded-full text-[11px] flex-shrink-0">🟠 تحضير</button>
-<button onclick="filterOrders('onway')" data-f="onway" class="f-btn bg-[#1E1E20] px-4 py-2 rounded-full text-[11px] flex-shrink-0">🔵 في الطريق</button>
-</div>
-
-<!-- ORDERS LIST -->
-<div id="ordersList" class="px-3 py-3 space-y-3 pb-[40px]"></div>
-
-<audio id="notifSound" src="https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3" preload="auto"></audio>
 
 <script>
-let PASS='1234';
-let orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');
-let filter='all';
-let soundOn=true;
+const GRID='all_products.jpg';
+const P=[{id:1,c:'المشويات',t:'كيلو كباب ضاني',p:1100,r:0,co:0,bs:1},{id:2,c:'المشويات',t:'كيلو ريش ضاني',p:1000,r:0,co:1},{id:3,c:'المشويات',t:'كيلو كفته كندوز',p:550,r:0,co:2,bs:1},{id:4,c:'المشويات',t:'كيلو كفته ضاني',p:600,r:0,co:3},{id:5,c:'المشويات',t:'كيلو مشكل',p:800,r:0,co:4,bs:1},{id:6,c:'المشويات',t:'كيلو طرب',p:600,r:0,co:5},{id:7,c:'المشويات',t:'كفته و طرب',p:575,r:0,co:6},{id:8,c:'المشويات',t:'شيش طاووق',p:450,r:0,co:7},{id:9,c:'المشويات',t:'استربس',p:470,r:0,co:8},{id:10,c:'المشويات',t:'فرخه شيش',p:360,r:0,co:9},{id:11,c:'المشويات',t:'فرخه تكا',p:360,r:0,co:10},{id:12,c:'المشويات',t:'فرخه شوايه',p:360,r:1,co:0},{id:13,c:'المشويات',t:'فرخه نص',p:180,r:1,co:1},{id:14,c:'المشويات',t:'فرخه ربع',p:95,r:1,co:2},{id:15,c:'المشويات',t:'نص كفته كندوز',p:275,r:1,co:3},{id:16,c:'المشويات',t:'نص كفته ضاني',p:300,r:1,co:4},{id:17,c:'المشويات',t:'ربع كفته ضاني',p:160,r:1,co:5},{id:18,c:'المشويات',t:'ربع كفته كندوز',p:140,r:1,co:6},{id:19,c:'المشويات',t:'نص طرب',p:300,r:1,co:7},{id:20,c:'المشويات',t:'ربع طرب',p:160,r:1,co:8},{id:21,c:'المشويات',t:'موزه ضاني',p:400,r:1,co:9,bs:1},{id:22,c:'المشويات',t:'كيلو سجق',p:400,r:1,co:10},{id:23,c:'المشويات',t:'نص سجق',p:200,r:2,co:0},{id:24,c:'المشويات',t:'ربع سجق',p:110,r:2,co:1},{id:25,c:'الوجبات',t:'وجبة نص فرخه',p:200,r:2,co:2},{id:26,c:'الوجبات',t:'وجبة ربع فرخه',p:130,r:2,co:3},{id:27,c:'الوجبات',t:'وجبة نص كفته',p:310,r:2,co:4},{id:28,c:'الوجبات',t:'وجبة ربع كفته',p:180,r:2,co:5},{id:29,c:'الوجبات',t:'وجبة كبده',p:250,r:2,co:6},{id:30,c:'الوجبات',t:'ميكس جريل',p:250,r:2,co:7,bs:1},{id:31,c:'الوجبات',t:'الكومبو',p:200,r:2,co:8},{id:32,c:'الوجبات',t:'وجبة شيش',p:220,r:2,co:9},{id:33,c:'الوجبات',t:'التوفير',p:260,r:2,co:10},{id:34,c:'الوجبات',t:'وجبة الطاهي',p:235,r:3,co:0,bs:1},{id:35,c:'الوجبات',t:'فراخ و كفته',p:235,r:3,co:1},{id:36,c:'السندوتشات',t:'سندوتش كبده',p:45,r:3,co:2},{id:37,c:'السندوتشات',t:'سندوتش طرب',p:130,r:3,co:3},{id:38,c:'السندوتشات',t:'سندوتش شيش',p:75,r:3,co:4},{id:39,c:'السندوتشات',t:'سندوتش كفته',p:70,r:3,co:5},{id:40,c:'السندوتشات',t:'سندوتش كباب',p:140,r:3,co:6},{id:41,c:'السندوتشات',t:'سندوتش سجق',p:40,r:3,co:7},{id:42,c:'السندوتشات',t:'حواوشي',p:40,r:3,co:8},{id:43,c:'السندوتشات',t:'حواوشي الطاهي',p:70,r:3,co:9,bs:1},{id:44,c:'كبده',t:'كيلو كبده',p:400,r:3,co:10},{id:45,c:'كبده',t:'نص كبده',p:200,r:4,co:0},{id:46,c:'كبده',t:'ربع كبده',p:100,r:4,co:1},{id:47,c:'كبده',t:'طلب كبده',p:90,r:4,co:2},{id:48,c:'المطبخ',t:'طاجن بطاطس',p:200,r:4,co:3},{id:49,c:'المطبخ',t:'طاجن باميه',p:200,r:4,co:4},{id:50,c:'المطبخ',t:'طاجن تورلي',p:200,r:4,co:5},{id:51,c:'المطبخ',t:'حمام محشي',p:180,r:4,co:6,bs:1},{id:52,c:'المطبخ',t:'محشي',p:100,r:4,co:7},{id:53,c:'المطبخ',t:'كيلو ممبار',p:250,r:4,co:8},{id:54,c:'المطبخ',t:'نص ممبار',p:130,r:4,co:9},{id:55,c:'المطبخ',t:'ربع ممبار',p:70,r:4,co:10},{id:56,c:'المطبخ',t:'كفته 3 قطع',p:100,r:5,co:0,bs:1},{id:57,c:'ميكس الطاهي',t:'ميكس كفته وطرب',p:170,r:5,co:1},{id:58,c:'ميكس الطاهي',t:'ميكس شيش واستربس',p:170,r:5,co:2},{id:59,c:'ميكس الطاهي',t:'ميكس كفته وشيش',p:170,r:5,co:3},{id:60,c:'ميكس الطاهي',t:'ميكس شيش وطرب',p:170,r:5,co:4},{id:61,c:'ميكس الطاهي',t:'ميكس استربس وكفته',p:170,r:5,co:5},{id:62,c:'ميكس الطاهي',t:'المكساوي',p:180,r:5,co:6,bs:1},{id:63,c:'البروست',t:'بروست الطاهي',p:160,r:5,co:7},{id:64,c:'البروست',t:'تريبل هيت',p:200,r:5,co:8},{id:65,c:'البروست',t:'الذهبية',p:250,r:5,co:9,bs:1},{id:66,c:'البروست',t:'باور',p:280,r:5,co:10},{id:67,c:'البروست',t:'لمه الحبايب',p:420,r:6,co:0},{id:68,c:'البروست',t:'العمالقه',p:500,r:6,co:1},{id:69,c:'البروست',t:'الديكله',p:600,r:6,co:2},{id:70,c:'صواني',t:'صنية السيزون',p:900,r:6,co:3,bs:1},{id:71,c:'صواني',t:'صنية السويسي',p:850,r:6,co:4,bs:1},{id:72,c:'جانبي',t:'أرز ساده',p:25,r:6,co:5},{id:73,c:'جانبي',t:'أرز بالكبده',p:50,r:6,co:6},{id:74,c:'جانبي',t:'أرز بسمتي',p:35,r:6,co:7},{id:75,c:'جانبي',t:'مكرونه فرن',p:35,r:6,co:8},{id:76,c:'جانبي',t:'ملوخيه',p:40,r:6,co:9},{id:77,c:'جانبي',t:'شوربة',p:25,r:6,co:10},{id:78,c:'جانبي',t:'خضار اليوم',p:25,r:7,co:0},{id:79,c:'جانبي',t:'سلطه خضراء',p:25,r:7,co:1},{id:80,c:'جانبي',t:'طحينه',p:25,r:7,co:2},{id:81,c:'جانبي',t:'بابا غنوج',p:30,r:7,co:3},{id:82,c:'جانبي',t:'توميه',p:30,r:7,co:4},{id:83,c:'جانبي',t:'كول سلو',p:30,r:7,co:5},{id:84,c:'جانبي',t:'باذنجان',p:20,r:7,co:6},{id:85,c:'جانبي',t:'V Cola',p:23,r:7,co:7},{id:86,c:'جانبي',t:'مياه',p:12,r:7,co:8},{id:87,c:'جانبي',t:'اسبيرو',p:18,r:7,co:9},{id:88,c:'جانبي',t:'لتر مشروب',p:35,r:7,co:10}];
+function pos(p){return `left:${-p.co*100}%;top:${-p.r*100}%`}
+let cart=[],cur=null,q=1,fil='المشويات',search='';
+function cardHTML(p,small=false){let bs=p.bs?`<span class="absolute top-1 right-1 bg-[#C6FF00] text-black text-[6px] font-black px-1.5 py-0.5 rounded-full">BESTSELLER</span>`:'',w=small?'w-[140px] flex-shrink-0':'',h=small?'h-[90px]':'h-[110px]';return `<div class="${w} card-dark rounded-[12px] overflow-hidden cursor-pointer" onclick="openP(${p.id})"><div class="relative ${h} bg-[#111] overflow-hidden"><div class="absolute inset-0 overflow-hidden"><img src="${GRID}" style="position:absolute;width:1100%;height:800%;max-width:none;${pos(p)}"></div>${bs}</div><div class="p-2"><div class="text-[10px] font-bold h-[28px]">${p.t}</div><div class="flex justify-between mt-1"><span class="text-[#FF6A00] text-[10px] font-bold">${p.p}ج</span><div class="w-5 h-5 bg-[#FF6A00] rounded-full grid place-items-center text-black text-[9px]">+</div></div></div></div>`}
+function render(){let L=P.filter(x=>(fil==='الكل'||x.c===fil)&&(search==''||x.t.includes(search)));document.getElementById('grid').innerHTML=L.map(p=>cardHTML(p,false)).join('');document.getElementById('countLabel').innerText=L.length+' صنف';let sig=P.filter(x=>x.bs).slice(0,6);document.getElementById('signatureGrid').innerHTML=sig.map(p=>cardHTML(p,true)).join('');updateTrackerCard();updatePointsUI();}
+function filterCat(c){fil=c;document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('cat-active',b.dataset.cat===c));render()}
+function doSearch(v){search=v;fil='الكل';render()}
+function openP(id){cur=P.find(x=>x.id===id);q=1;let img=document.getElementById('mImg');img.src=GRID;img.style.cssText=`width:1100%;height:800%;max-width:none;${pos(cur)};position:absolute`;document.getElementById('mTitle').innerText=cur.t;document.getElementById('mPrice').innerText=cur.p+' ج';document.getElementById('mPoints').innerText=cur.p;upd();document.getElementById('modal').classList.remove('hidden')}
+function closeModal(){document.getElementById('modal').classList.add('hidden')}
+function chg(d){q=Math.max(1,q+d);upd()}
+function upd(){document.getElementById('mQty').innerText=q;document.getElementById('mTotal').innerText=(cur.p*q)+'ج'}
+function addCart(){let e=cart.find(x=>x.id===cur.id);if(e)e.qty+=q;else cart.push({...cur,qty:q});updateCart();closeModal()}
+function updateCart(){let tot=cart.reduce((s,c)=>s+c.qty,0);document.getElementById('cartBadge').innerText=tot;document.getElementById('bottomBadge').innerText=tot||'الطلب';document.getElementById('cartItems').innerHTML=cart.map((c,i)=>`<div class="flex gap-2 bg-[#1E1E20] p-2 rounded-xl"><div class="w-10 h-10 rounded-full overflow-hidden relative bg-[#111]"><img src="${GRID}" style="position:absolute;width:1100%;height:800%;max-width:none;${pos(c)}"></div><div class="flex-1"><div class="text-[10px] font-bold">${c.t}</div><div class="text-[9px] text-white/40">${c.p}×${c.qty}</div></div><button onclick="cart.splice(${i},1);updateCart()">✕</button></div>`).join('')||'<div class="text-center text-white/20 py-10 text-[11px]">فاضية</div>';let total=cart.reduce((s,c)=>s+c.p*c.qty,0);document.getElementById('cartTotal').innerText=total+' ج';document.getElementById('earnPoints').innerText=total+' نقطة';}
+function openCart(){document.getElementById('cartDrawer').classList.remove('hidden')}
+function closeCart(){document.getElementById('cartDrawer').classList.add('hidden')}
+function updateTrackerCard(){let orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');if(!orders.length||orders[orders.length-1].status==='delivered'){document.getElementById('noOrderTracker').classList.remove('hidden');document.getElementById('activeTracker').classList.add('hidden');return}let o=orders[orders.length-1];document.getElementById('noOrderTracker').classList.add('hidden');document.getElementById('activeTracker').classList.remove('hidden');document.getElementById('trackId').innerText=o.id;document.getElementById('trackStatus').innerText=o.statusText;document.getElementById('trackETA').innerText='ETA: '+o.eta+' د';let steps=['تم','تحضير','طريق','تم'];let idx=['confirmed','preparing','onway','delivered'].indexOf(o.status);let html='';steps.forEach((s,i)=>{let done=i<idx,active=i===idx;html+=`<div class="w-6 h-6 rounded-full grid place-items-center text-[10px] ${done?'bg-[#C6FF00] text-black':active?'bg-[#FF6A00] text-black':'bg-white/10'}">${done?'✓':i+1}</div>`;if(i<3)html+=`<div class="flex-1 h-[2px] ${i<idx?'bg-[#C6FF00]':'bg-white/10'}"></div>`});document.getElementById('trackSteps').innerHTML=html}
+function updatePointsUI(){let points=parseInt(localStorage.getItem('tahey_points')||'0');document.getElementById('pointsDisplay').innerText=points+' 🟡';document.getElementById('headerPoints').innerText=points;document.getElementById('rewardPointsBig').innerText=points+' نقطة';let pct=Math.min((points%500)/500*100,100);document.getElementById('pointsBar').style.width=pct+'%';document.getElementById('pointsMsg').innerText=points>=500?'جاهز لوجبة مجانية!':`باقي ${500-(points%500)} نقطة لوجبة`;let list=document.getElementById('rewardsList');list.innerHTML=`<div class="bg-[#1E1E20] border ${points>=500?'border-[#C6FF00]':'border-white/10'} rounded-[12px] p-3 flex justify-between"><div><div class="font-bold text-[11px]">وجبة الطاهي مجاناً 🎁</div><div class="text-[9px] text-white/40">500 نقطة</div></div><button onclick="redeem(500)" class="px-4 py-2 rounded-full text-[10px] font-bold ${points>=500?'bg-[#C6FF00] text-black':'bg-white/10'}">${points>=500?'استبدال':'مقفول'}</button></div>`;let hist=JSON.parse(localStorage.getItem('tahey_history')||'[]');document.getElementById('pointsHistory').innerHTML=hist.slice(-5).reverse().map(h=>`<div class="flex justify-between border-b border-white/5 py-1"><span>${h.txt}</span><span class="text-[#C6FF00]">+${h.pts}</span></div>`).join('')||'لا يوجد سجل';}
+function redeem(c){let p=parseInt(localStorage.getItem('tahey_points')||'0');if(p<c)return alert('نقاطك غير كافية');if(!confirm(`استبدال ${c} نقطة؟`))return;let np=p-c;localStorage.setItem('tahey_points',np);let h=JSON.parse(localStorage.getItem('tahey_history')||'[]');h.push({txt:`استبدال ${c} نقطة`,pts:-c});localStorage.setItem('tahey_history',JSON.stringify(h));updatePointsUI();alert('تم الاستبدال ✅')}
+function openTracker(){let orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');if(!orders.length)return alert('لا يوجد طلبات');let o=orders[orders.length-1];let steps=[{k:'confirmed',t:'تم التأكيد',d:'المطبخ استلم طلبك'},{k:'preparing',t:'جاري التحضير',d:'الشيف يجهز طلبك'},{k:'onway',t:'في الطريق',d:o.address},{k:'delivered',t:'تم التوصيل',d:'بالهنا والشفا'}];let idx=['confirmed','preparing','onway','delivered'].indexOf(o.status);let html=`<div class="bg-[#1E1E20] rounded-[14px] p-3 mb-4"><div class="flex justify-between"><div><div class="font-bold">طلب #${o.id}</div><div class="text-[10px] text-white/50">${new Date(o.time).toLocaleTimeString('ar-EG')}</div></div><div class="text-[#FF6A00] font-black">${o.total}ج</div></div><div class="text-[10px] mt-2">${o.items.map(i=>`- ${i.t} ×${i.qty}`).join('<br>')}</div></div>`;steps.forEach((s,i)=>{let done=i<idx,active=i===idx;html+=`<div class="flex gap-3"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full grid place-items-center ${done?'bg-[#C6FF00] text-black':active?'bg-[#FF6A00] text-black':'bg-white/10'}">${done?'✓':i+1}</div>${i<3?`<div class="w-[2px] h-10 ${done?'bg-[#C6FF00]':'bg-white/10'} mt-1"></div>`:''}</div><div class="pb-8"><div class="font-bold text-[12px] ${active?'text-[#FF6A00]':''}">${s.t}</div><div class="text-[10px] text-white/50">${active?o.statusText:s.d}</div></div></div>`});document.getElementById('trackerContent').innerHTML=html;document.getElementById('trackerModal').classList.remove('hidden')}
+function closeTracker(){document.getElementById('trackerModal').classList.add('hidden')}
+function openRewards(){updatePointsUI();document.getElementById('rewardsModal').classList.remove('hidden')}
+function closeRewards(){document.getElementById('rewardsModal').classList.add('hidden')}
 
-function login(){if(document.getElementById('pass').value===PASS){document.getElementById('loginScreen').classList.add('hidden');render();setInterval(checkNew,1000)}else alert('باسورد غلط')}
-
-function checkNew(){
-let current=JSON.parse(localStorage.getItem('tahey_orders')||'[]');
-if(current.length>orders.length){
-if(soundOn)document.getElementById('notifSound').play().catch(()=>{});
-if(Notification&&Notification.permission==='granted')new Notification('طلب جديد! 🔥',{body:`طلب #${current[current.length-1].id} - ${current[current.length-1].total}ج`});
-orders=current;render();
+function checkout(){
+if(!cart.length)return alert('السلة فاضية');
+let n=document.getElementById('custName').value.trim(),ph=document.getElementById('custPhone').value.trim(),ad=document.getElementById('custAddress').value.trim();
+if(!n||!ph||!ad)return alert('اكمل البيانات');
+let total=cart.reduce((s,c)=>s+c.p*c.qty,0);
+let orderId=Math.floor(1000+Math.random()*9000);
+let newOrder={id:orderId,items:cart.map(c=>({id:c.id,t:c.t,p:c.p,qty:c.qty,r:c.r,co:c.co})),total,earn:total,name:n,phone:ph,address:ad,status:'confirmed',statusText:'تم التأكيد - المطبخ استلم طلبك ✅',eta:'20-25',time:Date.now()};
+let orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');orders.push(newOrder);localStorage.setItem('tahey_orders',JSON.stringify(orders));
+let points=parseInt(localStorage.getItem('tahey_points')||'0');points+=total;localStorage.setItem('tahey_points',points.toString());
+let hist=JSON.parse(localStorage.getItem('tahey_history')||'[]');hist.push({txt:`طلب #${orderId} - ${total}ج`,pts:total,time:Date.now()});localStorage.setItem('tahey_history',JSON.stringify(hist));
+try{let bc=new BroadcastChannel('tahey');bc.postMessage({type:'new',order:newOrder});bc.close();}catch(e){}
+let msg=`🔥 طلب جديد #${orderId} 🔥%0A👤 ${n}%0A📞 ${ph}%0A📍 ${ad}%0A━━━━━━━━%0A`;cart.forEach(c=>msg+=`• ${c.t} ×${c.qty}=${c.p*c.qty}ج%0A`);msg+=`━━━━━━━━%0A💰 ${total}ج - ⭐ ${total} نقطة`;
+window.open(`https://wa.me/201140243713?text=${msg}`,'_blank');
+cart=[];updateCart();closeCart();updatePointsUI();updateTrackerCard();setTimeout(()=>openTracker(),1000);
+let statuses=[{s:'preparing',text:'جاري التحضير 👨‍🍳',eta:'12-15',d:10000},{s:'onway',text:'في الطريق 🚚',eta:'5-8',d:20000},{s:'delivered',text:'تم التوصيل ✅',eta:'تم',d:35000}];
+statuses.forEach(st=>setTimeout(()=>{let os=JSON.parse(localStorage.getItem('tahey_orders')||'[]');let o=os.find(x=>x.id===orderId);if(o&&o.status!=='delivered'){o.status=st.s;o.statusText=st.text;o.eta=st.eta;localStorage.setItem('tahey_orders',JSON.stringify(os));updateTrackerCard();if(!document.getElementById('trackerModal').classList.contains('hidden'))openTracker();}},st.d));
 }
-}
-
-function render(){
-let list=document.getElementById('ordersList');
-let filtered=filter==='all'?orders:orders.filter(o=>o.status===filter);
-filtered=filtered.slice().reverse();
-if(!filtered.length){list.innerHTML='<div class="text-center py-20 text-white/20">لا يوجد طلبات<br><span class="text-[10px]">الطلبات هتظهر هنا لحظياً</span></div>';}
-else{
-list.innerHTML=filtered.map(o=>{
-let cls=o.status==='confirmed'?'order-new':o.status==='preparing'?'order-prep':o.status==='onway'?'order-way':'order-done';
-let timeAgo=Math.floor((Date.now()-o.time)/60000);
-return `<div class="card rounded-[16px] p-3 ${cls}">
-<div class="flex justify-between items-start"><div><div class="font-black text-[13px]">طلب #${o.id} <span class="text-[10px] font-normal text-white/40">${timeAgo}د منذ</span></div><div class="text-[11px] mt-1">👤 ${o.name} - 📞 ${o.phone}</div><div class="text-[10px] text-white/50">📍 ${o.address}</div></div><div class="text-left"><div class="text-[#FF6A00] font-black text-[14px]">${o.total}ج</div><div class="text-[9px] text-white/40">${o.items.length} صنف</div></div></div>
-<div class="mt-3 bg-black/50 rounded-[10px] p-2 text-[11px] leading-6">${o.items.map(i=>`• ${i.t} ×${i.qty} = ${i.p*i.qty}ج`).join('<br>')}</div>
-<div class="mt-3 flex gap-2">
-${o.status==='confirmed'?`<button onclick="updateStatus(${o.id},'preparing')" class="flex-1 bg-[#FF6A00] text-black py-2.5 rounded-full font-bold text-[11px]">بدء التحضير 👨‍🍳</button>`:''}
-${o.status==='preparing'?`<button onclick="updateStatus(${o.id},'onway')" class="flex-1 bg-[#00C6FF] text-black py-2.5 rounded-full font-bold text-[11px]">خرج للتوصيل 🚚</button>`:''}
-${o.status==='onway'?`<button onclick="updateStatus(${o.id},'delivered')" class="flex-1 bg-[#C6FF00] text-black py-2.5 rounded-full font-bold text-[11px]">تم التوصيل ✅</button>`:''}
-${o.status!=='delivered'?`<button onclick="callCust('${o.phone}')" class="w-12 bg-[#25D366] rounded-full grid place-items-center">📞</button><button onclick="whatsCust(${o.id})" class="w-12 bg-white/10 rounded-full grid place-items-center">💬</button>`:''}
-${o.status==='delivered'?`<div class="flex-1 text-center py-2 text-[11px] text-white/30">تم التوصيل - ${o.total}ج - ${o.earn||o.total} نقطة</div>`:''}
-</div>
-<div class="mt-2 flex gap-2 text-[9px]"><span class="bg-white/5 px-2 py-1 rounded-full">${o.status==='confirmed'?'🟡 جديد':o.status==='preparing'?'🟠 تحضير':o.status==='onway'?'🔵 في الطريق':'✅ تم'}</span><span class="bg-white/5 px-2 py-1 rounded-full">ETA: ${o.eta}</span><button onclick="printOrder(${o.id})" class="bg-white/5 px-2 py-1 rounded-full">🖨️ طباعة</button></div>
-</div>`}).join('');
-}
-updateStats();
-}
-
-function updateStats(){
-let today=orders.filter(o=>new Date(o.time).toDateString()===new Date().toDateString());
-document.getElementById('statNew').innerText=orders.filter(o=>o.status==='confirmed').length;
-document.getElementById('statPrep').innerText=orders.filter(o=>o.status==='preparing').length;
-document.getElementById('statWay').innerText=orders.filter(o=>o.status==='onway').length;
-document.getElementById('statToday').innerText=today.reduce((s,o)=>s+o.total,0)+'ج';
-document.getElementById('liveCount').innerText=orders.filter(o=>o.status!=='delivered').length;
-document.getElementById('todayTotal').innerText=today.length;
-}
-
-function updateStatus(id,newStatus){
-let o=orders.find(x=>x.id===id);if(!o)return;
-let map={preparing:{text:'جاري التحضير 👨‍🍳',eta:'12-15'},onway:{text:'في الطريق 🚚',eta:'5-8'},delivered:{text:'تم التوصيل ✅',eta:'تم'}};
-o.status=newStatus;o.statusText=map[newStatus].text;o.eta=map[newStatus].eta;
-localStorage.setItem('tahey_orders',JSON.stringify(orders));
-render();
-// Broadcast to customer tabs
-let bc=new BroadcastChannel('tahey');bc.postMessage({type:'status',id,status:newStatus});bc.close();
-}
-
-function filterOrders(f){filter=f;document.querySelectorAll('.f-btn').forEach(b=>{b.classList.toggle('bg-[#FF6A00]',b.dataset.f===f);b.classList.toggle('text-black',b.dataset.f===f);b.classList.toggle('bg-[#1E1E20]',b.dataset.f!==f)});render()}
-function callCust(ph){window.open(`tel:${ph}`)}
-function whatsCust(id){let o=orders.find(x=>x.id===id);let msg=`أهلا ${o.name} - طلبك #${o.id} ${o.statusText}`;window.open(`https://wa.me/2${o.phone}?text=${encodeURIComponent(msg)}`)}
-function printOrder(id){let o=orders.find(x=>x.id===id);let w=window.open('');w.document.write(`<html dir="rtl"><body style="font-family:sans-serif"><h2>الطاهي - طلب #${o.id}</h2><p>${o.name} - ${o.phone}<br>${o.address}</p><hr>${o.items.map(i=>`${i.t} ×${i.qty} = ${i.p*i.qty}ج`).join('<br>')}<hr><b>المجموع: ${o.total}ج</b><br><small>${new Date(o.time).toLocaleString('ar-EG')}</small></body></html>`);w.print()}
-function toggleSound(){soundOn=!soundOn;document.getElementById('soundBtn').innerText=soundOn?'🔔':'🔕'}
-function clearDone(){if(!confirm('مسح كل الطلبات المنتهية؟'))return;orders=orders.filter(o=>o.status!=='delivered');localStorage.setItem('tahey_orders',JSON.stringify(orders));render()}
-
-if(Notification&&Notification.permission!=='granted')Notification.requestPermission();
-
-// Listen for new orders from customer page
-let bc=new BroadcastChannel('tahey');bc.onmessage=e=>{if(e.data.type==='new'){orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');render();if(soundOn)document.getElementById('notifSound').play().catch(()=>{})}};
-
 render();
 </script>
 </body>
