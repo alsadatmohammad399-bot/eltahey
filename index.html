@@ -2,111 +2,119 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الطاهي | ELTAHEY</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>الطاهي - ELTAHEY | 88 صنف</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-<style>body{font-family:Cairo} .no-scroll::-webkit-scrollbar{display:none}</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>body{font-family:Cairo;background:#0f0f0f}.no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{scrollbar-width:none}</style>
 </head>
-<body class="bg-[#121212] text-white">
+<body class="text-white pb-24">
 
-<!-- HEADER زي بازوكا -->
-<header class="bg-black border-b-4 border-[#FFD700] sticky top-0 z-20">
-<div class="max-w-7xl mx-auto p-3 flex justify-between items-center">
-<div class="flex items-center gap-3">
-<div class="bg-[#FFD700] text-black w-12 h-12 rounded-full flex items-center justify-center font-black text-xl">ط</div>
-<div><h1 class="font-black text-xl leading-none">الطاهي</h1><p class="text-[#FFD700] text-xs font-bold">ELTAHEY CHICKEN</p></div>
+<header class="sticky top-0 z-50 bg-black border-b-4 border-[#FFD700] text-white">
+<div class="max-w-7xl mx-auto px-4 py-2.5 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="bg-[#FFD700] text-black w-9 h-9 rounded-full flex items-center justify-center font-black">ط</span>
+<b>الطاهي ELTAHEY - 88 صنف</b>
 </div>
-<div class="flex gap-2">
-<a href="admin.html" class="bg-[#222] px-4 py-2 rounded-full text-sm font-bold">الإدارة</a>
-<button onclick="toggleCart()" class="bg-[#FFD700] text-black px-6 py-2.5 rounded-full font-black flex gap-2">🛒 <span id="cart-count">0</span></button>
+<div class="flex bg-[#1a1a1a] p-1 rounded-xl border border-white/10">
+<button id="btn-cust" onclick="switchView('customer')" class="px-4 py-1.5 rounded-lg text-sm font-bold bg-[#FFD700] text-black">واجهة العميل</button>
+<button id="btn-admin" onclick="switchView('admin')" class="px-4 py-1.5 rounded-lg text-sm font-bold text-white/60 relative">الكاشير <span id="badge" class="hidden bg-red-600 text-white text-[10px] px-1.5 rounded-full">0</span></button>
 </div>
 </div>
 </header>
 
-<!-- BANNER زي بازوكا -->
-<div class="bg-gradient-to-r from-black via-[#1a1a1a] to-black p-6 text-center border-b border-white/10">
-<h2 class="text-3xl md:text-5xl font-black">أصل <span class="text-[#FFD700]">الطعم</span> المصري</h2>
-<p class="text-white/60 mt-2">88 صنف - مشويات - فراخ - طواجن - وجبات عائلية</p>
+<!-- واجهة العميل -->
+<main id="customer-view" class="max-w-5xl mx-auto px-3 pt-4">
+<div class="bg-gradient-to-r from-black to-[#222] rounded-[24px] p-6 mb-4 border border-[#FFD700]/20">
+<h1 class="text-3xl font-black">أصل <span class="text-[#FFD700]">الكباب</span> في مصر 🔥</h1>
+<p class="text-white/50 text-sm mt-1">88 صنف - توصيل لايف - بدون عمولة</p>
+<div class="mt-3 flex gap-2">
+<input id="search" oninput="renderMenu()" placeholder="دور على كباب، كفتة، طرب..." class="flex-1 bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm outline-none">
 </div>
-
-<!-- اقسام زي بازوكا -->
-<div class="max-w-7xl mx-auto p-3">
-<div id="cats" class="flex gap-2 overflow-x-auto no-scroll pb-2"></div>
-<div id="menu" class="mt-4 space-y-10"></div>
 </div>
+<div class="sticky top-[60px] z-30 bg-[#0f0f0f]/90 backdrop-blur py-2"><div id="cats" class="flex gap-2 overflow-x-auto no-scrollbar"></div></div>
+<div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3"></div>
+<div id="floating-cart" class="hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[94%] max-w-lg z-40">
+<button onclick="openCheckout()" class="w-full bg-[#FFD700] text-black rounded-2xl p-4 flex justify-between font-black"><span>🛒 <span id="cart-count">0</span> عرض السلة</span><span id="cart-total">0ج</span></button>
+</div>
+</main>
 
-<!-- سلة بازوكا -->
-<div id="cart-modal" class="hidden fixed inset-0 bg-black/80 z-30 flex items-end md:items-center justify-center">
-<div class="bg-white text-black rounded-t-[32px] md:rounded-[24px] w-full max-w-md p-6 max-h-[92vh] overflow-auto">
-<div class="flex justify-between"><h2 class="text-2xl font-black">سلة الطلبات</h2><button onclick="toggleCart()" class="text-2xl">✕</button></div>
-<div id="cart-items" class="my-4 space-y-2"></div>
-<div class="flex justify-between font-black text-xl border-t-2 border-black pt-3"><span>الإجمالي</span><span id="cart-total" class="text-[#c00]">0 جنيه</span></div>
-<input id="cust-name" placeholder="الاسم" class="w-full border-2 p-3 rounded-xl mt-4">
+<!-- لوحة الكاشير -->
+<main id="admin-view" class="hidden max-w-7xl mx-auto px-4 pt-4">
+<div class="bg-white text-black rounded-2xl p-4 flex justify-between items-center mb-4">
+<h2 class="font-black text-xl">لوحة الكاشير - الطاهي</h2>
+<button onclick="addDemoSound()" class="bg-black text-[#FFD700] px-4 py-2 rounded-xl text-sm font-bold">🔔 جرب صوت طلب جديد</button>
+</div>
+<div class="flex gap-2 mb-4 border-b border-white/10 pb-2">
+<button id="tab-orders" onclick="switchAdmin('orders')" class="px-4 py-2 border-b-2 border-[#FFD700] font-bold text-[#FFD700]">الطلبات الواردة</button>
+<button id="tab-menu" onclick="switchAdmin('menu')" class="px-4 py-2 border-b-2 border-transparent text-white/50">إدارة المنيو (88 + إضافة)</button>
+</div>
+<div id="admin-orders"><div id="orders-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-3"></div></div>
+<div id="admin-menu" class="hidden">
+<div class="bg-[#1e1e1e] p-4 rounded-2xl border border-white/10 mb-4">
+<h3 class="font-bold mb-3">➕ إضافة صنف جديد (رقم 89+)</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+<input id="new-name" placeholder="اسم الصنف" class="bg-black border border-white/20 p-2.5 rounded-xl text-sm">
+<input id="new-price" type="number" placeholder="السعر" class="bg-black border border-white/20 p-2.5 rounded-xl text-sm">
+<input id="new-cat" placeholder="القسم - مثل: المشويات" class="bg-black border border-white/20 p-2.5 rounded-xl text-sm">
+<input id="new-emoji" placeholder="ايموجي 🥩" class="bg-black border border-white/20 p-2.5 rounded-xl text-sm">
+</div>
+<button onclick="addNewItem()" class="w-full bg-[#FFD700] text-black py-3 rounded-xl mt-3 font-black">حفظ الصنف الجديد</button>
+</div>
+<div id="menu-table" class="bg-white text-black rounded-2xl overflow-hidden"></div>
+</div>
+</main>
+
+<!-- سلة الدفع -->
+<div id="checkout-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-end md:items-center justify-center">
+<div class="bg-white text-black w-full max-w-md rounded-t-[28px] md:rounded-2xl p-5 max-h-[90vh] overflow-auto">
+<div class="flex justify-between"><h3 class="font-black text-lg">تأكيد الطلب</h3><button onclick="closeCheckout()">✕</button></div>
+<div id="checkout-items" class="my-3 space-y-2"></div>
+<input id="cust-name" placeholder="الاسم" class="w-full border-2 p-3 rounded-xl mt-2">
 <input id="cust-phone" placeholder="رقم الموبايل" class="w-full border-2 p-3 rounded-xl mt-2">
-<input id="cust-address" placeholder="العنوان" class="w-full border-2 p-3 rounded-xl mt-2">
-<button onclick="confirmOrder()" class="w-full bg-[#FFD700] text-black py-4 rounded-xl mt-4 font-black text-lg">تأكيد الطلب 🔥</button>
+<input id="cust-address" placeholder="العنوان تفصيلي" class="w-full border-2 p-3 rounded-xl mt-2">
+<button onclick="submitOrder()" class="w-full bg-black text-[#FFD700] py-4 rounded-xl mt-4 font-black">إرسال الطلب للكاشير 🔥</button>
 </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 const firebaseConfig={apiKey:"AIzaSyArvJ3bcXrqnRXBW8Pr_hH1Ok-Me3hwdcQ",authDomain:"eltahey-1dadd.firebaseapp.com",projectId:"eltahey-1dadd",storageBucket:"eltahey-1dadd.firebasestorage.app",messagingSenderId:"998375782695",appId:"1:998375782695:web:87c49667b00c6459b39102"};
 const app=initializeApp(firebaseConfig); const db=getFirestore(app);
 
-const baseProducts=[
-["المشويات","كيلو كباب ضاني",1100,"🥩","كباب ضاني بلدي فاخر"],["المشويات","كيلو كباب كندوز",950,"🍖","كباب كندوز طازة"],["المشويات","كيلو كفتة ضاني",650,"🔥","كفتة ضاني مشوية"],["المشويات","كيلو كفتة كندوز",550,"🍢","كفتة كندوز"],["المشويات","كيلو ريش ضاني",1200,"🥩","ريش ضاني"],["المشويات","كيلو طرب ضاني",700,"🔥","طرب ضاني مميز"],["المشويات","ميكس كباب وكفتة",850,"🍖","ميكس"],["المشويات","كيلو سجق مشوي",400,"🌭","سجق بلدي"],["المشويات","شيش كباب",600,"🍢","شيش"],["المشويات","وجبة فرد مشويات",350,"🔥","فرد"],["المشويات","وجبة عائلي 4 أفراد",1250,"🍱","عائلي"],["المشويات","وجبة سوبر 6 أفراد",1850,"🍱","سوبر"],
-["الفراخ","فرخة فحم كاملة",350,"🍗","فرخة كاملة"],["الفراخ","نص فرخة",185,"🍗","نص فرخة"],["الفراخ","فرخة شيش طاووق",380,"🍢","شيش طاووق"],["الفراخ","كيلو شيش مخلي",400,"🍢","شيش مخلي"],["الفراخ","فرخة محمرة",340,"🍗","محمرة"],["الفراخ","مسحب",360,"🍗","مسحب"],["الفراخ","وجبة فرخة + أرز",420,"🍱","وجبة"],["الفراخ","كوردن بلو",280,"🍗","كوردن بلو"],
-["الطواجن","طاجن لحمة بالبصل",280,"🍲",""],["الطواجن","طاجن كوارع",320,"🍲",""],["الطواجن","طاجن ورق عنب بالكوارع",350,"🍲",""],["الطواجن","طاجن عكاوي",380,"🍲",""],["الطواجن","طاجن لحمة ضاني",350,"🍲",""],["الطواجن","بامية باللحمة",220,"🍲",""],["الطواجن","ملوخية باللحمة",200,"🍲",""],["الطواجن","لسان عصفور بالكبدة",180,"🍲",""],["الطواجن","فريك باللحمة",200,"🍲",""],["الطواجن","بشاميل لحمة",180,"🍲",""],["الطواجن","بشاميل فراخ",160,"🍲",""],
-["السندوتشات","ساندوتش كباب طلقة",95,"🥙",""],["السندوتشات","ساندوتش كفتة طلقة",65,"🥙",""],["السندوتشات","ساندوتش طرب",85,"🥙",""],["السندوتشات","ساندوتش سجق",45,"🥙",""],["السندوتشات","شيش طاووق طلقة",55,"🥙",""],["السندوتشات","شاورما لحمة",70,"🥙",""],["السندوتشات","شاورما فراخ",60,"🥙",""],["السندوتشات","كبدة",35,"🥙",""],["السندوتشات","مخ",50,"🥙",""],["السندوتشات","داوود باشا",55,"🥙",""],
-["الأرز","أرز بسمتي",60,"🍚",""],["الأرز","أرز بالمكسرات",90,"🍚",""],["الأرز","أرز عادي",40,"🍚",""],["الأرز","مكرونة محمرة",45,"🍝",""],["الأرز","أرز بالخلطة",80,"🍚",""],["الأرز","أرز معمر",120,"🍚",""],
-["السلطات","سلطة خضراء",30,"🥗",""],["السلطات","طحينة",25,"🥗",""],["السلطات","تومية",25,"🥣",""],["السلطات","كول سلو",35,"🥗",""],["السلطات","مخلل",25,"🥒",""],["السلطات","بتنجان مخلل",25,"🍆",""],["السلطات","بابا غنوج",40,"🥗",""],["السلطات","متبل",40,"🥗",""],["السلطات","زبادي",30,"🥣",""],["السلطات","خضار مشوي",60,"🥗",""],
-["المشروبات","مياه صغيرة",10,"💧",""],["المشروبات","مياه كبيرة",15,"💧",""],["المشروبات","بيبسي",25,"🥤",""],["المشروبات","برتقال فريش",60,"🍊",""],["المشروبات","مانجو فريش",70,"🥭",""],["المشروبات","شاي",20,"☕",""],
-["الحلو","رز بلبن",40,"🍮",""],["الحلو","أم علي",65,"🍮",""],["الحلو","كنافة",50,"🥧",""],["الحلو","بسبوسة",45,"🍰",""],["الحلو","فواكه",80,"🍉",""],
-["وجبات الطاهي","عرض الصحاب",550,"🔥","2 كفتة + 2 كباب + رز"],["وجبات الطاهي","عرض العيلة",1450,"🍱","4 مشويات + 2 فرخة"],["وجبات الطاهي","عرض اللمة",2850,"🎉","6 كيلو مشكل"],["وجبات الطاهي","فرد الطاهي",220,"⭐",""],["وجبات الطاهي","دبل الطاهي",380,"⭐⭐",""]
-].map((x,i)=>({id:'b_'+i,cat:x[0],name:x[1],price:x[2],emoji:x[3],desc:x[4]}));
+const DEFAULT_MENU=[
+["المشويات","كيلو كباب ضاني بلدي",1100,"🥩"],["المشويات","كيلو كباب كندوز",950,"🍖"],["المشويات","كيلو كفتة ضاني",650,"🔥"],["المشويات","كيلو كفتة كندوز",550,"🍢"],["المشويات","كيلو ريش ضاني",1200,"🥩"],["المشويات","كيلو طرب",700,"🔥"],["المشويات","ميكس كباب وكفتة",850,"🍖"],["المشويات","كيلو سجق مشوي",400,"🌭"],["المشويات","شيش كباب",600,"🍢"],["المشويات","وجبة مشويات فرد",350,"🔥"],["المشويات","وجبة عائلي 4",1250,"🍱"],["المشويات","وجبة سوبر 6",1850,"🍱"],
+["الفراخ","فرخة فحم كاملة",350,"🍗"],["الفراخ","نص فرخة",185,"🍗"],["الفراخ","شيش طاووق",380,"🍢"],["الفراخ","كيلو شيش مخلي",400,"🍢"],["الفراخ","فرخة محمرة",340,"🍗"],["الفراخ","مسحب",360,"🍗"],["الفراخ","وجبة فرخة + أرز",420,"🍱"],["الفراخ","كوردن بلو",280,"🍗"],
+["الطواجن","طاجن لحمة بالبصل",280,"🍲"],["الطواجن","طاجن كوارع",320,"🍲"],["الطواجن","ورق عنب بالكوارع",350,"🍲"],["الطواجن","طاجن عكاوي",380,"🍲"],["الطواجن","طاجن ضاني",350,"🍲"],["الطواجن","بامية باللحمة",220,"🍲"],["الطواجن","ملوخية باللحمة",200,"🍲"],["الطواجن","لسان عصفور بالكبدة",180,"🍲"],["الطواجن","فريك باللحمة",200,"🍲"],["الطواجن","بشاميل لحمة",180,"🍲"],["الطواجن","بشاميل فراخ",160,"🍲"],
+["السندوتشات","ساندوتش كباب طلقة",95,"🥙"],["السندوتشات","ساندوتش كفتة",65,"🥙"],["السندوتشات","ساندوتش طرب",85,"🥙"],["السندوتشات","ساندوتش سجق",45,"🥙"],["السندوتشات","شيش طاووق طلقة",55,"🥙"],["السندوتشات","شاورما لحمة",70,"🥙"],["السندوتشات","شاورما فراخ",60,"🥙"],["السندوتشات","كبدة",35,"🥙"],["السندوتشات","مخ",50,"🥙"],["السندوتشات","داوود باشا",55,"🥙"],
+["الأرز","أرز بسمتي",60,"🍚"],["الأرز","أرز بالمكسرات",90,"🍚"],["الأرز","أرز عادي",40,"🍚"],["الأرز","مكرونة محمرة",45,"🍝"],["الأرز","أرز بالخلطة",80,"🍚"],["الأرز","أرز معمر",120,"🍚"],
+["السلطات","سلطة خضراء",30,"🥗"],["السلطات","طحينة",25,"🥗"],["السلطات","تومية",25,"🥣"],["السلطات","كول سلو",35,"🥗"],["السلطات","مخلل",25,"🥒"],["السلطات","بتنجان مخلل",25,"🍆"],["السلطات","بابا غنوج",40,"🥗"],["السلطات","متبل",40,"🥗"],["السلطات","زبادي",30,"🥣"],["السلطات","خضار مشوي",60,"🥗"],
+["المشروبات","مياه صغيرة",10,"💧"],["المشروبات","مياه كبيرة",15,"💧"],["المشروبات","بيبسي",25,"🥤"],["المشروبات","برتقال فريش",60,"🍊"],["المشروبات","مانجو فريش",70,"🥭"],["المشروبات","شاي",20,"☕"],
+["الحلو","رز بلبن",40,"🍮"],["الحلو","أم علي",65,"🍮"],["الحلو","كنافة",50,"🥧"],["الحلو","بسبوسة",45,"🍰"],["الحلو","فواكه",80,"🍉"],
+["وجبات الطاهي","عرض الصحاب",550,"🔥"],["وجبات الطاهي","عرض العيلة",1450,"🍱"],["وجبات الطاهي","عرض اللمة",2850,"🎉"],["وجبات الطاهي","فرد الطاهي",220,"⭐"],["وجبات الطاهي","دبل الطاهي",380,"⭐⭐"]
+].map((x,i)=>({id:i+1,cat:x[0],name:x[1],price:x[2],emoji:x[3],available:true}));
 
-let extra=[]; let all=[]; let cart=[]; let active='الكل';
-async function init(){try{const s=await getDocs(collection(db,'products')); s.forEach(d=>extra.push({id:d.id,...d.data()}));}catch(e){} all=[...baseProducts,...extra]; renderCats(); renderMenu();}
-function renderCats(){const cats=['الكل',...new Set(all.map(p=>p.cat))]; document.getElementById('cats').innerHTML=cats.map(c=>`<button onclick="filterCat('${c}')" class="px-6 py-2.5 rounded-full whitespace-nowrap font-black text-sm ${active==c?'bg-[#FFD700] text-black':'bg-[#222] text-white border border-white/10'}">${c}</button>`).join('');}
-window.filterCat=(c)=>{active=c; renderCats(); renderMenu();}
-function renderMenu(){
-const catsToShow = active=='الكل'? [...new Set(all.map(p=>p.cat))] : [active];
-const cont=document.getElementById('menu'); cont.innerHTML='';
-catsToShow.forEach(cat=>{
-const items=all.filter(p=>p.cat==cat);
-cont.innerHTML+=`
-<div>
-<div class="flex items-center gap-3 mb-4">
-<h2 class="text-2xl font-black">${cat}</h2>
-<div class="h-[3px] flex-1 bg-gradient-to-r from-[#FFD700] to-transparent"></div>
-<span class="bg-[#FFD700] text-black px-3 py-1 rounded-full text-xs font-black">${items.length} صنف</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-${items.map(p=>`
-<div class="bg-white rounded-[20px] overflow-hidden text-black group hover:scale-[1.02] transition">
-<div class="bg-[#f5f5f5] h-32 flex items-center justify-center text-5xl relative">
-${p.emoji}
-<div class="absolute top-3 left-3 bg-black text-white text-xs px-3 py-1 rounded-full font-bold">${p.cat}</div>
-<div class="absolute top-3 right-3 bg-[#FFD700] text-black text-xs px-3 py-1 rounded-full font-black">جديد</div>
-</div>
-<div class="p-4">
-<h3 class="font-black text-[16px] leading-tight">${p.name}</h3>
-<p class="text-black/50 text-xs mt-1 h-4">${p.desc||''}</p>
-<div class="flex justify-between items-center mt-3">
-<span class="font-black text-xl">${p.price} <span class="text-sm">جنيه</span></span>
-<button onclick="addToCart('${p.id}')" class="bg-black text-[#FFD700] px-5 py-2.5 rounded-full font-black text-sm group-hover:bg-[#FFD700] group-hover:text-black transition">+ أضف</button>
-</div>
-</div>
-</div>`).join('')}
-</div>
-</div>`;
-});
-}
-window.addToCart=(id)=>{const it=all.find(i=>i.id==id); const ex=cart.find(c=>c.id==id); if(ex) ex.qty++; else cart.push({...it,qty:1}); updateCart(); if(cart.length==1) toggleCart();}
-window.updateCart=()=>{document.getElementById('cart-count').innerText=cart.reduce((s,i)=>s+i.qty,0); document.getElementById('cart-items').innerHTML=cart.map(i=>`<div class="flex justify-between bg-gray-100 p-3 rounded-xl"><span class="font-bold text-sm">${i.name} x${i.qty}</span><span class="font-black">${i.price*i.qty}ج</span></div>`).join('')||'<p class="text-center text-gray-400 py-4">السلة فاضية</p>'; document.getElementById('cart-total').innerText=cart.reduce((s,i)=>s+i.price*i.qty,0)+' جنيه';}
-window.toggleCart=()=>document.getElementById('cart-modal').classList.toggle('hidden');
-window.confirmOrder=async()=>{const n=document.getElementById('cust-name').value.trim(); const ph=document.getElementById('cust-phone').value.trim(); const ad=document.getElementById('cust-address').value.trim(); if(!n||!ph||cart.length==0) return alert('كمل بياناتك'); const total=cart.reduce((s,i)=>s+i.price*i.qty,0); await addDoc(collection(db,'orders'),{customerName:n,phone:ph,address:ad,items:cart,total,status:'جديد',createdAt:serverTimestamp()}); alert('تم طلبك يا '+n+' 🔥'); cart=[]; updateCart(); toggleCart();}
+let menuItems=[...DEFAULT_MENU]; let extra=[]; let cart=[]; let selected='الكل';
+async function init(){try{const snap=await getDocs(collection(db,'products')); snap.forEach(d=>{const p=d.data(); menuItems.push({id:'db_'+d.id,name:p.name,price:p.price,cat:p.cat,emoji:p.emoji||'🔥',available:true})}); }catch(e){} renderCats(); renderMenu(); listenOrders();}
+function renderCats(){const cats=['الكل',...new Set(menuItems.map(m=>m.cat))]; document.getElementById('cats').innerHTML=cats.map(c=>`<button onclick="setCat('${c}')" class="px-5 py-2.5 rounded-full whitespace-nowrap font-bold text-sm ${selected==c?'bg-[#FFD700] text-black':'bg-white/10 text-white'}">${c}</button>`).join('');}
+window.setCat=(c)=>{selected=c; renderCats(); renderMenu();}
+window.renderMenu=()=>{const q=document.getElementById('search').value.toLowerCase(); const filtered=menuItems.filter(m=>(selected=='الكل'||m.cat==selected) && m.name.toLowerCase().includes(q)); document.getElementById('menu-grid').innerHTML=filtered.map(item=>`
+<div class="bg-white text-black rounded-[20px] overflow-hidden flex gap-3 p-3 border ${!item.available?'opacity-50':''}">
+<div class="w-20 h-20 bg-[#f5f5f5] rounded-xl flex items-center justify-center text-3xl shrink-0">${item.emoji}</div>
+<div class="flex-1"><h3 class="font-black text-sm">${item.name}</h3><p class="text-xs text-black/50">${item.cat}</p><div class="flex justify-between items-center mt-2"><span class="font-black text-[#c00]">${item.price}ج</span><button onclick="addToCart(${item.id})" class="bg-black text-[#FFD700] px-4 py-1.5 rounded-full text-xs font-black">+ أضف</button></div></div>
+</div>`).join('');}
+window.addToCart=(id)=>{const it=menuItems.find(i=>i.id==id); const ex=cart.find(c=>c.id==id); if(ex) ex.qty++; else cart.push({...it,qty:1}); updateCart();}
+function updateCart(){const c=document.getElementById('cart-count'); const t=document.getElementById('cart-total'); const bar=document.getElementById('floating-cart'); if(cart.length==0){bar.classList.add('hidden'); return;} bar.classList.remove('hidden'); c.innerText=cart.reduce((s,i)=>s+i.qty,0); t.innerText=cart.reduce((s,i)=>s+i.price*i.qty,0)+' جنيه';}
+window.openCheckout=()=>{document.getElementById('checkout-items').innerHTML=cart.map(i=>`<div class="flex justify-between bg-gray-100 p-2 rounded-xl text-sm"><span>${i.name} x${i.qty}</span><span class="font-bold">${i.price*i.qty}ج</span></div>`).join(''); document.getElementById('checkout-modal').classList.remove('hidden');}
+window.closeCheckout=()=>document.getElementById('checkout-modal').classList.add('hidden');
+window.submitOrder=async()=>{const name=document.getElementById('cust-name').value.trim(); const phone=document.getElementById('cust-phone').value.trim(); const addr=document.getElementById('cust-address').value.trim(); if(!name||!phone||cart.length==0) return alert('كمل البيانات'); const total=cart.reduce((s,i)=>s+i.price*i.qty,0); await addDoc(collection(db,'orders'),{customerName:name,phone,address:addr,items:cart,total,status:'pending',createdAt:serverTimestamp()}); alert('تم طلبك 🔥'); cart=[]; updateCart(); closeCheckout(); playSound();}
+window.switchView=(v)=>{document.getElementById('customer-view').classList.toggle('hidden',v!='customer'); document.getElementById('admin-view').classList.toggle('hidden',v!='admin'); document.getElementById('btn-cust').className=v=='customer'?'px-4 py-1.5 rounded-lg text-sm font-bold bg-[#FFD700] text-black':'px-4 py-1.5 rounded-lg text-sm font-bold text-white/60'; document.getElementById('btn-admin').className=v=='admin'?'px-4 py-1.5 rounded-lg text-sm font-bold bg-[#FFD700] text-black':'px-4 py-1.5 rounded-lg text-sm font-bold text-white/60';}
+window.switchAdmin=(t)=>{document.getElementById('admin-orders').classList.toggle('hidden',t!='orders'); document.getElementById('admin-menu').classList.toggle('hidden',t!='menu'); document.getElementById('tab-orders').className=t=='orders'?'px-4 py-2 border-b-2 border-[#FFD700] font-bold text-[#FFD700]':'px-4 py-2 border-b-2 border-transparent text-white/50'; document.getElementById('tab-menu').className=t=='menu'?'px-4 py-2 border-b-2 border-[#FFD700] font-bold text-[#FFD700]':'px-4 py-2 border-b-2 border-transparent text-white/50'; if(t=='menu') renderMenuTable();}
+window.addNewItem=async()=>{const name=document.getElementById('new-name').value.trim(); const price=parseInt(document.getElementById('new-price').value); const cat=document.getElementById('new-cat').value.trim()||'إضافي'; const emoji=document.getElementById('new-emoji').value.trim()||'🔥'; if(!name||!price) return alert('اكتب الاسم والسعر'); await addDoc(collection(db,'products'),{name,price,cat,emoji,createdAt:serverTimestamp()}); alert('تم ✅'); location.reload();}
+function renderMenuTable(){const div=document.getElementById('menu-table'); div.innerHTML='<div class="p-2">'+menuItems.map(m=>`<div class="flex justify-between p-3 border-b"><span>${m.emoji} ${m.name} - ${m.price}ج (${m.cat})</span></div>`).join('')+'</div>';}
+function listenOrders(){const q=query(collection(db,'orders'),orderBy('createdAt','desc')); onSnapshot(q,(snap)=>{const grid=document.getElementById('orders-grid'); const badge=document.getElementById('badge'); const pending=snap.docs.filter(d=>d.data().status=='pending').length; if(pending>0){badge.innerText=pending; badge.classList.remove('hidden');} else badge.classList.add('hidden'); if(snap.empty){grid.innerHTML='<p class="text-white/30 text-center col-span-full py-10">مفيش طلبات لسه</p>'; return;} grid.innerHTML=''; snap.forEach(d=>{const o=d.data(); const time=o.createdAt?.toDate().toLocaleString('ar-EG')||'الآن'; grid.innerHTML+=`<div class="bg-white text-black p-4 rounded-2xl"><div class="flex justify-between"><b>#${d.id.slice(0,4)} - ${o.customerName}</b><span class="bg-[#FFD700] px-2 rounded-full text-xs font-bold">${o.status}</span></div><p class="text-xs text-black/50">${o.phone} - ${o.address||''}</p><div class="bg-gray-100 p-2 rounded-xl mt-2 text-xs">${(o.items||[]).map(i=>`${i.name} x${i.qty}`).join('<br>')}</div><p class="font-black mt-2">${o.total} جنيه - ${time}</p></div>`;});});}
+window.playSound=()=>{try{const ctx=new (window.AudioContext||window.webkitAudioContext)(); const o=ctx.createOscillator(); o.frequency.value=880; o.connect(ctx.destination); o.start(); setTimeout(()=>o.stop(),300);}catch(e){}}; window.addDemoSound=()=>playSound();
 init();
 </script>
 </body>
