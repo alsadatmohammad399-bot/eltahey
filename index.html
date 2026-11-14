@@ -6,147 +6,221 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Baloo+2:wght@800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-*{font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
-.baloo{font-family:'Baloo 2',cursive}
+*{font-family:'Cairo',sans-serif}
+.baloo{font-family:'Baloo 2'}
 body{background:#0A0A0A;color:#fff}
-.hero-title{font-family:'Baloo 2';transform:rotate(-2deg);line-height:.85;text-shadow:0 4px 20px rgba(0,0,0,.8)}
 .card-dark{background:linear-gradient(180deg,#1E1E20 0%,#121212 100%);border:1px solid rgba(255,255,255,.06)}
-.img-grid{width:100%;height:110px;overflow:hidden;position:relative;background:#111}
 .img-grid img{position:absolute;width:1100%;height:800%;max-width:none}
 .scroll-hide::-webkit-scrollbar{display:none}
-.cat-active{background:#FF6A00!important;color:#000!important;border-color:#FF6A00!important}
-.cat-active span{color:#000!important}
+.cat-active{background:#FF6A00!important;color:#000!important}
+.step-active{color:#FF6A00!important}.step-done{background:#C6FF00!important;color:#000!important}
+.progress-line{height:2px;flex:1}.progress-done{background:#C6FF00}.progress-pending{background:rgba(255,255,255,.1);border-top:1px dashed rgba(255,255,255,.2)}
 </style>
 </head>
 <body class="max-w-[480px] mx-auto bg-[#0A0A0A] pb-[90px]">
 
-<!-- HEADER نفس الاستايل -->
+<!-- HEADER -->
 <div class="sticky top-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-xl px-4 py-3 flex justify-between items-center">
-<div class="flex items-center gap-3"><button class="text-white">☰</button><div class="leading-tight"><div class="text-[11px] text-white/50">التوصيل إلى</div><div class="text-[13px] font-bold text-[#FF6A00] flex items-center gap-1">المنزل ⌄</div></div></div>
-<div class="flex items-center gap-3"><div class="text-[#FF6A00] text-[22px]">👨‍🍳</div><div class="relative"><span>🔔</span><span class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF6A00] text-black text-[9px] font-bold rounded-full grid place-items-center">3</span></div><div class="relative w-8 h-8 bg-white/5 rounded-full grid place-items-center">🛒<span id="cartBadge" class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF6A00] text-black text-[8px] font-bold rounded-full grid place-items-center">0</span></div></div>
+<div class="flex items-center gap-3"><button>☰</button><div><div class="text-[11px] text-white/50">التوصيل إلى</div><div class="text-[13px] font-bold text-[#FF6A00]">المنزل ⌄</div></div></div>
+<div class="flex items-center gap-3"><div class="relative w-8 h-8 bg-white/5 rounded-full grid place-items-center">🛒<span id="cartBadge" class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF6A00] text-black text-[8px] font-bold rounded-full grid place-items-center">0</span></div><button onclick="openRewards()" class="bg-[#1E1E20] border border-white/10 px-3 py-1 rounded-full text-[10px]">⭐ <span id="headerPoints">0</span></button></div>
 </div>
 
-<!-- HERO نفس الاستايل بالظبط -->
-<div class="relative h-[270px] overflow-hidden">
-<img src="all_products.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60">
-<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-[#0A0A0A]/20"></div>
-<div class="absolute top-6 right-4 left-[45%]">
-<h1 class="hero-title text-[38px] font-black text-white">الطاهي<br>الأصلي،<br><span class="text-[#FF8C00]">يوصل<br>سخن</span></h1>
-<div class="mt-2 text-[10px] text-white/70">مشويات بلدي، طازة ومشوية<br>على الفحم يومياً</div>
-</div>
-</div>
+<!-- HERO -->
+<div class="relative h-[250px] overflow-hidden"><img src="all_products.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50"><div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent"></div><div class="absolute top-5 right-4"><h1 class="baloo text-[36px] font-black leading-[.85]">الطاهي<br>الأصلي،<br><span class="text-[#FF8C00]">يوصل<br>سخن</span></h1><div class="text-[10px] text-white/60 mt-2">مشويات بلدي على الفحم</div></div></div>
 
-<!-- SEARCH نفس الاستايل -->
-<div class="px-4 -mt-5 relative z-10">
-<div class="bg-[#1C1C1E] border border-white/10 rounded-full flex items-center px-4 py-3 gap-3">
-<span class="text-[#C6FF00]">⌕</span>
-<input id="searchInp" oninput="doSearch(this.value)" placeholder="دور على كباب، كفته، بروست..." class="bg-transparent flex-1 text-[12px] outline-none placeholder:text-white/30">
-<button class="w-9 h-9 bg-[#FF6A00] rounded-full grid place-items-center text-black">⚙</button>
-</div>
-</div>
+<!-- SEARCH -->
+<div class="px-4 -mt-4 relative z-10"><div class="bg-[#1C1C1E] border border-white/10 rounded-full flex items-center px-4 py-3 gap-3"><span class="text-[#C6FF00]">⌕</span><input id="searchInp" oninput="doSearch(this.value)" placeholder="دور على كباب، كفته..." class="bg-transparent flex-1 text-[12px] outline-none placeholder:text-white/30"></div></div>
 
-<!-- CATEGORIES نفس الاستايل بس بأصنافك -->
-<div class="px-3 py-4">
-<div class="flex gap-2.5 overflow-x-auto scroll-hide pb-1">
-<button onclick="filterCat('المشويات')" data-cat="المشويات" class="cat-btn cat-active flex-shrink-0 w-[72px] rounded-[14px] py-3 flex flex-col items-center gap-1.5 border border-white/5"><span class="text-[26px]">🔥</span><span class="text-[10px] font-bold leading-tight">المشويات</span></button>
-<button onclick="filterCat('الوجبات')" data-cat="الوجبات" class="cat-btn flex-shrink-0 w-[72px] bg-[#1E1E20] border border-white/5 rounded-[14px] py-3 flex flex-col items-center gap-1.5"><span class="text-[22px]">🍱</span><span class="text-[10px] text-white/60">الوجبات</span></button>
-<button onclick="filterCat('السندوتشات')" data-cat="السندوتشات" class="cat-btn flex-shrink-0 w-[72px] bg-[#1E1E20] border border-white/5 rounded-[14px] py-3 flex flex-col items-center gap-1.5"><span class="text-[22px]">🌯</span><span class="text-[10px] text-white/60">سندوتشات</span></button>
-<button onclick="filterCat('البروست')" data-cat="البروست" class="cat-btn flex-shrink-0 w-[72px] bg-[#1E1E20] border border-white/5 rounded-[14px] py-3 flex flex-col items-center gap-1.5"><span class="text-[22px]">🍗</span><span class="text-[10px] text-white/60">البروست</span></button>
-<button onclick="filterCat('المطبخ')" data-cat="المطبخ" class="cat-btn flex-shrink-0 w-[72px] bg-[#1E1E20] border border-white/5 rounded-[14px] py-3 flex flex-col items-center gap-1.5"><span class="text-[22px]">🍲</span><span class="text-[10px] text-white/60">المطبخ</span></button>
-<button onclick="filterCat('ميكس الطاهي')" data-cat="ميكس الطاهي" class="cat-btn flex-shrink-0 w-[72px] bg-[#1E1E20] border border-white/5 rounded-[14px] py-3 flex flex-col items-center gap-1.5"><span class="text-[22px]">✨</span><span class="text-[10px] text-white/60">الميكس</span></button>
-<button onclick="filterCat('جانبي')" data-cat="جانبي" class="cat-btn flex-shrink-0 w-[72px] bg-[#1E1E20] border border-white/5 rounded-[14px] py-3 flex flex-col items-center gap-1.5"><span class="text-[22px]">🥗</span><span class="text-[10px] text-white/60">جانبي</span></button>
-</div>
-</div>
+<!-- CATEGORIES -->
+<div class="px-3 py-4"><div class="flex gap-2 overflow-x-auto scroll-hide">
+<button onclick="filterCat('المشويات')" data-cat="المشويات" class="cat-btn cat-active flex-shrink-0 w-[68px] rounded-[12px] py-2.5 flex flex-col items-center gap-1 border"><span>🔥</span><span class="text-[9px] font-bold">المشويات</span></button>
+<button onclick="filterCat('الوجبات')" data-cat="الوجبات" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1"><span>🍱</span><span class="text-[9px]">الوجبات</span></button>
+<button onclick="filterCat('السندوتشات')" data-cat="السندوتشات" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1"><span>🌯</span><span class="text-[9px]">سندوتشات</span></button>
+<button onclick="filterCat('البروست')" data-cat="البروست" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1"><span>🍗</span><span class="text-[9px]">البروست</span></button>
+<button onclick="filterCat('ميكس الطاهي')" data-cat="ميكس الطاهي" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1"><span>✨</span><span class="text-[9px]">الميكس</span></button>
+<button onclick="filterCat('جانبي')" data-cat="جانبي" class="cat-btn flex-shrink-0 w-[68px] bg-[#1E1E20] border border-white/5 rounded-[12px] py-2.5 flex flex-col items-center gap-1"><span>🥗</span><span class="text-[9px]">جانبي</span></button>
+</div></div>
 
-<!-- SIGNATURE DISHES - نفس الاستايل بأصنافك -->
-<div class="px-4">
-<div class="flex justify-between items-center mb-3"><h3 class="font-bold text-[15px] italic">الأكثر مبيعاً <span class="text-[#C6FF00]">☆</span></h3><button onclick="filterCat('الكل')" class="text-[#FF6A00] text-[11px]">عرض الكل ></button></div>
-<div id="signatureGrid" class="flex gap-3 overflow-x-auto scroll-hide pb-2"></div>
-</div>
+<!-- SIGNATURE -->
+<div class="px-4"><div class="flex justify-between items-center mb-2"><h3 class="font-bold text-[14px]">الأكثر مبيعاً ☆</h3><span class="text-[10px] text-white/40">اسحب ←</span></div><div id="signatureGrid" class="flex gap-2 overflow-x-auto scroll-hide pb-2"></div></div>
 
-<!-- FAMILY BUNDLES - صواني الطاهي نفس الاستايل -->
-<div class="px-4 mt-6">
-<div class="flex justify-between items-center mb-3"><h3 class="font-bold text-[15px] italic flex items-center gap-2">👥 صواني الطاهي <span class="text-[11px] text-[#C6FF00] font-normal not-italic">تكفي العيلة!</span></h3><button class="text-[#FF6A00] text-[11px]">عرض الكل ></button></div>
-<div class="flex gap-3 overflow-x-auto scroll-hide">
-<div onclick="openP(70)" class="flex-shrink-0 w-[280px] card-dark rounded-[16px] p-3 flex gap-3 cursor-pointer"><div class="flex-1"><span class="bg-[#C6FF00]/20 text-[#C6FF00] text-[8px] font-bold px-2 py-1 rounded-full">FAMILY FEAST</span><div class="text-[12px] font-bold mt-2 leading-tight">صنية السيزون<br>كيلو كفته + نص فرخه<br>+ ربع سجق + أرز</div><div class="text-[#FF6A00] font-bold mt-2">900 ج</div></div><div class="relative w-[110px] h-[90px] rounded-[12px] overflow-hidden bg-[#111]"><img src="all_products.jpg" style="position:absolute;width:1100%;height:800%;max-width:none;left:-272.7%;top:-600%" class="object-cover"><button class="absolute bottom-1 right-1 w-7 h-7 bg-white rounded-full grid place-items-center text-black">→</button></div></div>
-<div onclick="openP(71)" class="flex-shrink-0 w-[280px] card-dark rounded-[16px] p-3 flex gap-3 cursor-pointer"><div class="flex-1"><span class="bg-[#C6FF00]/20 text-[#C6FF00] text-[8px] font-bold px-2 py-1 rounded-full">MEGA BUNDLE</span><div class="text-[12px] font-bold mt-2 leading-tight">صنية السويسي<br>فرخه + نص كفته<br>+ ربع سجق + أرز</div><div class="text-[#FF6A00] font-bold mt-2">850 ج</div></div><div class="relative w-[110px] h-[90px] rounded-[12px] overflow-hidden bg-[#111]"><img src="all_products.jpg" style="position:absolute;width:1100%;height:800%;max-width:none;left:-363.6%;top:-600%" class="object-cover"><button class="absolute bottom-1 right-1 w-7 h-7 bg-white rounded-full grid place-items-center text-black">→</button></div></div>
-</div>
-</div>
+<!-- FAMILY BUNDLES -->
+<div class="px-4 mt-5"><div class="flex justify-between items-center mb-2"><h3 class="font-bold text-[14px]">👥 صواني الطاهي</h3></div><div class="flex gap-3 overflow-x-auto scroll-hide"><div onclick="openP(70)" class="flex-shrink-0 w-[270px] card-dark rounded-[14px] p-3 flex gap-2 cursor-pointer"><div class="flex-1"><span class="bg-[#C6FF00]/20 text-[#C6FF00] text-[7px] px-2 py-1 rounded-full">FAMILY FEAST</span><div class="text-[11px] font-bold mt-2">صنية السيزون - 900ج</div><div class="text-[9px] text-white/50">كيلو كفته + نص فرخه</div></div><div class="w-[100px] h-[80px] rounded-[10px] overflow-hidden relative bg-[#111]"><img src="all_products.jpg" style="width:1100%;height:800%;position:absolute;left:-272%;top:-600%"></div></div><div onclick="openP(71)" class="flex-shrink-0 w-[270px] card-dark rounded-[14px] p-3 flex gap-2 cursor-pointer"><div class="flex-1"><span class="bg-[#C6FF00]/20 text-[#C6FF00] text-[7px] px-2 py-1 rounded-full">MEGA</span><div class="text-[11px] font-bold mt-2">صنية السويسي - 850ج</div></div><div class="w-[100px] h-[80px] rounded-[10px] overflow-hidden relative bg-[#111]"><img src="all_products.jpg" style="width:1100%;height:800%;position:absolute;left:-363%;top:-600%"></div></div></div></div>
 
-<!-- CHEF SPECIALS + WEEKEND نفس الاستايل -->
+<!-- LIVE TRACKER + REWARDS - شغالة -->
 <div class="px-4 mt-5 grid grid-cols-2 gap-3">
-<div onclick="openP(21)" class="card-dark rounded-[16px] p-3 relative overflow-hidden cursor-pointer"><div class="text-[13px] font-bold italic">اختيار الشيف</div><div class="text-[9px] text-white/50">Made with ❤</div><div class="text-[11px] font-bold mt-3">موزه ضاني محمرة</div><div class="text-[8px] text-white/50">لحم ضاني طري ومحمر</div><div class="text-[#FF6A00] font-bold text-[12px] mt-1">400 ج</div><div class="absolute bottom-0 left-0 w-[85px] h-[65px] overflow-hidden rounded-tl-[16px] bg-[#111]"><img src="all_products.jpg" style="position:absolute;width:1100%;height:800%;left:-909%;top:-100%"></div><button class="absolute bottom-2 left-2 w-6 h-6 bg-[#FF6A00] rounded-full text-black">+</button></div>
-<div class="bg-[#FF6A00] rounded-[16px] p-3 relative overflow-hidden text-black"><div class="font-black text-[13px] leading-tight">عرض الويك إند<br>CRUNCH FEST</div><div class="text-[10px] mt-1">خصم 25%<br>على وجبات الطاهي</div><button onclick="openP(34)" class="mt-3 bg-[#C6FF00] text-black text-[10px] font-bold px-3 py-1.5 rounded-full">اطلب الآن</button><div class="absolute bottom-0 left-0 w-[95px] h-[75px] overflow-hidden rounded-tl-[16px]"><img src="all_products.jpg" style="position:absolute;width:1100%;height:800%;left:0%;top:-300%" class="opacity-80"></div></div>
+<!-- TRACKER فعال -->
+<div id="trackerCard" onclick="openTracker()" class="card-dark rounded-[16px] p-3 cursor-pointer relative overflow-hidden">
+<div id="noOrderTracker"><div class="flex justify-between"><div><div class="text-[11px] font-bold">تتبع الطلب</div><div class="text-[8px] text-white/50">اضغط لعرض الطلبات</div></div><span>🛵</span></div><div class="mt-3 text-center py-3 text-[10px] text-white/30">لا يوجد طلب نشط<br>اطلب الآن وسيظهر التتبع هنا</div></div>
+<div id="activeTracker" class="hidden"><div class="flex justify-between"><div><div class="text-[11px] font-bold">طلب #<span id="trackId">0</span> نشط</div><div class="text-[8px] text-[#FF6A00]" id="trackStatus">جاري التحضير</div></div><span class="animate-bounce">🛵</span></div><div class="flex items-center gap-1 mt-3" id="trackSteps"></div><div class="mt-2 flex justify-between"><span class="text-[9px] text-[#FF6A00]" id="trackETA">ETA: 18-22 د</span><span class="text-[8px] bg-white/10 px-2 py-1 rounded-full">تحديث تلقائي</span></div></div>
+</div>
+<!-- REWARDS فعالة -->
+<div onclick="openRewards()" class="card-dark rounded-[16px] p-3 cursor-pointer">
+<div class="flex justify-between"><div><div class="text-[11px] font-bold">نقاط الطاهي</div><div class="text-[8px] text-white/50">كل جنيه = نقطة</div></div><span>⭐</span></div>
+<div class="mt-3"><div class="flex justify-between"><div><div class="text-[7px] text-white/40">نقاطك</div><div class="text-[#FF6A00] font-black text-[16px]" id="pointsDisplay">0 🟡</div></div><div class="text-left"><div class="text-[7px] text-white/40">الجائزة</div><div class="text-[10px] font-bold" id="nextRewardText">500 نقطة = وجبة مجانية</div></div></div><div class="w-full h-2 bg-white/10 rounded-full mt-2 overflow-hidden"><div id="pointsBar" class="h-full bg-gradient-to-r from-[#FF6A00] to-[#C6FF00] rounded-full" style="width:0%"></div></div><div class="text-[8px] text-white/30 mt-1" id="pointsMsg">اطلب بـ 500ج واحصل على وجبة مجانية</div></div>
+</div>
 </div>
 
-<!-- ALL PRODUCTS GRID - بنفس كروت Signature -->
-<div class="px-4 mt-6">
-<div class="flex justify-between items-center mb-3"><h3 class="font-bold text-[15px]">كل الأصناف - 88 صنف</h3><span id="countLabel" class="text-[11px] text-white/40">88 صنف</span></div>
-<div id="grid" class="grid grid-cols-2 gap-3"></div>
-</div>
+<!-- GRID -->
+<div class="px-4 mt-6"><div class="flex justify-between mb-2"><h3 class="font-bold text-[13px]">كل الأصناف</h3><span id="countLabel" class="text-[10px] text-white/40"></span></div><div id="grid" class="grid grid-cols-2 gap-2.5"></div></div>
 
-<!-- LIVE TRACKER + REWARDS نفس الاستايل -->
-<div class="px-4 mt-6 grid grid-cols-2 gap-3">
-<div class="card-dark rounded-[16px] p-3"><div class="flex justify-between"><div><div class="text-[11px] font-bold">تتبع الطلب</div><div class="text-[8px] text-white/50">طلبك في الطريق!</div></div><span>🛵</span></div><div class="flex items-center gap-1 mt-3"><div class="w-5 h-5 bg-[#C6FF00] rounded-full grid place-items-center text-black text-[10px]">✓</div><div class="flex-1 h-[1px] border-t border-dashed border-white/20"></div><div class="w-5 h-5 bg-[#FF6A00] rounded-full grid place-items-center text-[10px]">👨‍🍳</div><div class="flex-1 h-[1px] border-t border-dashed border-white/20"></div><div class="w-5 h-5 bg-white/10 rounded-full grid place-items-center text-[10px]">🚚</div><div class="flex-1 h-[1px] border-t border-dashed border-white/20"></div><div class="w-5 h-5 bg-white/10 rounded-full grid place-items-center text-[10px]">🏠</div></div><div class="flex justify-between text-[7px] text-white/40 mt-1"><span>تم التأكيد</span><span class="text-[#FF6A00]">جاري التحضير</span><span>في الطريق</span><span>تم التوصيل</span></div><div class="mt-2 flex justify-between items-center"><span class="text-[9px] text-[#FF6A00]">ETA: 18-22 دقيقة</span><button class="text-[8px] border border-white/20 px-2 py-1 rounded-full">تتبع الطلب</button></div></div>
-<div class="card-dark rounded-[16px] p-3"><div class="flex justify-between"><div><div class="text-[11px] font-bold">نقاط الطاهي</div><div class="text-[8px] text-white/50">اجمع نقاط واكسب!</div></div><span>⭐</span></div><div class="flex justify-between mt-3"><div><div class="text-[7px] text-white/40">نقاطك</div><div class="text-[#FF6A00] font-black text-[13px]">1,250 🟡</div></div><div><div class="text-[7px] text-white/40">الجائزة القادمة</div><div class="text-[10px] font-bold">2,000 نقطه 🎁</div></div></div><div class="w-full h-2 bg-white/10 rounded-full mt-2 overflow-hidden"><div class="h-full w-[62%] bg-gradient-to-r from-[#FF6A00] to-[#C6FF00] rounded-full"></div></div><button class="w-full mt-2 text-[8px] border border-white/20 py-1 rounded-full">عرض المكافآت</button></div>
-</div>
+<!-- PRODUCT MODAL -->
+<div id="modal" class="fixed inset-0 z-[70] hidden"><div class="absolute inset-0 bg-black/70" onclick="closeModal()"></div><div class="relative max-w-[480px] mx-auto mt-[8vh] bg-[#1E1E20] rounded-[20px] overflow-hidden m-4"><button onclick="closeModal()" class="absolute top-3 left-3 w-8 h-8 bg-black/60 rounded-full z-10">✕</button><div class="h-[220px] overflow-hidden relative bg-[#111]"><img id="mImg" class="absolute w-[1100%] h-[800%] max-w-none"></div><div class="p-4"><div class="flex justify-between"><h3 id="mTitle" class="font-black text-[13px]"></h3><div id="mPrice" class="text-[#FF6A00] font-black text-[13px]"></div></div><div class="text-[10px] text-white/40 mt-1">+ <span id="mPoints"></span> نقطة عند الطلب</div><div class="flex gap-3 mt-4"><div class="flex items-center gap-2 bg-black border border-white/10 rounded-full px-1"><button onclick="chg(-1)" class="w-8 h-8">-</button><span id="mQty" class="w-6 text-center font-bold">1</span><button onclick="chg(1)" class="w-8 h-8 bg-white/10 rounded-full">+</button></div><button onclick="addCart()" class="flex-1 bg-[#FF6A00] text-black py-3 rounded-full font-black text-[11px]">أضف <span id="mTotal"></span></button></div></div></div></div>
 
-<!-- MODAL بنفس استايل الكروت -->
-<div id="modal" class="fixed inset-0 z-[70] hidden"><div class="absolute inset-0 bg-black/70" onclick="closeModal()"></div><div class="relative max-w-[480px] mx-auto mt-[8vh] bg-[#1E1E20] border border-white/10 rounded-[24px] overflow-hidden m-4"><button onclick="closeModal()" class="absolute top-3 left-3 w-8 h-8 bg-black/60 rounded-full z-10">✕</button><div class="h-[240px] overflow-hidden relative bg-[#111]"><img id="mImg" class="absolute w-[1100%] h-[800%] max-w-none"></div><div class="p-4"><div class="flex justify-between"><h3 id="mTitle" class="font-black text-[14px]"></h3><div id="mPrice" class="text-[#FF6A00] font-black"></div></div><div class="flex gap-3 mt-4"><div class="flex items-center gap-2 bg-black border border-white/10 rounded-full px-1"><button onclick="chg(-1)" class="w-9 h-9">-</button><span id="mQty" class="w-6 text-center font-bold">1</span><button onclick="chg(1)" class="w-9 h-9 bg-white/10 rounded-full">+</button></div><button onclick="addCart()" class="flex-1 bg-[#FF6A00] text-black py-3 rounded-full font-black text-[12px]">أضف <span id="mTotal"></span></button></div></div></div></div>
+<!-- CART -->
+<div id="cartDrawer" class="fixed inset-0 z-[80] hidden"><div class="absolute inset-0 bg-black/60" onclick="closeCart()"></div><div class="absolute left-0 top-0 h-full w-[94%] max-w-[400px] bg-[#121212] p-5 flex flex-col"><div class="flex justify-between"><h3 class="font-black">السلة</h3><button onclick="closeCart()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="cartItems" class="mt-4 space-y-2 flex-1 overflow-y-auto"></div><div class="border-t border-white/10 pt-3 space-y-2"><input id="custName" placeholder="الاسم *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><input id="custPhone" placeholder="الموبايل *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><input id="custAddress" placeholder="العنوان *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[11px]"><div class="flex justify-between text-[11px]"><span>المجموع</span><span id="cartTotal" class="text-[#FF6A00] font-black">0 ج</span></div><div class="flex justify-between text-[10px] text-[#C6FF00]"><span>ستكسب</span><span id="earnPoints">0 نقطة</span></div><button onclick="checkout()" class="w-full bg-[#25D366] py-3 rounded-full font-bold text-[13px]">تأكيد الطلب واتساب 💬</button></div></div></div>
 
-<!-- CART نفس الاستايل -->
-<div id="cartDrawer" class="fixed inset-0 z-[80] hidden"><div class="absolute inset-0 bg-black/60" onclick="closeCart()"></div><div class="absolute left-0 top-0 h-full w-[94%] max-w-[400px] bg-[#121212] p-5 flex flex-col overflow-y-auto"><div class="flex justify-between"><h3 class="font-black">السلة 🛒</h3><button onclick="closeCart()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="cartItems" class="mt-4 space-y-2"></div><div class="mt-auto border-t border-white/10 pt-3 space-y-2"><input id="custName" placeholder="الاسم *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[12px]"><input id="custPhone" placeholder="الموبايل *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[12px]"><input id="custAddress" placeholder="العنوان *" class="w-full bg-[#1E1E20] border border-white/10 rounded-full px-4 py-3 text-[12px]"><div class="flex justify-between font-bold"><span>المجموع</span><span id="cartTotal" class="text-[#FF6A00]">0 ج</span></div><button onclick="checkout()" class="w-full bg-[#25D366] py-3 rounded-full font-bold">تأكيد واتساب 💬</button></div></div></div>
+<!-- TRACKER MODAL فعال -->
+<div id="trackerModal" class="fixed inset-0 z-[90] hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTracker()"></div><div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1A1A1C] rounded-t-[24px] p-5 max-h-[85vh] overflow-y-auto"><div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4"></div><div class="flex justify-between items-center"><h3 class="font-black text-[16px]">تتبع الطلب 🚚</h3><button onclick="closeTracker()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="trackerContent" class="mt-5"></div></div></div>
 
-<!-- BOTTOM NAV نفس الاستايل بالظبط -->
-<div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1C1C1E]/95 backdrop-blur-xl border-t border-white/5 px-2 py-2 flex justify-between items-center z-50 rounded-t-[22px]">
-<button class="flex flex-col items-center gap-1 px-5 py-1 text-[#FF6A00]"><span class="text-[20px]">⌂</span><span class="text-[9px]">الرئيسية</span></button>
-<button onclick="document.getElementById('grid').scrollIntoView()" class="flex flex-col items-center gap-1 px-5 py-1 text-white/40"><span class="text-[18px]">🍽</span><span class="text-[9px]">المنيو</span></button>
-<button onclick="openCart()" class="flex flex-col items-center gap-1 bg-[#FF6A00] w-14 h-14 rounded-full -mt-6 justify-center text-black"><span class="text-[20px]">🧺</span><span id="bottomBadge" class="text-[8px] font-bold">الطلب</span></button>
-<button class="flex flex-col items-center gap-1 px-5 py-1 text-white/40"><span class="text-[18px]">🏷</span><span class="text-[9px]">العروض</span></button>
-<button class="flex flex-col items-center gap-1 px-5 py-1 text-white/40"><span class="text-[18px]">◍</span><span class="text-[9px]">حسابي</span></button>
+<!-- REWARDS MODAL فعال -->
+<div id="rewardsModal" class="fixed inset-0 z-[90] hidden"><div class="absolute inset-0 bg-black/80" onclick="closeRewards()"></div><div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1A1A1C] rounded-t-[24px] p-5 max-h-[85vh] overflow-y-auto"><div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4"></div><div class="flex justify-between"><h3 class="font-black text-[16px]">نقاط الطاهي ⭐</h3><button onclick="closeRewards()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div class="mt-4 bg-gradient-to-br from-[#FF6A00] to-[#FF8C00] rounded-[16px] p-4 text-black"><div class="text-[12px]">رصيدك الحالي</div><div class="text-[32px] font-black" id="rewardPointsBig">0 نقطة</div><div class="text-[11px] mt-1">كل 1 جنيه = 1 نقطة - 500 نقطة = وجبة مجانية</div></div><div class="mt-4 space-y-2"><h4 class="font-bold text-[12px]">المكافآت المتاحة:</h4><div id="rewardsList" class="space-y-2"></div></div><div class="mt-4"><h4 class="font-bold text-[12px]">سجل النقاط:</h4><div id="pointsHistory" class="mt-2 space-y-1 text-[10px] text-white/50"></div></div></div></div>
+
+<!-- BOTTOM NAV -->
+<div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-[#1C1C1E]/95 backdrop-blur-xl border-t border-white/5 px-2 py-2 flex justify-between items-center z-50 rounded-t-[20px]">
+<button class="flex flex-col items-center gap-1 px-4 py-1 text-[#FF6A00]"><span>⌂</span><span class="text-[8px]">الرئيسية</span></button>
+<button class="flex flex-col items-center gap-1 px-4 py-1 text-white/40"><span>🍽</span><span class="text-[8px]">المنيو</span></button>
+<button onclick="openCart()" class="flex flex-col items-center bg-[#FF6A00] w-14 h-14 rounded-full -mt-5 justify-center text-black"><span>🧺</span><span class="text-[7px] font-bold" id="bottomBadge">الطلب</span></button>
+<button onclick="openTracker()" class="flex flex-col items-center gap-1 px-4 py-1 text-white/40"><span>🚚</span><span class="text-[8px]">التتبع</span></button>
+<button onclick="openRewards()" class="flex flex-col items-center gap-1 px-4 py-1 text-white/40"><span>⭐</span><span class="text-[8px]">نقاطي</span></button>
 </div>
 
 <script>
 const GRID='all_products.jpg';
-const P=[
-{id:1,c:'المشويات',t:'كيلو كباب ضاني',p:1100,r:0,co:0,bs:0},{id:2,c:'المشويات',t:'كيلو ريش ضاني',p:1000,r:0,co:1,bs:0},{id:3,c:'المشويات',t:'كيلو كفته كندوز',p:550,r:0,co:2,bs:1},{id:4,c:'المشويات',t:'كيلو كفته ضاني',p:600,r:0,co:3,bs:0},{id:5,c:'المشويات',t:'كيلو مشكل',p:800,r:0,co:4,bs:1},{id:6,c:'المشويات',t:'كيلو طرب ضاني',p:600,r:0,co:5,bs:0},{id:7,c:'المشويات',t:'كيلو كفته و طرب',p:575,r:0,co:6,bs:0},{id:8,c:'المشويات',t:'كيلو شيش طاووق',p:450,r:0,co:7,bs:0},{id:9,c:'المشويات',t:'كيلو استربس',p:470,r:0,co:8,bs:0},{id:10,c:'المشويات',t:'فرخه شيش كاملة',p:360,r:0,co:9,bs:0},{id:11,c:'المشويات',t:'فرخه تكا',p:360,r:0,co:10,bs:0},
-{id:12,c:'المشويات',t:'فرخه شوايه',p:360,r:1,co:0,bs:0},{id:13,c:'المشويات',t:'فرخه نص',p:180,r:1,co:1,bs:0},{id:14,c:'المشويات',t:'فرخه ربع',p:95,r:1,co:2,bs:0},{id:15,c:'المشويات',t:'نص كفته كندوز',p:275,r:1,co:3,bs:0},{id:16,c:'المشويات',t:'نص كفته ضاني',p:300,r:1,co:4,bs:0},{id:17,c:'المشويات',t:'ربع كفته ضاني',p:160,r:1,co:5,bs:0},{id:18,c:'المشويات',t:'ربع كفته كندوز',p:140,r:1,co:6,bs:0},{id:19,c:'المشويات',t:'نص طرب ضاني',p:300,r:1,co:7,bs:0},{id:20,c:'المشويات',t:'ربع طرب ضاني',p:160,r:1,co:8,bs:0},{id:21,c:'المشويات',t:'موزه ضاني',p:400,r:1,co:9,bs:1},{id:22,c:'المشويات',t:'كيلو سجق',p:400,r:1,co:10,bs:0},
-{id:23,c:'المشويات',t:'نص سجق',p:200,r:2,co:0,bs:0},{id:24,c:'المشويات',t:'ربع سجق',p:110,r:2,co:1,bs:0},{id:25,c:'الوجبات',t:'وجبة نص فرخه',p:200,r:2,co:2,bs:0},{id:26,c:'الوجبات',t:'وجبة ربع فرخه',p:130,r:2,co:3,bs:0},{id:27,c:'الوجبات',t:'وجبة نص كفته',p:310,r:2,co:4,bs:0},{id:28,c:'الوجبات',t:'وجبة ربع كفته',p:180,r:2,co:5,bs:0},{id:29,c:'الوجبات',t:'وجبة كبده',p:250,r:2,co:6,bs:0},{id:30,c:'الوجبات',t:'ميكس جريل',p:250,r:2,co:7,bs:1},{id:31,c:'الوجبات',t:'الكومبو',p:200,r:2,co:8,bs:0},{id:32,c:'الوجبات',t:'وجبة شيش',p:220,r:2,co:9,bs:0},{id:33,c:'الوجبات',t:'وجبة التوفير',p:260,r:2,co:10,bs:0},{id:34,c:'الوجبات',t:'وجبة الطاهي',p:235,r:3,co:0,bs:1},{id:35,c:'الوجبات',t:'فراخ و كفته',p:235,r:3,co:1,bs:0},
-{id:36,c:'السندوتشات',t:'سندوتش كبده',p:45,r:3,co:2,bs:0},{id:37,c:'السندوتشات',t:'سندوتش طرب',p:130,r:3,co:3,bs:0},{id:38,c:'السندوتشات',t:'سندوتش شيش',p:75,r:3,co:4,bs:0},{id:39,c:'السندوتشات',t:'سندوتش كفته',p:70,r:3,co:5,bs:0},{id:40,c:'السندوتشات',t:'سندوتش كباب',p:140,r:3,co:6,bs:0},{id:41,c:'السندوتشات',t:'سندوتش سجق',p:40,r:3,co:7,bs:0},{id:42,c:'السندوتشات',t:'حواوشي',p:40,r:3,co:8,bs:0},{id:43,c:'السندوتشات',t:'حواوشي الطاهي',p:70,r:3,co:9,bs:1},
-{id:44,c:'كبده',t:'كيلو كبده',p:400,r:3,co:10,bs:0},{id:45,c:'كبده',t:'نص كبده',p:200,r:4,co:0,bs:0},{id:46,c:'كبده',t:'ربع كبده',p:100,r:4,co:1,bs:0},{id:47,c:'كبده',t:'طلب كبده',p:90,r:4,co:2,bs:0},{id:48,c:'المطبخ',t:'طاجن بطاطس',p:200,r:4,co:3,bs:0},{id:49,c:'المطبخ',t:'طاجن باميه',p:200,r:4,co:4,bs:0},{id:50,c:'المطبخ',t:'طاجن تورلي',p:200,r:4,co:5,bs:0},{id:51,c:'المطبخ',t:'حمام محشي',p:180,r:4,co:6,bs:1},{id:52,c:'المطبخ',t:'طبق محشي',p:100,r:4,co:7,bs:0},{id:53,c:'المطبخ',t:'كيلو ممبار',p:250,r:4,co:8,bs:0},{id:54,c:'المطبخ',t:'نص ممبار',p:130,r:4,co:9,bs:0},{id:55,c:'المطبخ',t:'ربع ممبار',p:70,r:4,co:10,bs:0},
-{id:56,c:'المطبخ',t:'طلب كفته 3 قطع',p:100,r:5,co:0,bs:1},{id:57,c:'ميكس الطاهي',t:'ميكس كفته وطرب',p:170,r:5,co:1,bs:0},{id:58,c:'ميكس الطاهي',t:'ميكس شيش واستربس',p:170,r:5,co:2,bs:0},{id:59,c:'ميكس الطاهي',t:'ميكس كفته وشيش',p:170,r:5,co:3,bs:0},{id:60,c:'ميكس الطاهي',t:'ميكس شيش وطرب',p:170,r:5,co:4,bs:0},{id:61,c:'ميكس الطاهي',t:'ميكس استربس وكفته',p:170,r:5,co:5,bs:0},{id:62,c:'ميكس الطاهي',t:'المكساوي',p:180,r:5,co:6,bs:1},
-{id:63,c:'البروست',t:'بروست الطاهي',p:160,r:5,co:7,bs:0},{id:64,c:'البروست',t:'تريبل هيت',p:200,r:5,co:8,bs:0},{id:65,c:'البروست',t:'الوجبة الذهبية',p:250,r:5,co:9,bs:1},{id:66,c:'البروست',t:'وجبة باور',p:280,r:5,co:10,bs:0},{id:67,c:'البروست',t:'لمه الحبايب',p:420,r:6,co:0,bs:0},{id:68,c:'البروست',t:'العمالقه',p:500,r:6,co:1,bs:0},{id:69,c:'البروست',t:'الديكله',p:600,r:6,co:2,bs:0},
-{id:70,c:'صواني',t:'صنية السيزون',p:900,r:6,co:3,bs:1},{id:71,c:'صواني',t:'صنية السويسي',p:850,r:6,co:4,bs:1},{id:72,c:'جانبي',t:'أرز ساده',p:25,r:6,co:5,bs:0},{id:73,c:'جانبي',t:'أرز بالكبده',p:50,r:6,co:6,bs:0},{id:74,c:'جانبي',t:'أرز بسمتي',p:35,r:6,co:7,bs:0},{id:75,c:'جانبي',t:'مكرونه فرن',p:35,r:6,co:8,bs:0},{id:76,c:'جانبي',t:'ملوخيه',p:40,r:6,co:9,bs:0},{id:77,c:'جانبي',t:'شوربة',p:25,r:6,co:10,bs:0},
-{id:78,c:'جانبي',t:'خضار اليوم',p:25,r:7,co:0,bs:0},{id:79,c:'جانبي',t:'سلطه خضراء',p:25,r:7,co:1,bs:0},{id:80,c:'جانبي',t:'طحينه',p:25,r:7,co:2,bs:0},{id:81,c:'جانبي',t:'بابا غنوج',p:30,r:7,co:3,bs:0},{id:82,c:'جانبي',t:'توميه',p:30,r:7,co:4,bs:0},{id:83,c:'جانبي',t:'كول سلو',p:30,r:7,co:5,bs:0},{id:84,c:'جانبي',t:'باذنجان مخلل',p:20,r:7,co:6,bs:0},{id:85,c:'جانبي',t:'V Cola',p:23,r:7,co:7,bs:0},{id:86,c:'جانبي',t:'مياه',p:12,r:7,co:8,bs:0},{id:87,c:'جانبي',t:'اسبيرو',p:18,r:7,co:9,bs:0},{id:88,c:'جانبي',t:'لتر مشروب',p:35,r:7,co:10,bs:0}
-];
+const P=[{id:1,c:'المشويات',t:'كيلو كباب ضاني',p:1100,r:0,co:0,bs:1},{id:2,c:'المشويات',t:'كيلو ريش ضاني',p:1000,r:0,co:1},{id:3,c:'المشويات',t:'كيلو كفته كندوز',p:550,r:0,co:2,bs:1},{id:4,c:'المشويات',t:'كيلو كفته ضاني',p:600,r:0,co:3},{id:5,c:'المشويات',t:'كيلو مشكل',p:800,r:0,co:4,bs:1},{id:6,c:'المشويات',t:'كيلو طرب',p:600,r:0,co:5},{id:7,c:'المشويات',t:'كفته و طرب',p:575,r:0,co:6},{id:8,c:'المشويات',t:'شيش طاووق',p:450,r:0,co:7},{id:9,c:'المشويات',t:'استربس',p:470,r:0,co:8},{id:10,c:'المشويات',t:'فرخه شيش',p:360,r:0,co:9},{id:11,c:'المشويات',t:'فرخه تكا',p:360,r:0,co:10},{id:12,c:'المشويات',t:'فرخه شوايه',p:360,r:1,co:0},{id:13,c:'المشويات',t:'فرخه نص',p:180,r:1,co:1},{id:14,c:'المشويات',t:'فرخه ربع',p:95,r:1,co:2},{id:15,c:'المشويات',t:'نص كفته كندوز',p:275,r:1,co:3},{id:16,c:'المشويات',t:'نص كفته ضاني',p:300,r:1,co:4},{id:17,c:'المشويات',t:'ربع كفته ضاني',p:160,r:1,co:5},{id:18,c:'المشويات',t:'ربع كفته كندوز',p:140,r:1,co:6},{id:19,c:'المشويات',t:'نص طرب',p:300,r:1,co:7},{id:20,c:'المشويات',t:'ربع طرب',p:160,r:1,co:8},{id:21,c:'المشويات',t:'موزه ضاني',p:400,r:1,co:9,bs:1},{id:22,c:'المشويات',t:'كيلو سجق',p:400,r:1,co:10},{id:23,c:'المشويات',t:'نص سجق',p:200,r:2,co:0},{id:24,c:'المشويات',t:'ربع سجق',p:110,r:2,co:1},{id:25,c:'الوجبات',t:'وجبة نص فرخه',p:200,r:2,co:2},{id:26,c:'الوجبات',t:'وجبة ربع فرخه',p:130,r:2,co:3},{id:27,c:'الوجبات',t:'وجبة نص كفته',p:310,r:2,co:4},{id:28,c:'الوجبات',t:'وجبة ربع كفته',p:180,r:2,co:5},{id:29,c:'الوجبات',t:'وجبة كبده',p:250,r:2,co:6},{id:30,c:'الوجبات',t:'ميكس جريل',p:250,r:2,co:7,bs:1},{id:31,c:'الوجبات',t:'الكومبو',p:200,r:2,co:8},{id:32,c:'الوجبات',t:'وجبة شيش',p:220,r:2,co:9},{id:33,c:'الوجبات',t:'التوفير',p:260,r:2,co:10},{id:34,c:'الوجبات',t:'وجبة الطاهي',p:235,r:3,co:0,bs:1},{id:35,c:'الوجبات',t:'فراخ و كفته',p:235,r:3,co:1},{id:36,c:'السندوتشات',t:'سندوتش كبده',p:45,r:3,co:2},{id:37,c:'السندوتشات',t:'سندوتش طرب',p:130,r:3,co:3},{id:38,c:'السندوتشات',t:'سندوتش شيش',p:75,r:3,co:4},{id:39,c:'السندوتشات',t:'سندوتش كفته',p:70,r:3,co:5},{id:40,c:'السندوتشات',t:'سندوتش كباب',p:140,r:3,co:6},{id:41,c:'السندوتشات',t:'سندوتش سجق',p:40,r:3,co:7},{id:42,c:'السندوتشات',t:'حواوشي',p:40,r:3,co:8},{id:43,c:'السندوتشات',t:'حواوشي الطاهي',p:70,r:3,co:9,bs:1},{id:44,c:'كبده',t:'كيلو كبده',p:400,r:3,co:10},{id:45,c:'كبده',t:'نص كبده',p:200,r:4,co:0},{id:46,c:'كبده',t:'ربع كبده',p:100,r:4,co:1},{id:47,c:'كبده',t:'طلب كبده',p:90,r:4,co:2},{id:48,c:'المطبخ',t:'طاجن بطاطس',p:200,r:4,co:3},{id:49,c:'المطبخ',t:'طاجن باميه',p:200,r:4,co:4},{id:50,c:'المطبخ',t:'طاجن تورلي',p:200,r:4,co:5},{id:51,c:'المطبخ',t:'حمام محشي',p:180,r:4,co:6,bs:1},{id:52,c:'المطبخ',t:'محشي',p:100,r:4,co:7},{id:53,c:'المطبخ',t:'كيلو ممبار',p:250,r:4,co:8},{id:54,c:'المطبخ',t:'نص ممبار',p:130,r:4,co:9},{id:55,c:'المطبخ',t:'ربع ممبار',p:70,r:4,co:10},{id:56,c:'المطبخ',t:'كفته 3 قطع',p:100,r:5,co:0,bs:1},{id:57,c:'ميكس الطاهي',t:'ميكس كفته وطرب',p:170,r:5,co:1},{id:58,c:'ميكس الطاهي',t:'ميكس شيش واستربس',p:170,r:5,co:2},{id:59,c:'ميكس الطاهي',t:'ميكس كفته وشيش',p:170,r:5,co:3},{id:60,c:'ميكس الطاهي',t:'ميكس شيش وطرب',p:170,r:5,co:4},{id:61,c:'ميكس الطاهي',t:'ميكس استربس وكفته',p:170,r:5,co:5},{id:62,c:'ميكس الطاهي',t:'المكساوي',p:180,r:5,co:6,bs:1},{id:63,c:'البروست',t:'بروست الطاهي',p:160,r:5,co:7},{id:64,c:'البروست',t:'تريبل هيت',p:200,r:5,co:8},{id:65,c:'البروست',t:'الذهبية',p:250,r:5,co:9,bs:1},{id:66,c:'البروست',t:'باور',p:280,r:5,co:10},{id:67,c:'البروست',t:'لمه الحبايب',p:420,r:6,co:0},{id:68,c:'البروست',t:'العمالقه',p:500,r:6,co:1},{id:69,c:'البروست',t:'الديكله',p:600,r:6,co:2},{id:70,c:'صواني',t:'صنية السيزون',p:900,r:6,co:3,bs:1},{id:71,c:'صواني',t:'صنية السويسي',p:850,r:6,co:4,bs:1},{id:72,c:'جانبي',t:'أرز ساده',p:25,r:6,co:5},{id:73,c:'جانبي',t:'أرز بالكبده',p:50,r:6,co:6},{id:74,c:'جانبي',t:'أرز بسمتي',p:35,r:6,co:7},{id:75,c:'جانبي',t:'مكرونه فرن',p:35,r:6,co:8},{id:76,c:'جانبي',t:'ملوخيه',p:40,r:6,co:9},{id:77,c:'جانبي',t:'شوربة',p:25,r:6,co:10},{id:78,c:'جانبي',t:'خضار اليوم',p:25,r:7,co:0},{id:79,c:'جانبي',t:'سلطه خضراء',p:25,r:7,co:1},{id:80,c:'جانبي',t:'طحينه',p:25,r:7,co:2},{id:81,c:'جانبي',t:'بابا غنوج',p:30,r:7,co:3},{id:82,c:'جانبي',t:'توميه',p:30,r:7,co:4},{id:83,c:'جانبي',t:'كول سلو',p:30,r:7,co:5},{id:84,c:'جانبي',t:'باذنجان',p:20,r:7,co:6},{id:85,c:'جانبي',t:'V Cola',p:23,r:7,co:7},{id:86,c:'جانبي',t:'مياه',p:12,r:7,co:8},{id:87,c:'جانبي',t:'اسبيرو',p:18,r:7,co:9},{id:88,c:'جانبي',t:'لتر مشروب',p:35,r:7,co:10}];
 function pos(p){return `left:${-p.co*100}%;top:${-p.r*100}%`}
-function cardHTML(p, isSig=false){
-let w=isSig?'w-[150px] flex-shrink-0':'';
-let h=isSig?'h-[110px]':'h-[120px]';
-let bs=p.bs?`<span class="absolute top-2 right-2 bg-[#C6FF00] text-black text-[7px] font-black px-2 py-1 rounded-full">BESTSELLER</span>`:'';
-return `<div class="${w} card-dark rounded-[16px] overflow-hidden cursor-pointer" onclick="openP(${p.id})"><div class="relative ${h} bg-[#111] overflow-hidden"><div class="absolute inset-0 overflow-hidden"><img src="${GRID}" style="position:absolute;width:1100%;height:800%;max-width:none;${pos(p)}"></div>${bs}</div><div class="p-2.5"><div class="text-[11px] font-bold leading-tight h-[32px]">${p.t}</div><div class="flex justify-between items-center mt-1"><span class="text-[#FF6A00] text-[11px] font-bold">${p.p} ج</span><div class="w-6 h-6 bg-[#FF6A00] rounded-full grid place-items-center text-black text-[10px] font-bold">+</div></div></div></div>`;
-}
 let cart=[],cur=null,q=1,fil='المشويات',search='';
+let orders=JSON.parse(localStorage.getItem('tahey_orders')||'[]');
+let points=parseInt(localStorage.getItem('tahey_points')||'0');
+let history=JSON.parse(localStorage.getItem('tahey_history')||'[]');
+
+function save(){localStorage.setItem('tahey_orders',JSON.stringify(orders));localStorage.setItem('tahey_points',points);localStorage.setItem('tahey_history',JSON.stringify(history));updatePointsUI();}
+
+function updatePointsUI(){
+document.getElementById('pointsDisplay').innerText=points+' 🟡';
+document.getElementById('headerPoints').innerText=points;
+document.getElementById('rewardPointsBig').innerText=points+' نقطة';
+let pct=Math.min((points%500)/500*100,100);
+document.getElementById('pointsBar').style.width=pct+'%';
+let need=500-(points%500);if(points>=500) need=500-(points%500); if(need==0) need=500;
+document.getElementById('pointsMsg').innerText=need==500?'جاهز لوجبة مجانية!':`باقي ${need} نقطة لوجبة مجانية`;
+document.getElementById('nextRewardText').innerText=points>=500?'عندك مكافأة متاحة!':'500 نقطة = وجبة مجانية';
+renderRewards();
+}
+
+function renderRewards(){
+let list=document.getElementById('rewardsList');
+let canFree=points>=500;
+list.innerHTML=`
+<div class="bg-[#1E1E20] border ${canFree?'border-[#C6FF00]':'border-white/10'} rounded-[12px] p-3 flex justify-between items-center">
+<div><div class="font-bold text-[11px]">وجبة الطاهي مجاناً 🎁</div><div class="text-[9px] text-white/40">500 نقطة</div></div>
+<button onclick="redeem(500,'وجبة الطاهي')" class="px-4 py-2 rounded-full text-[10px] font-bold ${canFree?'bg-[#C6FF00] text-black':'bg-white/10 text-white/30'}">${canFree?'استبدال':'${500-points} باقي'}</button>
+</div>
+<div class="bg-[#1E1E20] border ${points>=1000?'border-[#C6FF00]':'border-white/10'} rounded-[12px] p-3 flex justify-between items-center">
+<div><div class="font-bold text-[11px]">صنية السيزون خصم 50% 🔥</div><div class="text-[9px] text-white/40">1000 نقطة</div></div>
+<button onclick="redeem(1000,'خصم 50% صنية')" class="px-4 py-2 rounded-full text-[10px] font-bold ${points>=1000?'bg-[#C6FF00] text-black':'bg-white/10 text-white/30'}">${points>=1000?'استبدال':'مقفول'}</button>
+</div>`;
+document.getElementById('pointsHistory').innerHTML=history.slice(-5).reverse().map(h=>`<div class="flex justify-between border-b border-white/5 py-1"><span>${h.txt}</span><span class="${h.pts>0?'text-[#C6FF00]':'text-[#FF6A00]'}">${h.pts>0?'+':''}${h.pts}</span></div>`).join('')||'<div class="text-white/20">لا يوجد سجل بعد</div>';
+}
+
+function redeem(cost,reward){
+if(points<cost)return alert('نقاطك غير كافية');
+if(!confirm(`استبدال ${cost} نقطة بـ ${reward}؟`))return;
+points-=cost;history.push({txt:`استبدال: ${reward}`,pts:-cost});save();alert(`تم استبدال ${reward} - سيتم خصمه من طلبك القادم`);
+}
+
+function cardHTML(p,small=false){
+let bs=p.bs?`<span class="absolute top-1 right-1 bg-[#C6FF00] text-black text-[6px] font-black px-1.5 py-0.5 rounded-full">BESTSELLER</span>`:'';
+let w=small?'w-[140px] flex-shrink-0':'';
+let h=small?'h-[90px]':'h-[110px]';
+return `<div class="${w} card-dark rounded-[12px] overflow-hidden cursor-pointer" onclick="openP(${p.id})"><div class="relative ${h} bg-[#111] overflow-hidden"><div class="absolute inset-0 overflow-hidden"><img src="${GRID}" style="position:absolute;width:1100%;height:800%;max-width:none;${pos(p)}"></div>${bs}</div><div class="p-2"><div class="text-[10px] font-bold h-[28px] leading-tight">${p.t}</div><div class="flex justify-between items-center mt-1"><span class="text-[#FF6A00] text-[10px] font-bold">${p.p}ج</span><div class="w-5 h-5 bg-[#FF6A00] rounded-full grid place-items-center text-black text-[9px]">+</div></div></div></div>`;
+}
+
 function render(){
 let L=P.filter(x=>(fil==='الكل'||x.c===fil)&&(search==''||x.t.includes(search)));
 document.getElementById('grid').innerHTML=L.map(p=>cardHTML(p,false)).join('');
 document.getElementById('countLabel').innerText=L.length+' صنف';
-// signature
-let sig=P.filter(x=>x.bs===1).slice(0,8);
+let sig=P.filter(x=>x.bs).slice(0,6);
 document.getElementById('signatureGrid').innerHTML=sig.map(p=>cardHTML(p,true)).join('');
+updateTrackerCard();
 }
-function filterCat(c){fil=c;document.querySelectorAll('.cat-btn').forEach(b=>{b.classList.toggle('cat-active',b.dataset.cat===c);if(b.dataset.cat===c){b.classList.remove('bg-[#1E1E20]');}else{b.classList.add('bg-[#1E1E20]')}});render()}
+
+function updateTrackerCard(){
+if(!orders.length||orders[orders.length-1].status==='delivered'){document.getElementById('noOrderTracker').classList.remove('hidden');document.getElementById('activeTracker').classList.add('hidden');return}
+let o=orders[orders.length-1];
+document.getElementById('noOrderTracker').classList.add('hidden');document.getElementById('activeTracker').classList.remove('hidden');
+document.getElementById('trackId').innerText=o.id;document.getElementById('trackStatus').innerText=o.statusText;
+let steps=['تم التأكيد','جاري التحضير','في الطريق','تم التوصيل'];
+let idx=['confirmed','preparing','onway','delivered'].indexOf(o.status);
+let html='';steps.forEach((s,i)=>{let done=i<idx;let active=i===idx;html+=`<div class="flex flex-col items-center"><div class="w-6 h-6 rounded-full grid place-items-center text-[10px] ${done?'step-done':active?'bg-[#FF6A00] text-black':'bg-white/10 text-white/30'}">${done?'✓':i+1}</div></div>`;if(i<3)html+=`<div class="progress-line ${i<idx?'progress-done':'progress-pending'}"></div>`});
+document.getElementById('trackSteps').innerHTML=html;
+document.getElementById('trackETA').innerText='ETA: '+o.eta+' د';
+}
+
+function filterCat(c){fil=c;document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('cat-active',b.dataset.cat===c));render()}
 function doSearch(v){search=v;fil='الكل';render()}
-function openP(id){cur=P.find(x=>x.id===id);q=1;let img=document.getElementById('mImg');img.src=GRID;img.style.cssText=`width:1100%;height:800%;max-width:none;${pos(cur)};position:absolute`;document.getElementById('mTitle').innerText=cur.t;document.getElementById('mPrice').innerText=cur.p+' ج';upd();document.getElementById('modal').classList.remove('hidden')}
+function openP(id){cur=P.find(x=>x.id===id);q=1;let img=document.getElementById('mImg');img.src=GRID;img.style.cssText=`width:1100%;height:800%;max-width:none;${pos(cur)};position:absolute`;document.getElementById('mTitle').innerText=cur.t;document.getElementById('mPrice').innerText=cur.p+' ج';document.getElementById('mPoints').innerText=cur.p;upd();document.getElementById('modal').classList.remove('hidden')}
 function closeModal(){document.getElementById('modal').classList.add('hidden')}
 function chg(d){q=Math.max(1,q+d);upd()}
-function upd(){document.getElementById('mQty').innerText=q;document.getElementById('mTotal').innerText=(cur.p*q)+' ج'}
+function upd(){document.getElementById('mQty').innerText=q;document.getElementById('mTotal').innerText=(cur.p*q)+'ج'}
 function addCart(){let e=cart.find(x=>x.id===cur.id);if(e)e.qty+=q;else cart.push({...cur,qty:q});updateCart();closeModal()}
-function updateCart(){let tot=cart.reduce((s,c)=>s+c.qty,0);document.getElementById('cartBadge').innerText=tot;document.getElementById('bottomBadge').innerText=tot?tot+' طلب':'الطلب';document.getElementById('cartItems').innerHTML=cart.map((c,i)=>`<div class="flex gap-2 bg-[#1E1E20] p-2 rounded-xl"><div class="w-10 h-10 rounded-full overflow-hidden relative bg-[#111] flex-shrink-0"><img src="${GRID}" style="position:absolute;width:1100%;height:800%;max-width:none;${pos(c)}"></div><div class="flex-1"><div class="text-[10px] font-bold">${c.t}</div><div class="text-[9px] text-white/40">${c.p} × ${c.qty}</div></div><button onclick="cart.splice(${i},1);updateCart()" class="text-white/40">✕</button></div>`).join('')||'<div class="text-center text-white/20 text-[11px] py-8">السلة فاضية</div>';document.getElementById('cartTotal').innerText=cart.reduce((s,c)=>s+c.p*c.qty,0)+' ج'}
+function updateCart(){let tot=cart.reduce((s,c)=>s+c.qty,0);document.getElementById('cartBadge').innerText=tot;document.getElementById('bottomBadge').innerText=tot||'الطلب';document.getElementById('cartItems').innerHTML=cart.map((c,i)=>`<div class="flex gap-2 bg-[#1E1E20] p-2 rounded-xl"><div class="w-10 h-10 rounded-full overflow-hidden relative bg-[#111] flex-shrink-0"><img src="${GRID}" style="position:absolute;width:1100%;height:800%;max-width:none;${pos(c)}"></div><div class="flex-1"><div class="text-[10px] font-bold">${c.t}</div><div class="text-[9px] text-white/40">${c.p}×${c.qty}</div></div><button onclick="cart.splice(${i},1);updateCart()">✕</button></div>`).join('')||'<div class="text-center text-white/20 py-10 text-[11px]">فاضية</div>';let total=cart.reduce((s,c)=>s+c.p*c.qty,0);document.getElementById('cartTotal').innerText=total+' ج';document.getElementById('earnPoints').innerText=total+' نقطة';}
 function openCart(){document.getElementById('cartDrawer').classList.remove('hidden')}
 function closeCart(){document.getElementById('cartDrawer').classList.add('hidden')}
-function checkout(){if(!cart.length)return alert('فاضي');let n=document.getElementById('custName').value;let ph=document.getElementById('custPhone').value;let ad=document.getElementById('custAddress').value;if(!n||!ph||!ad)return alert('اكمل البيانات');let m=`طلب الطاهي - ${n} - ${ph} - ${ad}%0A`;cart.forEach(c=>m+=`- ${c.t} × ${c.qty} = ${c.p*c.qty}ج%0A`);m+=`المجموع: ${cart.reduce((s,c)=>s+c.p*c.qty,0)}ج`;window.open(`https://wa.me/201140243713?text=${m}`,'_blank')}
-render();updateCart();
+
+function checkout(){
+if(!cart.length)return alert('فاضي');
+let n=document.getElementById('custName').value;let ph=document.getElementById('custPhone').value;let ad=document.getElementById('custAddress').value;
+if(!n||!ph||!ad)return alert('اكمل البيانات');
+let total=cart.reduce((s,c)=>s+c.p*c.qty,0);
+let orderId=Math.floor(1000+Math.random()*9000);
+let newOrder={id:orderId,items:[...cart],total,address:ad,name:n,phone:ph,status:'confirmed',statusText:'تم التأكيد - المطبخ استلم طلبك',eta:'20-25',time:Date.now()};
+orders.push(newOrder);
+points+=total;history.push({txt:`طلب #${orderId} - ${total}ج`,pts:total});
+save();updateTrackerCard();
+let msg=`طلب الطاهي #${orderId}%0A${n} - ${ph} - ${ad}%0A`;cart.forEach(c=>msg+=`- ${c.t} ×${c.qty}=${c.p*c.qty}ج%0A`);msg+=`المجموع:${total}ج%0Aستكسب:${total} نقطة`;
+window.open(`https://wa.me/201140243713?text=${msg}`,'_blank');
+cart=[];updateCart();closeCart();
+setTimeout(()=>openTracker(),800);
+// Simulate status changes
+simulateOrder(orderId);
+}
+
+function simulateOrder(id){
+let statuses=[{s:'preparing',t:'جاري التحضير 👨‍🍳 - الشيف يجهز طلبك',eta:'15-18',delay:8000},{s:'onway',t:'في الطريق 🚚 - المندوب في طريقه إليك',eta:'5-8',delay:18000},{s:'delivered',t:'تم التوصيل ✅ - بالهنا والشفا',eta:'تم',delay:28000}];
+statuses.forEach(st=>{setTimeout(()=>{let o=orders.find(x=>x.id===id);if(o){o.status=st.s;o.statusText=st.t;o.eta=st.eta;save();updateTrackerCard();if(document.getElementById('trackerModal').classList.contains('hidden')===false)openTracker();}},st.delay)});
+}
+
+function openTracker(){
+if(!orders.length){alert('لا يوجد طلبات بعد');return}
+let o=orders[orders.length-1];
+let content=document.getElementById('trackerContent');
+let steps=[
+{key:'confirmed',title:'تم التأكيد',desc:'المطبخ استلم طلبك',icon:'✓'},
+{key:'preparing',title:'جاري التحضير',desc:'الشيف يجهز طلبك على الفحم',icon:'👨‍🍳'},
+{key:'onway',title:'في الطريق',desc:`المندوب في طريقه - ${o.address}`,icon:'🚚'},
+{key:'delivered',title:'تم التوصيل',desc:'بالهنا والشفا - قيمنا ⭐',icon:'🏠'}
+];
+let idx=['confirmed','preparing','onway','delivered'].indexOf(o.status);
+let html=`<div class="bg-[#1E1E20] rounded-[14px] p-3 mb-4"><div class="flex justify-between"><div><div class="text-[12px] font-bold">طلب #${o.id}</div><div class="text-[10px] text-white/50">${new Date(o.time).toLocaleTimeString('ar-EG')}</div></div><div class="text-left"><div class="text-[10px] text-white/40">المجموع</div><div class="text-[#FF6A00] font-black">${o.total} ج</div></div></div><div class="text-[10px] mt-2">${o.items.map(i=>`- ${i.t} ×${i.qty}`).join('<br>')}</div></div>`;
+html+=`<div class="space-y-0">`;
+steps.forEach((s,i)=>{
+let done=i<idx;let active=i===idx;let pending=i>idx;
+html+=`<div class="flex gap-3"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full grid place-items-center text-[12px] ${done?'bg-[#C6FF00] text-black':active?'bg-[#FF6A00] text-black animate-pulse':'bg-white/10 text-white/30'}">${done?'✓':s.icon}</div>${i<3?`<div class="w-[2px] h-10 ${done?'bg-[#C6FF00]':'bg-white/10'} mt-1"></div>`:''}</div><div class="pb-8"><div class="font-bold text-[12px] ${active?'text-[#FF6A00]':done?'text-[#C6FF00]':'text-white/30'}">${s.title}</div><div class="text-[10px] text-white/50">${active?o.statusText:s.desc}</div>${active?`<div class="mt-1 text-[9px] bg-[#FF6A00]/20 text-[#FF6A00] px-2 py-1 rounded-full inline-block">ETA: ${o.eta} دقيقة</div>`:''}</div></div>`;
+});
+html+=`</div>`;
+if(o.status==='delivered')html+=`<button onclick="rateOrder(${o.id})" class="w-full mt-4 bg-[#C6FF00] text-black py-3 rounded-full font-bold">قيم الطلب ⭐⭐⭐⭐⭐</button>`;
+content.innerHTML=html;
+document.getElementById('trackerModal').classList.remove('hidden');
+}
+function closeTracker(){document.getElementById('trackerModal').classList.add('hidden')}
+function openRewards(){updatePointsUI();document.getElementById('rewardsModal').classList.remove('hidden')}
+function closeRewards(){document.getElementById('rewardsModal').classList.add('hidden')}
+function rateOrder(id){alert('شكراً لتقييمك! +50 نقطة بونص ⭐');points+=50;history.push({txt:`بونص تقييم طلب #${id}`,pts:50});save();closeTracker();}
+
+render();updatePointsUI();updateTrackerCard();
+// Auto update tracker every 3 sec
+setInterval(()=>{if(orders.length)updateTrackerCard()},3000);
 </script>
 </body>
 </html>
